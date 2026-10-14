@@ -11,7 +11,11 @@ class PhoneFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: AppColors.sub, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.line)),
+      decoration: BoxDecoration(
+        color: AppColors.sub,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.line),
+      ),
       child: child,
     );
   }
@@ -74,7 +78,10 @@ class PushPreview extends StatelessWidget {
             height: 30,
             alignment: Alignment.center,
             decoration: BoxDecoration(color: AppColors.accent, borderRadius: BorderRadius.circular(8)),
-            child: Text('TV', style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: Colors.white, fontSize: 11)),
+            child: Text(
+              'TV',
+              style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: Colors.white, fontSize: 11),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(

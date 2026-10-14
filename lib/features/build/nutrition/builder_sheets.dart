@@ -280,7 +280,7 @@ class BuilderActions {
           destructive: true,
           icon: Icons.delete_outline_rounded,
         );
-        if (!ok) return;
+        if (!ok || !context.mounted) return;
         final undo = _undo();
         putMeals(ref, _id, _meals.where((x) => x.id != m.id).toList());
         showToast(context, '${m.name} deleted', kind: ToastKind.del, onUndo: undo);

@@ -95,7 +95,13 @@ class FieldLabel extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           text: text,
-          children: [if (required) const TextSpan(text: ' *', style: TextStyle(color: AppColors.bad))],
+          children: [
+            if (required)
+              const TextSpan(
+                text: ' *',
+                style: TextStyle(color: AppColors.bad),
+              ),
+          ],
         ),
         style: AppText.secondary.copyWith(fontWeight: FontWeight.w700, color: AppColors.text2),
       ),
@@ -108,8 +114,10 @@ class FieldHint extends StatelessWidget {
   const FieldHint(this.text, {super.key});
   final String text;
   @override
-  Widget build(BuildContext context) =>
-      Padding(padding: const EdgeInsets.only(top: 5), child: Text(text, style: AppText.caption.copyWith(height: 1.4)));
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(top: 5),
+    child: Text(text, style: AppText.caption.copyWith(height: 1.4)),
+  );
 }
 
 /// Label + child + hint.
@@ -125,7 +133,11 @@ class FieldBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
-      children: [FieldLabel(label, required: required), child, if (hint != null) FieldHint(hint!)],
+      children: [
+        FieldLabel(label, required: required),
+        child,
+        if (hint != null) FieldHint(hint!),
+      ],
     );
   }
 }
@@ -142,7 +154,10 @@ class SelectBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10), side: const BorderSide(color: AppColors.line)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: AppColors.line),
+      ),
       child: InkWell(
         onTap: onTap,
         customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -182,7 +197,11 @@ class StepperBox extends StatelessWidget {
     return Container(
       height: 40,
       padding: const EdgeInsets.symmetric(horizontal: 3),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.line)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.line),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -304,7 +323,10 @@ class OptionCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (showCheck) ...[
-                Padding(padding: const EdgeInsets.only(top: 6), child: PickCheck(on: selected, square: square)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: PickCheck(on: selected, square: square),
+                ),
                 const SizedBox(width: 10),
               ],
               if (icon != null) ...[TintIcon(icon!, tint: tint, size: 32), const SizedBox(width: 10)],
@@ -313,13 +335,13 @@ class OptionCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title, style: AppText.bodyBold.copyWith(fontSize: 13.5)),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 2),
-                      Text(subtitle!, style: AppText.caption.copyWith(height: 1.4)),
-                    ],
+                    if (subtitle != null) ...[const SizedBox(height: 2), Text(subtitle!, style: AppText.caption.copyWith(height: 1.4))],
                     if (extra != null) ...[
                       const SizedBox(height: 3),
-                      Text(extra!, style: AppText.caption.copyWith(fontStyle: FontStyle.italic, color: AppColors.text2)),
+                      Text(
+                        extra!,
+                        style: AppText.caption.copyWith(fontStyle: FontStyle.italic, color: AppColors.text2),
+                      ),
                     ],
                   ],
                 ),
@@ -349,7 +371,9 @@ class NoteBox extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: AppColors.muted),
           const SizedBox(width: 8),
-          Expanded(child: Text(text, style: AppText.caption.copyWith(color: AppColors.text2, height: 1.45))),
+          Expanded(
+            child: Text(text, style: AppText.caption.copyWith(color: AppColors.text2, height: 1.45)),
+          ),
           ?action,
         ],
       ),
@@ -371,7 +395,12 @@ class SideCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(children: [Expanded(child: Text(title, style: AppText.cardTitle)), ?trailing]),
+          Row(
+            children: [
+              Expanded(child: Text(title, style: AppText.cardTitle)),
+              ?trailing,
+            ],
+          ),
           const SizedBox(height: 10),
           ...children,
         ],
@@ -519,7 +548,9 @@ class CountTabs<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.line))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: AppColors.line)),
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -534,9 +565,14 @@ class CountTabs<T> extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Text(label,
-                          style: AppText.secondary.copyWith(
-                              fontSize: 13.5, fontWeight: FontWeight.w700, color: v == value ? AppColors.accentText : AppColors.muted)),
+                      Text(
+                        label,
+                        style: AppText.secondary.copyWith(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w700,
+                          color: v == value ? AppColors.accentText : AppColors.muted,
+                        ),
+                      ),
                       if (n != null && n > 0) ...[
                         const SizedBox(width: 6),
                         Container(
@@ -545,9 +581,14 @@ class CountTabs<T> extends StatelessWidget {
                             color: v == value ? AppColors.accentSoft : AppColors.sub,
                             borderRadius: BorderRadius.circular(999),
                           ),
-                          child: Text('$n',
-                              style: AppText.caption.copyWith(
-                                  fontSize: 11, fontWeight: FontWeight.w800, color: v == value ? AppColors.accentText : AppColors.muted)),
+                          child: Text(
+                            '$n',
+                            style: AppText.caption.copyWith(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              color: v == value ? AppColors.accentText : AppColors.muted,
+                            ),
+                          ),
                         ),
                       ],
                     ],

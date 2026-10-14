@@ -20,44 +20,56 @@ abstract final class EngageMock {
       updated: '18 Sep',
       questions: [
         FormQuestion(
-            text: 'What is your main goal?',
-            type: QuestionType.singleChoice,
-            required: true,
-            options: ['Fat loss', 'Muscle gain', 'Strength', 'General fitness', 'Event or sport prep']),
+          text: 'What is your main goal?',
+          type: QuestionType.singleChoice,
+          required: true,
+          options: ['Fat loss', 'Muscle gain', 'Strength', 'General fitness', 'Event or sport prep'],
+        ),
         FormQuestion(text: 'Why now? What made you start?', type: QuestionType.longText, help: 'A sentence or two is enough'),
         FormQuestion(text: 'Current weight (kg)', type: QuestionType.number, help: 'Morning, empty stomach', required: true),
         FormQuestion(text: 'Height (cm)', type: QuestionType.number, required: true),
         FormQuestion(
-            text: 'How many days a week can you train?', type: QuestionType.singleChoice, required: true, options: ['2', '3', '4', '5', '6']),
+          text: 'How many days a week can you train?',
+          type: QuestionType.singleChoice,
+          required: true,
+          options: ['2', '3', '4', '5', '6'],
+        ),
         FormQuestion(
-            text: 'Where will you train?',
-            type: QuestionType.singleChoice,
-            required: true,
-            options: ['Gym', 'Home with equipment', 'Home, no equipment']),
+          text: 'Where will you train?',
+          type: QuestionType.singleChoice,
+          required: true,
+          options: ['Gym', 'Home with equipment', 'Home, no equipment'],
+        ),
         FormQuestion(
-            text: 'How long have you trained with weights?',
-            type: QuestionType.singleChoice,
-            required: true,
-            options: ['Never', 'Under 1 year', '1 to 3 years', 'More than 3 years']),
+          text: 'How long have you trained with weights?',
+          type: QuestionType.singleChoice,
+          required: true,
+          options: ['Never', 'Under 1 year', '1 to 3 years', 'More than 3 years'],
+        ),
         FormQuestion(
-            text: 'What do you eat?',
-            type: QuestionType.dropdown,
-            required: true,
-            options: ['Vegetarian', 'Eggetarian', 'Non-vegetarian', 'Vegan', 'Jain'],
-            other: true),
+          text: 'What do you eat?',
+          type: QuestionType.dropdown,
+          required: true,
+          options: ['Vegetarian', 'Eggetarian', 'Non-vegetarian', 'Vegan', 'Jain'],
+          other: true,
+        ),
         FormQuestion(text: 'Foods you do not eat or are allergic to', type: QuestionType.shortText, help: 'e.g. mushrooms, peanuts'),
         FormQuestion(text: 'How many meals do you eat on a normal day?', type: QuestionType.number, required: true),
         FormQuestion(text: 'Average sleep per night (hours)', type: QuestionType.number, required: true),
         FormQuestion(text: 'Stress level in a normal week', type: QuestionType.scale, help: '1 = calm, 5 = very stressed', required: true),
         FormQuestion(
-            text: 'What does your work day look like?',
-            type: QuestionType.singleChoice,
-            required: true,
-            options: ['Desk job', 'On my feet', 'Shift work', 'Travel often'],
-            other: true),
+          text: 'What does your work day look like?',
+          type: QuestionType.singleChoice,
+          required: true,
+          options: ['Desk job', 'On my feet', 'Shift work', 'Travel often'],
+          other: true,
+        ),
         FormQuestion(text: 'Do you take any supplements?', type: QuestionType.yesNo),
         FormQuestion(
-            text: 'Anything else your coach should know?', type: QuestionType.longText, help: 'Travel, festivals, past diets that did not work'),
+          text: 'Anything else your coach should know?',
+          type: QuestionType.longText,
+          help: 'Travel, festivals, past diets that did not work',
+        ),
       ],
     ),
     FormDef(
@@ -71,16 +83,19 @@ abstract final class EngageMock {
         FormQuestion(text: 'Has a doctor ever said you have a heart condition?', type: QuestionType.yesNo, required: true),
         FormQuestion(text: 'Do you feel chest pain during physical activity?', type: QuestionType.yesNo, required: true),
         FormQuestion(
-            text: 'Do you lose balance because of dizziness, or ever lose consciousness?', type: QuestionType.yesNo, required: true),
+          text: 'Do you lose balance because of dizziness, or ever lose consciousness?',
+          type: QuestionType.yesNo,
+          required: true,
+        ),
         FormQuestion(text: 'Do you have a bone or joint problem that exercise could make worse?', type: QuestionType.yesNo, required: true),
         FormQuestion(text: 'Are you taking medicine for blood pressure or a heart condition?', type: QuestionType.yesNo, required: true),
         FormQuestion(
-            text: 'Any of these apply to you?',
-            type: QuestionType.multiChoice,
-            help: 'Tick all that apply',
-            options: ['Diabetes', 'Thyroid', 'PCOS', 'Asthma', 'Pregnant or recently delivered', 'Surgery in the last 12 months']),
-        FormQuestion(
-            text: 'Past injuries or surgeries', type: QuestionType.longText, help: 'What, when, and whether it still bothers you'),
+          text: 'Any of these apply to you?',
+          type: QuestionType.multiChoice,
+          help: 'Tick all that apply',
+          options: ['Diabetes', 'Thyroid', 'PCOS', 'Asthma', 'Pregnant or recently delivered', 'Surgery in the last 12 months'],
+        ),
+        FormQuestion(text: 'Past injuries or surgeries', type: QuestionType.longText, help: 'What, when, and whether it still bothers you'),
       ],
     ),
     FormDef(
@@ -94,17 +109,26 @@ abstract final class EngageMock {
         FormQuestion(text: 'Morning weight (kg)', type: QuestionType.number, help: 'Empty stomach, same scale', required: true),
         FormQuestion(text: 'Energy this week', type: QuestionType.scale, help: '1 = drained, 5 = great', required: true),
         FormQuestion(text: 'Sleep quality', type: QuestionType.scale, help: '1 = poor, 5 = deep', required: true),
-        FormQuestion(text: 'How closely did you follow the diet?', type: QuestionType.scale, help: '1 = off plan, 5 = on point', required: true),
+        FormQuestion(
+          text: 'How closely did you follow the diet?',
+          type: QuestionType.scale,
+          help: '1 = off plan, 5 = on point',
+          required: true,
+        ),
         FormQuestion(text: 'Waist (cm)', type: QuestionType.number, help: 'At the navel, relaxed'),
         FormQuestion(
-            text: 'Progress photos: front, side and back', type: QuestionType.photo, help: 'Same light and same spot as last time'),
+          text: 'Progress photos: front, side and back',
+          type: QuestionType.photo,
+          help: 'Same light and same spot as last time',
+        ),
         FormQuestion(text: 'Did you miss any workouts?', type: QuestionType.yesNo, required: true),
         FormQuestion(
-            text: 'What got in the way this week?',
-            type: QuestionType.multiChoice,
-            help: 'Pick all that apply',
-            options: ['Work', 'Travel', 'Low energy', 'Eating out'],
-            other: true),
+          text: 'What got in the way this week?',
+          type: QuestionType.multiChoice,
+          help: 'Pick all that apply',
+          options: ['Work', 'Travel', 'Low energy', 'Eating out'],
+          other: true,
+        ),
         FormQuestion(text: 'Anything for your coach?', type: QuestionType.longText, help: 'Pain, travel, stress, wins'),
       ],
     ),
@@ -132,14 +156,19 @@ abstract final class EngageMock {
       questions: [
         FormQuestion(text: 'Wedding date', type: QuestionType.shortText, help: 'e.g. 14 Feb 2027', required: true),
         FormQuestion(
-            text: 'What do you want to change the most?',
-            type: QuestionType.multiChoice,
-            required: true,
-            options: ['Arms', 'Waist', 'Back', 'Posture', 'Overall fat loss', 'Energy']),
+          text: 'What do you want to change the most?',
+          type: QuestionType.multiChoice,
+          required: true,
+          options: ['Arms', 'Waist', 'Back', 'Posture', 'Overall fat loss', 'Energy'],
+        ),
         FormQuestion(text: 'Current weight (kg)', type: QuestionType.number, required: true),
         FormQuestion(text: 'How many functions will you attend in the last two weeks?', type: QuestionType.number),
         FormQuestion(
-            text: 'How many days a week can you train?', type: QuestionType.singleChoice, required: true, options: ['3', '4', '5']),
+          text: 'How many days a week can you train?',
+          type: QuestionType.singleChoice,
+          required: true,
+          options: ['3', '4', '5'],
+        ),
         FormQuestion(text: 'Have you tried a crash diet before?', type: QuestionType.yesNo, required: true),
         FormQuestion(text: 'Anything we should plan around?', type: QuestionType.longText, help: 'Travel, fittings, family events'),
       ],
@@ -151,10 +180,11 @@ abstract final class EngageMock {
       updated: '1 Oct',
       questions: [
         FormQuestion(
-            text: 'How likely are you to recommend us to a friend?',
-            type: QuestionType.scale,
-            help: '1 = not at all, 5 = definitely',
-            required: true),
+          text: 'How likely are you to recommend us to a friend?',
+          type: QuestionType.scale,
+          help: '1 = not at all, 5 = definitely',
+          required: true,
+        ),
         FormQuestion(text: 'What is working well for you?', type: QuestionType.longText),
         FormQuestion(text: 'What should we improve?', type: QuestionType.longText),
         FormQuestion(text: 'How is your trainer doing?', type: QuestionType.scale, help: '1 = poor, 5 = excellent', required: true),
@@ -168,9 +198,10 @@ abstract final class EngageMock {
       updated: '14 Jun',
       questions: [
         FormQuestion(
-            text: 'I understand that exercise carries a risk of injury and I take part at my own risk.',
-            type: QuestionType.yesNo,
-            required: true),
+          text: 'I understand that exercise carries a risk of injury and I take part at my own risk.',
+          type: QuestionType.yesNo,
+          required: true,
+        ),
         FormQuestion(text: 'I have shared every medical condition my coach should know about.', type: QuestionType.yesNo, required: true),
         FormQuestion(text: 'Full name, as a signature', type: QuestionType.shortText, required: true),
       ],
@@ -416,7 +447,8 @@ abstract final class EngageMock {
 
   /// WhatsApp / push preview text of a message step (PREV).
   static const messagePreview = {
-    'onboarding-reminder': 'Hi Sana, a quick reminder: Coach Meera needs your onboarding form to finish your plan. It takes about 5 minutes.',
+    'onboarding-reminder':
+        'Hi Sana, a quick reminder: Coach Meera needs your onboarding form to finish your plan. It takes about 5 minutes.',
     'checkin-reminder': 'Good morning Sana. Your weekly check-in is due today. Coach Meera is waiting for it.',
     'welcome': 'Hi Sana, your Train With Vimal account is active. Coach Meera has your plan ready.',
   };
@@ -433,33 +465,33 @@ abstract final class EngageMock {
 
   /// Short trigger line used in the list ("When 3 workouts in a row are missed").
   static String triggerLine(TriggerKind? t, int v) => switch (t) {
-        null => 'Pick what starts it',
-        TriggerKind.clientApproved => 'When a new client is approved',
-        TriggerKind.weeklyCheckInDay => 'Every ${days[v == 0 ? 7 : v]} at 9 am',
-        TriggerKind.checkInMissed => 'When a check-in is not sent within $v hours',
-        TriggerKind.workoutsMissed => 'When $v workouts in a row are missed',
-        TriggerKind.renewalDue => '$v days before a package ends',
-        TriggerKind.birthday => 'On the client’s birthday at 9 am',
-        _ => t.label,
-      };
+    null => 'Pick what starts it',
+    TriggerKind.clientApproved => 'When a new client is approved',
+    TriggerKind.weeklyCheckInDay => 'Every ${days[v == 0 ? 7 : v]} at 9 am',
+    TriggerKind.checkInMissed => 'When a check-in is not sent within $v hours',
+    TriggerKind.workoutsMissed => 'When $v workouts in a row are missed',
+    TriggerKind.renewalDue => '$v days before a package ends',
+    TriggerKind.birthday => 'On the client’s birthday at 9 am',
+    _ => t.label,
+  };
 
   static String channelsLine(List<Channel> c) => c.isEmpty ? 'No channel yet' : c.map((x) => x.label).join(' and ');
 
   /// Plain-words line for a step.
   static String stepLine(AutoStep s) => switch (s.kind) {
-        StepKind.wait => 'Wait ${s.amount} ${s.amount == 1 ? s.unit.replaceAll(RegExp(r's$'), '') : s.unit}',
-        StepKind.form => 'Send the form “${formNames[s.ref] ?? s.ref}” by ${channelsLine(s.channels)}',
-        StepKind.message => 'Send “${templateNames[s.ref] ?? s.ref}” by ${channelsLine(s.channels)}',
-        StepKind.assign => 'Task for the ${s.unit == 'owner' ? 'owner' : 'assigned trainer'}: ${s.ref}',
-      };
+    StepKind.wait => 'Wait ${s.amount} ${s.amount == 1 ? s.unit.replaceAll(RegExp(r's$'), '') : s.unit}',
+    StepKind.form => 'Send the form “${formNames[s.ref] ?? s.ref}” by ${channelsLine(s.channels)}',
+    StepKind.message => 'Send “${templateNames[s.ref] ?? s.ref}” by ${channelsLine(s.channels)}',
+    StepKind.assign => 'Task for the ${s.unit == 'owner' ? 'owner' : 'assigned trainer'}: ${s.ref}',
+  };
 
   /// Step chip in the automations list ("1 day", "Push + WhatsApp", "Task").
   static String stepChip(AutoStep s) => switch (s.kind) {
-        StepKind.wait => '${s.amount} ${s.unit == 'hours' ? 'h' : (s.amount == 1 ? 'day' : 'days')}',
-        StepKind.form => 'Form',
-        StepKind.message => s.channels.isEmpty ? 'Message' : s.channels.map((x) => x.label).join(' + '),
-        StepKind.assign => 'Task',
-      };
+    StepKind.wait => '${s.amount} ${s.unit == 'hours' ? 'h' : (s.amount == 1 ? 'day' : 'days')}',
+    StepKind.form => 'Form',
+    StepKind.message => s.channels.isEmpty ? 'Message' : s.channels.map((x) => x.label).join(' + '),
+    StepKind.assign => 'Task',
+  };
 
   // -------------------------------------------------------------------------
   // Emails & alerts
@@ -468,68 +500,164 @@ abstract final class EngageMock {
   static const templateGroups = ['Access', 'Coaching', 'Packages', 'Team'];
 
   static const templates = <MsgTemplate>[
-    MsgTemplate(id: 'invite', name: 'Client invite', group: 'Access', when: 'When you send an invite to a client', texts: {
-      Channel.email: MsgText('{{coach_name}} invited you to {{gym_name}}',
-          'Hi {{first_name}},\n\n{{coach_name}} has invited you to {{gym_name}}. Create your account to see your plan: {{package_name}}.\n\nThe invite is valid until {{date}}.'),
-      Channel.whatsapp: MsgText('',
-          'Hi {{first_name}}, {{coach_name}} has invited you to {{gym_name}}. Open the invite to create your account. It is valid until {{date}}.'),
-    }),
-    MsgTemplate(id: 'welcome', name: 'Welcome', group: 'Access', when: 'When a client is approved', texts: {
-      Channel.email: MsgText('You are in! Your {{gym_name}} account is active',
-          'Hi {{first_name}},\n\nYour account is approved and Coach {{coach_name}} has your plan ready.\n\nOpen the app to see your first workout.'),
-      Channel.push: MsgText('Welcome aboard, {{first_name}}', 'Your account is active. Say hi to Coach {{coach_name}}.'),
-      Channel.whatsapp: MsgText('',
-          'Hi {{first_name}}, your {{gym_name}} account is active. Coach {{coach_name}} has your plan ready. Open the app to see your first workout.'),
-      Channel.inApp: MsgText('Welcome aboard, {{first_name}}', 'Coach {{coach_name}} has your plan ready. Start with your first workout.'),
-    }),
-    MsgTemplate(id: 'password', name: 'Password reset', group: 'Access', when: 'When someone asks to reset their password', texts: {
-      Channel.email: MsgText('Reset your {{gym_name}} password',
-          'Hi {{first_name}},\n\nUse the link in this email to set a new password. It works for 30 minutes.\n\nIf you did not ask for this, you can ignore this email.'),
-    }),
-    MsgTemplate(id: 'onboarding-reminder', name: 'Onboarding form reminder', group: 'Coaching', when: 'When the onboarding form is still open', texts: {
-      Channel.email: MsgText('Your onboarding form is waiting',
-          'Hi {{first_name}},\n\nCoach {{coach_name}} needs your onboarding form to finish your plan. It takes about 5 minutes.'),
-      Channel.push: MsgText('Finish your onboarding form', 'Coach {{coach_name}} needs it to build your plan. About 5 minutes.'),
-      Channel.whatsapp: MsgText('',
-          'Hi {{first_name}}, a quick reminder: Coach {{coach_name}} needs your onboarding form to finish your plan. It takes about 5 minutes.'),
-    }),
-    MsgTemplate(id: 'checkin-reminder', name: 'Check-in reminder', group: 'Coaching', when: 'When a check-in is due or was missed', texts: {
-      Channel.email: MsgText('Weekly check-in time, {{first_name}}',
-          'Hi {{first_name}},\n\nIt takes 2 minutes: your weight, measurements and how the week went. Coach {{coach_name}} replies with feedback.'),
-      Channel.push: MsgText('Check-in time', 'Your weekly check-in is due today. It takes 2 minutes.'),
-      Channel.whatsapp: MsgText('', 'Good morning {{first_name}}. Your weekly check-in is due today. Coach {{coach_name}} is waiting for it.'),
-      Channel.inApp: MsgText('Check-in time', 'Share your weight and how the week went. It takes 2 minutes.'),
-    }),
-    MsgTemplate(id: 'missed-workouts', name: 'Missed workouts nudge', group: 'Coaching', when: 'When workouts are missed in a row', texts: {
-      Channel.push: MsgText('All good, {{first_name}}?', 'A 20-minute workout is ready whenever you are.'),
-      Channel.whatsapp: MsgText('',
-          'Hi {{first_name}}, we noticed a few missed workouts. All good? A short 20-minute session is ready when you are.'),
-      Channel.inApp: MsgText('Ease back in', 'A 20-minute workout is ready. Start small today.'),
-    }),
-    MsgTemplate(id: 'feedback', name: 'Coach feedback', group: 'Coaching', when: 'When the coach replies to a check-in', texts: {
-      Channel.push: MsgText('Coach {{coach_name}} replied', 'Your check-in feedback is ready.'),
-      Channel.inApp: MsgText('Coach {{coach_name}} replied', 'Read the feedback on your latest check-in.'),
-    }),
-    MsgTemplate(id: 'birthday', name: 'Birthday wish', group: 'Coaching', when: 'On the client’s birthday', texts: {
-      Channel.push: MsgText('Happy birthday, {{first_name}}', 'Have a great day. Wishes from Coach {{coach_name}} and the team.'),
-      Channel.whatsapp: MsgText('',
-          'Happy birthday, {{first_name}}! Wishing you a strong and healthy year. Coach {{coach_name}} and the {{gym_name}} team.'),
-    }),
-    MsgTemplate(id: 'renewal', name: 'Renewal reminder', group: 'Packages', when: 'Before a package ends', texts: {
-      Channel.email: MsgText('Your {{package_name}} ends on {{date}}',
-          'Hi {{first_name}},\n\nYour {{package_name}} ends on {{date}}. Renew to keep training with Coach {{coach_name}}.'),
-      Channel.push: MsgText('Your plan ends soon', '{{package_name}} ends on {{date}}. Renew to keep going.'),
-      Channel.whatsapp: MsgText('', 'Hi {{first_name}}, your {{package_name}} ends on {{date}}. Renew to keep training with Coach {{coach_name}}.'),
-    }),
-    MsgTemplate(id: 'trainer-invite', name: 'Trainer invite', group: 'Team', when: 'When you invite a trainer', texts: {
-      Channel.email: MsgText('Join {{gym_name}} as a trainer',
-          'Hi {{first_name}},\n\nYou have been invited to join {{gym_name}} as a trainer. Set up your profile in about 3 minutes. The invite is valid until {{date}}.'),
-    }),
+    MsgTemplate(
+      id: 'invite',
+      name: 'Client invite',
+      group: 'Access',
+      when: 'When you send an invite to a client',
+      texts: {
+        Channel.email: MsgText(
+          '{{coach_name}} invited you to {{gym_name}}',
+          'Hi {{first_name}},\n\n{{coach_name}} has invited you to {{gym_name}}. Create your account to see your plan: {{package_name}}.\n\nThe invite is valid until {{date}}.',
+        ),
+        Channel.whatsapp: MsgText(
+          '',
+          'Hi {{first_name}}, {{coach_name}} has invited you to {{gym_name}}. Open the invite to create your account. It is valid until {{date}}.',
+        ),
+      },
+    ),
+    MsgTemplate(
+      id: 'welcome',
+      name: 'Welcome',
+      group: 'Access',
+      when: 'When a client is approved',
+      texts: {
+        Channel.email: MsgText(
+          'You are in! Your {{gym_name}} account is active',
+          'Hi {{first_name}},\n\nYour account is approved and Coach {{coach_name}} has your plan ready.\n\nOpen the app to see your first workout.',
+        ),
+        Channel.push: MsgText('Welcome aboard, {{first_name}}', 'Your account is active. Say hi to Coach {{coach_name}}.'),
+        Channel.whatsapp: MsgText(
+          '',
+          'Hi {{first_name}}, your {{gym_name}} account is active. Coach {{coach_name}} has your plan ready. Open the app to see your first workout.',
+        ),
+        Channel.inApp: MsgText(
+          'Welcome aboard, {{first_name}}',
+          'Coach {{coach_name}} has your plan ready. Start with your first workout.',
+        ),
+      },
+    ),
+    MsgTemplate(
+      id: 'password',
+      name: 'Password reset',
+      group: 'Access',
+      when: 'When someone asks to reset their password',
+      texts: {
+        Channel.email: MsgText(
+          'Reset your {{gym_name}} password',
+          'Hi {{first_name}},\n\nUse the link in this email to set a new password. It works for 30 minutes.\n\nIf you did not ask for this, you can ignore this email.',
+        ),
+      },
+    ),
+    MsgTemplate(
+      id: 'onboarding-reminder',
+      name: 'Onboarding form reminder',
+      group: 'Coaching',
+      when: 'When the onboarding form is still open',
+      texts: {
+        Channel.email: MsgText(
+          'Your onboarding form is waiting',
+          'Hi {{first_name}},\n\nCoach {{coach_name}} needs your onboarding form to finish your plan. It takes about 5 minutes.',
+        ),
+        Channel.push: MsgText('Finish your onboarding form', 'Coach {{coach_name}} needs it to build your plan. About 5 minutes.'),
+        Channel.whatsapp: MsgText(
+          '',
+          'Hi {{first_name}}, a quick reminder: Coach {{coach_name}} needs your onboarding form to finish your plan. It takes about 5 minutes.',
+        ),
+      },
+    ),
+    MsgTemplate(
+      id: 'checkin-reminder',
+      name: 'Check-in reminder',
+      group: 'Coaching',
+      when: 'When a check-in is due or was missed',
+      texts: {
+        Channel.email: MsgText(
+          'Weekly check-in time, {{first_name}}',
+          'Hi {{first_name}},\n\nIt takes 2 minutes: your weight, measurements and how the week went. Coach {{coach_name}} replies with feedback.',
+        ),
+        Channel.push: MsgText('Check-in time', 'Your weekly check-in is due today. It takes 2 minutes.'),
+        Channel.whatsapp: MsgText(
+          '',
+          'Good morning {{first_name}}. Your weekly check-in is due today. Coach {{coach_name}} is waiting for it.',
+        ),
+        Channel.inApp: MsgText('Check-in time', 'Share your weight and how the week went. It takes 2 minutes.'),
+      },
+    ),
+    MsgTemplate(
+      id: 'missed-workouts',
+      name: 'Missed workouts nudge',
+      group: 'Coaching',
+      when: 'When workouts are missed in a row',
+      texts: {
+        Channel.push: MsgText('All good, {{first_name}}?', 'A 20-minute workout is ready whenever you are.'),
+        Channel.whatsapp: MsgText(
+          '',
+          'Hi {{first_name}}, we noticed a few missed workouts. All good? A short 20-minute session is ready when you are.',
+        ),
+        Channel.inApp: MsgText('Ease back in', 'A 20-minute workout is ready. Start small today.'),
+      },
+    ),
+    MsgTemplate(
+      id: 'feedback',
+      name: 'Coach feedback',
+      group: 'Coaching',
+      when: 'When the coach replies to a check-in',
+      texts: {
+        Channel.push: MsgText('Coach {{coach_name}} replied', 'Your check-in feedback is ready.'),
+        Channel.inApp: MsgText('Coach {{coach_name}} replied', 'Read the feedback on your latest check-in.'),
+      },
+    ),
+    MsgTemplate(
+      id: 'birthday',
+      name: 'Birthday wish',
+      group: 'Coaching',
+      when: 'On the client’s birthday',
+      texts: {
+        Channel.push: MsgText('Happy birthday, {{first_name}}', 'Have a great day. Wishes from Coach {{coach_name}} and the team.'),
+        Channel.whatsapp: MsgText(
+          '',
+          'Happy birthday, {{first_name}}! Wishing you a strong and healthy year. Coach {{coach_name}} and the {{gym_name}} team.',
+        ),
+      },
+    ),
+    MsgTemplate(
+      id: 'renewal',
+      name: 'Renewal reminder',
+      group: 'Packages',
+      when: 'Before a package ends',
+      texts: {
+        Channel.email: MsgText(
+          'Your {{package_name}} ends on {{date}}',
+          'Hi {{first_name}},\n\nYour {{package_name}} ends on {{date}}. Renew to keep training with Coach {{coach_name}}.',
+        ),
+        Channel.push: MsgText('Your plan ends soon', '{{package_name}} ends on {{date}}. Renew to keep going.'),
+        Channel.whatsapp: MsgText(
+          '',
+          'Hi {{first_name}}, your {{package_name}} ends on {{date}}. Renew to keep training with Coach {{coach_name}}.',
+        ),
+      },
+    ),
+    MsgTemplate(
+      id: 'trainer-invite',
+      name: 'Trainer invite',
+      group: 'Team',
+      when: 'When you invite a trainer',
+      texts: {
+        Channel.email: MsgText(
+          'Join {{gym_name}} as a trainer',
+          'Hi {{first_name}},\n\nYou have been invited to join {{gym_name}} as a trainer. Set up your profile in about 3 minutes. The invite is valid until {{date}}.',
+        ),
+      },
+    ),
   ];
 
   static const templateUses = {
     'onboarding-reminder': [TemplateUse('Client onboarding', 'Step 3 · WhatsApp')],
-    'checkin-reminder': [TemplateUse('Weekly check-in', 'Step 3 · Push and WhatsApp'), TemplateUse('Missed check-in reminder', 'Step 1 · Push and WhatsApp')],
+    'checkin-reminder': [
+      TemplateUse('Weekly check-in', 'Step 3 · Push and WhatsApp'),
+      TemplateUse('Missed check-in reminder', 'Step 1 · Push and WhatsApp'),
+    ],
     'missed-workouts': [TemplateUse('Missed workouts nudge', 'Step 1 · Push and In-app')],
     'renewal': [TemplateUse('Renewal reminder', 'Steps 1 and 3')],
     'birthday': [TemplateUse('Birthday wish', 'Step 1 · Push and WhatsApp')],
@@ -552,8 +680,7 @@ abstract final class EngageMock {
     'date': '7 Oct',
   };
 
-  static String fillVars(String s) =>
-      s.replaceAllMapped(RegExp(r'\{\{(\w+)\}\}'), (m) => sampleVars[m.group(1)] ?? m.group(0)!);
+  static String fillVars(String s) => s.replaceAllMapped(RegExp(r'\{\{(\w+)\}\}'), (m) => sampleVars[m.group(1)] ?? m.group(0)!);
 
   static const channelHint = {
     Channel.email: 'Subject and a longer message',
@@ -563,14 +690,25 @@ abstract final class EngageMock {
   };
 
   static const teamAlerts = <TeamAlert>[
-    TeamAlert(id: 'new-client', name: 'New client', description: 'Sign-up or invite accepted', channels: {Channel.email, Channel.push, Channel.inApp}),
-    TeamAlert(id: 'checkin', name: 'Check-in submitted', description: 'Weekly check-in by a client', channels: {Channel.push, Channel.inApp}),
+    TeamAlert(
+      id: 'new-client',
+      name: 'New client',
+      description: 'Sign-up or invite accepted',
+      channels: {Channel.email, Channel.push, Channel.inApp},
+    ),
+    TeamAlert(
+      id: 'checkin',
+      name: 'Check-in submitted',
+      description: 'Weekly check-in by a client',
+      channels: {Channel.push, Channel.inApp},
+    ),
     TeamAlert(id: 'plan-updated', name: 'Plan updated', description: 'Trainer edits a program or meal plan', channels: {Channel.inApp}),
     TeamAlert(
-        id: 'missed-workout',
-        name: 'Missed workout',
-        description: '2+ workouts skipped in a row',
-        channels: {Channel.push, Channel.whatsapp, Channel.inApp}),
+      id: 'missed-workout',
+      name: 'Missed workout',
+      description: '2+ workouts skipped in a row',
+      channels: {Channel.push, Channel.whatsapp, Channel.inApp},
+    ),
   ];
 
   // -------------------------------------------------------------------------
@@ -626,7 +764,11 @@ abstract final class EngageMock {
       short: 'WA',
       name: 'WhatsApp Business',
       description: 'Reminders, check-in nudges and invites on WhatsApp, from your business number.',
-      used: [IntegrationUse('5 automations', 'automations'), IntegrationUse('8 client messages', 'emails'), IntegrationUse('Invite links', 'approvals')],
+      used: [
+        IntegrationUse('5 automations', 'automations'),
+        IntegrationUse('8 client messages', 'emails'),
+        IntegrationUse('Invite links', 'approvals'),
+      ],
       bg: Color(0xFFDCF8E7),
       fg: Color(0xFF0B6B3A),
       steps: [
@@ -640,7 +782,11 @@ abstract final class EngageMock {
       short: 'EM',
       name: 'Email sending',
       description: 'Welcome emails, check-in reminders and alerts from your own address.',
-      used: [IntegrationUse('10 client messages', 'emails'), IntegrationUse('Team alerts and digest', 'emails'), IntegrationUse('Forms sent by email', 'forms')],
+      used: [
+        IntegrationUse('10 client messages', 'emails'),
+        IntegrationUse('Team alerts and digest', 'emails'),
+        IntegrationUse('Forms sent by email', 'forms'),
+      ],
       bg: Color(0xFFE0EAFF),
       fg: Color(0xFF1E40AF),
       steps: [
@@ -654,7 +800,11 @@ abstract final class EngageMock {
       short: 'HC',
       name: 'Apple Health / Health Connect',
       description: 'Steps, sleep, heart rate and workouts from client phones.',
-      used: [IntegrationUse('Client profiles', 'clientProfile'), IntegrationUse('Habits (steps)', 'habits'), IntegrationUse('Daily check-in', 'forms')],
+      used: [
+        IntegrationUse('Client profiles', 'clientProfile'),
+        IntegrationUse('Habits (steps)', 'habits'),
+        IntegrationUse('Daily check-in', 'forms'),
+      ],
       bg: Color(0xFFFDE7EE),
       fg: Color(0xFFA3123E),
     ),
@@ -663,7 +813,11 @@ abstract final class EngageMock {
   static const integrationStates = {'whatsapp': IntegrationState.on, 'email': IntegrationState.dns, 'health': IntegrationState.off};
 
   /// DNS records (type, host, status, verified).
-  static const dnsRecords = [('SPF', 'TXT · @', 'Verified', true), ('DKIM', 'TXT · twv._domainkey', 'Verified', true), ('DMARC', 'TXT · _dmarc', 'Waiting', false)];
+  static const dnsRecords = [
+    ('SPF', 'TXT · @', 'Verified', true),
+    ('DKIM', 'TXT · twv._domainkey', 'Verified', true),
+    ('DMARC', 'TXT · _dmarc', 'Waiting', false),
+  ];
 
   /// Health data the client app can read (key, label, help).
   static const healthData = [
@@ -692,5 +846,4 @@ abstract final class EngageMock {
 
   /// Tint used for the "t1..t4" tones of the design.
   static const tones = [Tint.blue, Tint.green, Tint.amber, Tint.purple];
-
 }

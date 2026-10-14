@@ -328,8 +328,9 @@ class _JoinLinkScreenState extends ConsumerState<JoinLinkScreen> {
   List<Widget> _footer() => switch (_v) {
         _View.inv => [
             AppButton('Create my account', icon: Icons.arrow_forward_rounded, expand: true, onPressed: () => _go(_View.form)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text('Already have an account?', style: AppText.secondary),
                 const SizedBox(width: 5),

@@ -40,14 +40,24 @@ class FormsNotifier extends Notifier<List<FormDef>> {
   /// Copies a form as a draft at the top of the list and returns the new id.
   String duplicate(String id) {
     final f = byId(id)!;
-    final copy = f.copyWith(id: _newId('${f.id}c'), name: '${f.name} (copy)', automations: const [], published: false, updated: 'just now', archived: false);
+    final copy = f.copyWith(
+      id: _newId('${f.id}c'),
+      name: '${f.name} (copy)',
+      automations: const [],
+      published: false,
+      updated: 'just now',
+      archived: false,
+    );
     state = [copy, ...state];
     return copy.id;
   }
 
   void setArchived(String id, bool archived) => _edit(id, (f) => f.copyWith(archived: archived), touch: false);
 
-  void delete(String id) => state = [for (final f in state) if (f.id != id) f];
+  void delete(String id) => state = [
+    for (final f in state)
+      if (f.id != id) f,
+  ];
 
   void setPublished(String id, bool published) => _edit(id, (f) => f.copyWith(published: published), touch: false);
 

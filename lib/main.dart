@@ -3,12 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
+import 'data/api/push_service.dart';
+import 'data/state/session.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PushService.init();
+  final container = ProviderContainer();
+  await container.read(sessionProvider.notifier).restore();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
-  runApp(const ProviderScope(child: TrainWithVimalApp()));
+  runApp(UncontrolledProviderScope(container: container, child: const TrainWithVimalApp()));
 }

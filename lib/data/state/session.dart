@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../api/auth_api.dart';
+import '../api/env.dart';
+
 enum Role { client, trainer, admin }
 
 class Session {
@@ -36,14 +39,45 @@ class SessionController extends Notifier<Session?> {
 
   void signIn(Session s) => state = s;
 
+  /// Demo sign-in on the design's mock accounts (no password check).
   void signInWithEmail(String email) => state = DemoAccounts.forEmail(email);
+
+  /// Real sign-in when the app runs with --dart-define=USE_API=true,
+  /// otherwise the demo account for that email. Throws ApiException on a wrong password.
+  Future<Session> signInWithPassword(String email, String password) async {
+    if (!Env.useApi) {
+      signInWithEmail(email);
+      return state!;
+    }
+    final user = await ref.read(authApiProvider).login(email, password);
+    return state = _fromApi(user);
+  }
+
+  /// Picks up a saved login when the app starts (API mode only).
+  Future<void> restore() async {
+    if (!Env.useApi) return;
+    final user = await ref.read(authApiProvider).restore();
+    if (user != null) state = _fromApi(user);
+  }
+
+  Session _fromApi(ApiUser u) => Session(
+        role: switch (u.role) { 'admin' => Role.admin, 'trainer' => Role.trainer, _ => Role.client },
+        name: u.fullName,
+        email: u.email,
+        initials: u.initials,
+        onboarded: u.onboarded,
+      );
 
   void completeOnboarding() {
     final s = state;
     if (s != null) state = s.copyWith(onboarded: true);
+    if (Env.useApi) ref.read(authApiProvider).completeOnboarding().ignore();
   }
 
-  void signOut() => state = null;
+  void signOut() {
+    if (Env.useApi) ref.read(authApiProvider).logout().ignore();
+    state = null;
+  }
 }
 
 final sessionProvider = NotifierProvider<SessionController, Session?>(SessionController.new);

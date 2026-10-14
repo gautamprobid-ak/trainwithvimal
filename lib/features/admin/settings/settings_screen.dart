@@ -95,17 +95,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   List<Widget> _general() {
     Widget field(String label, String value, {bool required = false, TextInputType? type}) => FieldBlock(
-          label: label,
-          required: required,
-          child: TextFormField(initialValue: value, style: AppText.body, keyboardType: type, maxLines: null),
-        );
+      label: label,
+      required: required,
+      child: TextFormField(initialValue: value, style: AppText.body, keyboardType: type, maxLines: null),
+    );
     return [
       AppCard(
         clip: false,
         child: Spaced(
           gap: 12,
           children: [
-            const EditorHead(icon: Icons.store_rounded, tint: Tint.blue, title: 'Gym profile', subtitle: 'Clients see this on emails and in their app'),
+            const EditorHead(
+              icon: Icons.store_rounded,
+              tint: Tint.blue,
+              title: 'Gym profile',
+              subtitle: 'Clients see this on emails and in their app',
+            ),
             field('Gym / business name', EngageMock.gymName, required: true),
             field('Contact email', EngageMock.gymEmail, type: TextInputType.emailAddress),
             field('Phone / WhatsApp', EngageMock.gymPhone, type: TextInputType.phone),
@@ -115,10 +120,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Text(_genSaved ? 'Saved just now' : 'Last saved 2 Oct', style: AppText.caption),
                 const Spacer(),
-                AppButton('Save changes', small: true, icon: Icons.check_rounded, onPressed: () {
-                  setState(() => _genSaved = true);
-                  showToast(context, 'Gym profile saved', subtitle: 'Emails and the client app use the new details', kind: ToastKind.ok);
-                }),
+                AppButton(
+                  'Save changes',
+                  small: true,
+                  icon: Icons.check_rounded,
+                  onPressed: () {
+                    setState(() => _genSaved = true);
+                    showToast(context, 'Gym profile saved', subtitle: 'Emails and the client app use the new details', kind: ToastKind.ok);
+                  },
+                ),
               ],
             ),
           ],
@@ -144,8 +154,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (v) {
                   final prev = _metric;
                   setState(() => _metric = v);
-                  showToast(context, 'Units set to ${v ? 'metric' : 'imperial'}',
-                      subtitle: 'For new clients', kind: ToastKind.ok, onUndo: () => setState(() => _metric = prev));
+                  showToast(
+                    context,
+                    'Units set to ${v ? 'metric' : 'imperial'}',
+                    subtitle: 'For new clients',
+                    kind: ToastKind.ok,
+                    onUndo: () => setState(() => _metric = prev),
+                  );
                 },
               ),
             ),
@@ -165,7 +180,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 value: _timezone,
                 onTap: () async {
                   const z = ['Asia/Kolkata (IST)', 'Asia/Dubai (GST)', 'Europe/London (GMT)', 'America/New_York (ET)'];
-                  final v = await pickFromSheet<String>(context, title: 'Timezone', items: [for (final x in z) (x, x)], selected: _timezone);
+                  final v = await pickFromSheet<String>(
+                    context,
+                    title: 'Timezone',
+                    items: [for (final x in z) (x, x)],
+                    selected: _timezone,
+                  );
                   if (v != null) setState(() => _timezone = v);
                 },
               ),
@@ -177,7 +197,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 value: _language,
                 onTap: () async {
                   const l = ['English', 'Hindi', 'Marathi', 'Gujarati'];
-                  final v = await pickFromSheet<String>(context, title: 'App language', items: [for (final x in l) (x, x)], selected: _language);
+                  final v = await pickFromSheet<String>(
+                    context,
+                    title: 'App language',
+                    items: [for (final x in l) (x, x)],
+                    selected: _language,
+                  );
                   if (v != null) setState(() => _language = v);
                 },
               ),
@@ -194,9 +219,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
             subtitle: 'Name, logo and brand colour',
             onTap: () => setState(() => _tab = _Tab.branding),
           ),
-          LinkRow(icon: Icons.mail_rounded, title: 'Emails and WhatsApp', subtitle: 'Sender name and contact details', onTap: () => _go('emails')),
-          LinkRow(icon: Icons.link_rounded, title: 'Invite links', subtitle: 'Name and address on the invite page', onTap: () => _go('approvals')),
-          LinkRow(icon: Icons.assignment_rounded, title: 'Forms and waivers', subtitle: 'Business name on signed waivers', onTap: () => _go('forms')),
+          LinkRow(
+            icon: Icons.mail_rounded,
+            title: 'Emails and WhatsApp',
+            subtitle: 'Sender name and contact details',
+            onTap: () => _go('emails'),
+          ),
+          LinkRow(
+            icon: Icons.link_rounded,
+            title: 'Invite links',
+            subtitle: 'Name and address on the invite page',
+            onTap: () => _go('approvals'),
+          ),
+          LinkRow(
+            icon: Icons.assignment_rounded,
+            title: 'Forms and waivers',
+            subtitle: 'Business name on signed waivers',
+            onTap: () => _go('forms'),
+          ),
         ],
       ),
     ];
@@ -227,7 +267,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 56,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(color: _hasLogo ? _col : AppColors.sub, borderRadius: BorderRadius.circular(14)),
-                  child: Text('TV', style: AppText.cardTitle.copyWith(color: _hasLogo ? Colors.white : AppColors.muted, fontWeight: FontWeight.w800)),
+                  child: Text(
+                    'TV',
+                    style: AppText.cardTitle.copyWith(color: _hasLogo ? Colors.white : AppColors.muted, fontWeight: FontWeight.w800),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -235,20 +278,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Logo', style: AppText.bodyBold),
-                      Text('Square PNG or SVG, at least 512 x 512. Shown on the app icon screen, emails and invites.',
-                          style: AppText.caption.copyWith(height: 1.4)),
+                      Text(
+                        'Square PNG or SVG, at least 512 x 512. Shown on the app icon screen, emails and invites.',
+                        style: AppText.caption.copyWith(height: 1.4),
+                      ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          AppButton.outline('Upload logo', small: true, icon: Icons.upload_rounded, onPressed: () {
-                            setState(() => _hasLogo = true);
-                            showToast(context, 'Logo uploaded', subtitle: 'logo-trainwithvimal.png · 512 x 512', kind: ToastKind.ok);
-                          }),
+                          AppButton.outline(
+                            'Upload logo',
+                            small: true,
+                            icon: Icons.upload_rounded,
+                            onPressed: () {
+                              setState(() => _hasLogo = true);
+                              showToast(context, 'Logo uploaded', subtitle: 'logo-trainwithvimal.png · 512 x 512', kind: ToastKind.ok);
+                            },
+                          ),
                           const SizedBox(width: 6),
-                          TextLink('Remove', onTap: () {
-                            setState(() => _hasLogo = false);
-                            showToast(context, 'Logo removed', subtitle: 'Your initials show until you upload a new one', kind: ToastKind.info);
-                          }),
+                          TextLink(
+                            'Remove',
+                            onTap: () {
+                              setState(() => _hasLogo = false);
+                              showToast(
+                                context,
+                                'Logo removed',
+                                subtitle: 'Your initials show until you upload a new one',
+                                kind: ToastKind.info,
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],
@@ -284,11 +342,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Container(
                     height: 32,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(9), border: Border.all(color: AppColors.line)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(9),
+                      border: Border.all(color: AppColors.line),
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(width: 14, height: 14, decoration: BoxDecoration(color: _col, borderRadius: BorderRadius.circular(4))),
+                        Container(
+                          width: 14,
+                          height: 14,
+                          decoration: BoxDecoration(color: _col, borderRadius: BorderRadius.circular(4)),
+                        ),
                         const SizedBox(width: 6),
                         Text(_hex, style: AppText.bodyBold.copyWith(fontSize: 12.5)),
                       ],
@@ -313,21 +379,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Row(
               children: [
-                TextLink('Reset', icon: Icons.restart_alt_rounded, onTap: () {
-                  setState(() {
-                    _col = EngageMock.brandSwatches.first;
-                    _theme = 'light';
-                    _brDirty = false;
-                  });
-                  showToast(context, 'Branding reset', subtitle: 'Blue and light theme', kind: ToastKind.ok);
-                }),
+                TextLink(
+                  'Reset',
+                  icon: Icons.restart_alt_rounded,
+                  onTap: () {
+                    setState(() {
+                      _col = EngageMock.brandSwatches.first;
+                      _theme = 'light';
+                      _brDirty = false;
+                    });
+                    showToast(context, 'Branding reset', subtitle: 'Blue and light theme', kind: ToastKind.ok);
+                  },
+                ),
                 const Spacer(),
                 Text(_brDirty ? 'Not applied yet' : 'Applied', style: AppText.caption),
                 const SizedBox(width: 8),
-                AppButton('Apply', small: true, icon: Icons.check_rounded, onPressed: () {
-                  setState(() => _brDirty = false);
-                  showToast(context, 'Branding applied', subtitle: 'Clients see it next time they open the app', kind: ToastKind.ok);
-                }),
+                AppButton(
+                  'Apply',
+                  small: true,
+                  icon: Icons.check_rounded,
+                  onPressed: () {
+                    setState(() => _brDirty = false);
+                    showToast(context, 'Branding applied', subtitle: 'Clients see it next time they open the app', kind: ToastKind.ok);
+                  },
+                ),
               ],
             ),
           ],
@@ -335,8 +410,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       SideCard(
         title: 'Client app preview',
-        trailing: Text(_theme == 'dark' ? 'Dark' : _theme == 'system' ? 'Match phone · light shown' : 'Light',
-            style: AppText.caption.copyWith(fontWeight: FontWeight.w700)),
+        trailing: Text(
+          _theme == 'dark'
+              ? 'Dark'
+              : _theme == 'system'
+              ? 'Match phone · light shown'
+              : 'Light',
+          style: AppText.caption.copyWith(fontWeight: FontWeight.w700),
+        ),
         children: [
           BrandPreview(color: _col, dark: _theme == 'dark'),
           const FieldHint('Changes show for every client after Apply.'),
@@ -392,7 +473,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Expanded(child: Text('PERMISSION', style: AppText.overline.copyWith(fontSize: 10.5))),
                   for (final h in ['Admin', 'Trainer', 'Client'])
-                    SizedBox(width: 52, child: Text(h.toUpperCase(), textAlign: TextAlign.center, style: AppText.overline.copyWith(fontSize: 9.5, letterSpacing: 0))),
+                    SizedBox(
+                      width: 52,
+                      child: Text(
+                        h.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: AppText.overline.copyWith(fontSize: 9.5, letterSpacing: 0),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -442,15 +530,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      TextLink('Reset', icon: Icons.restart_alt_rounded, onTap: () => setState(() {
-                        _perms = EngageMock.permissions;
-                        _pmDirty = false;
-                      })),
+                      TextLink(
+                        'Reset',
+                        icon: Icons.restart_alt_rounded,
+                        onTap: () => setState(() {
+                          _perms = EngageMock.permissions;
+                          _pmDirty = false;
+                        }),
+                      ),
                       const Spacer(),
-                      AppButton('Save', small: true, icon: Icons.check_rounded, onPressed: () {
-                        setState(() => _pmDirty = false);
-                        showToast(context, 'Permissions saved', subtitle: 'Applied to every trainer and client', kind: ToastKind.ok);
-                      }),
+                      AppButton(
+                        'Save',
+                        small: true,
+                        icon: Icons.check_rounded,
+                        onPressed: () {
+                          setState(() => _pmDirty = false);
+                          showToast(context, 'Permissions saved', subtitle: 'Applied to every trainer and client', kind: ToastKind.ok);
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -532,7 +629,11 @@ class _IntegrationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tone = switch (state) { IntegrationState.on => BadgeTone.ok, IntegrationState.dns => BadgeTone.warn, IntegrationState.off => BadgeTone.neutral };
+    final tone = switch (state) {
+      IntegrationState.on => BadgeTone.ok,
+      IntegrationState.dns => BadgeTone.warn,
+      IntegrationState.off => BadgeTone.neutral,
+    };
     final meta = switch (state) {
       IntegrationState.on => x.id == 'whatsapp' ? EngageMock.gymPhone : (x.id == 'health' ? '64 clients linked' : EngageMock.gymEmail),
       IntegrationState.dns => 'Sending from the platform address for now',
@@ -550,7 +651,10 @@ class _IntegrationCard extends StatelessWidget {
                 height: 44,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(color: x.bg, borderRadius: BorderRadius.circular(11)),
-                child: Text(x.short, style: AppText.bodyBold.copyWith(fontSize: 13, fontWeight: FontWeight.w800, color: x.fg)),
+                child: Text(
+                  x.short,
+                  style: AppText.bodyBold.copyWith(fontSize: 13, fontWeight: FontWeight.w800, color: x.fg),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(

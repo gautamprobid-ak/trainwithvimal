@@ -27,10 +27,16 @@ class AutomationsNotifier extends Notifier<List<Automation>> {
   /// Copies an automation as a draft at the end of the list.
   void duplicate(String id) {
     final a = byId(id)!;
-    state = [...state, a.copyWith(id: '${a.id}c${++_seq}', name: '${a.name} (copy)', status: AutoStatus.draft, changed: 'just now', running: 0, finished: 0)];
+    state = [
+      ...state,
+      a.copyWith(id: '${a.id}c${++_seq}', name: '${a.name} (copy)', status: AutoStatus.draft, changed: 'just now', running: 0, finished: 0),
+    ];
   }
 
-  void delete(String id) => state = [for (final a in state) if (a.id != id) a];
+  void delete(String id) => state = [
+    for (final a in state)
+      if (a.id != id) a,
+  ];
 
   /// Adds or replaces an automation (new ones go to the top).
   void save(Automation a) {

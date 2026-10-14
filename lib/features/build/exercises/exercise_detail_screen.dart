@@ -213,7 +213,7 @@ class _VideoCard extends StatelessWidget {
           const SectionHead('Video', caption: 'From content library'),
           const SizedBox(height: 10),
           GestureDetector(
-            onTap: () => showToast(context, 'Playing video', subtitle: title, kind: ToastKind.info),
+            onTap: () => showToast(context, 'Video started', subtitle: title, kind: ToastKind.info),
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: Stack(

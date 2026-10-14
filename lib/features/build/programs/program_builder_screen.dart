@@ -639,6 +639,22 @@ class _DayRow extends StatelessWidget {
                             Text(day.title, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.bodyBold),
                             const SizedBox(height: 1),
                             Text(daySummary(day), maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption),
+                            if (!rest && day.exercises.isNotEmpty) ...[
+                              const SizedBox(height: 4),
+                              for (final e in day.exercises.take(3))
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(e.shownName,
+                                          maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 11.5, color: AppColors.text2)),
+                                    ),
+                                    Text('${e.sets}×${e.reps}', style: AppText.caption.copyWith(fontSize: 11.5, fontStyle: FontStyle.normal)),
+                                  ],
+                                ),
+                              if (day.exercises.length > 3)
+                                Text('+${day.exercises.length - 3} more',
+                                    style: AppText.caption.copyWith(fontSize: 11.5, fontWeight: FontWeight.w700, color: AppColors.accentText)),
+                            ],
                           ],
                         ),
                       ),

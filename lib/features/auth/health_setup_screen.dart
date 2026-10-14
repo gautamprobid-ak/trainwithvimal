@@ -21,7 +21,7 @@ enum _View { pending, onb, resume, done }
 ///   /setup/health?step=0          → start at step 1 (from verify email / login link)
 ///   /setup/health?view=pending    → waiting for coach approval
 ///   &approved=1                   → the coach already approved the account
-/// Finish → "You're all set" → /permissions → /intro → home.
+/// Finish → "You're all set" → Go to Home (via /permissions → /intro) → home.
 class HealthSetupScreen extends ConsumerStatefulWidget {
   const HealthSetupScreen({super.key});
 
@@ -407,7 +407,7 @@ class _HealthSetupScreenState extends ConsumerState<HealthSetupScreen> {
         Opacity(
           opacity: _approved ? 1 : .55,
           child: AppButton(
-            'Continue',
+            'Go to Home',
             icon: Icons.arrow_forward_rounded,
             expand: true,
             onPressed: () => _approved

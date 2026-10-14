@@ -88,7 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       children: [
         AuthTop(
           onBack: () => context.go(Routes.welcome),
-          trailing: AuthLink('Help', onTap: () => showHelpSheet(
+          trailing: AuthLink('Need help?', onTap: () => showHelpSheet(
                 context,
                 AuthMock.welcomeHelp,
                 caption: 'Most login problems are a pending approval or a missing invite. The gym team can check both.',
@@ -124,6 +124,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ],
         ),
         _RoleRow(onPick: _demoSignIn),
+        Center(
+          child: AuthLink('Terms and privacy', muted: true, onTap: () => showTermsSheet(
+                context,
+                AuthMock.welcomeTerms,
+                subtitle: 'Last updated · 1 Sep 2026',
+              )),
+        ),
       ],
     );
   }
@@ -184,8 +191,9 @@ class _RoleRow extends StatelessWidget {
             child: Text(label, style: style.copyWith(fontWeight: FontWeight.w700, color: AppColors.text2)),
           ),
         );
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text('Demo: ', style: style),
         link('Client', DemoAccounts.client),

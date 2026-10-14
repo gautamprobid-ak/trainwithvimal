@@ -125,10 +125,16 @@ class BrandRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         BrandLogo(size: size),
         const SizedBox(width: 10),
-        Text('Train With Vimal', style: AppText.bodyBold.copyWith(fontSize: fontSize, fontWeight: FontWeight.w800)),
+        Flexible(
+          child: Text('Train With Vimal',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppText.bodyBold.copyWith(fontSize: fontSize, fontWeight: FontWeight.w800)),
+        ),
       ],
     );
   }
@@ -850,7 +856,11 @@ class _Chip extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (check && on) ...[Icon(Icons.check_rounded, size: 14, color: fg), const SizedBox(width: 5)],
-              Text(label, style: AppText.secondary.copyWith(fontSize: small ? 12 : 13, fontWeight: FontWeight.w600, color: fg)),
+              Flexible(
+                child: Text(label,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppText.secondary.copyWith(fontSize: small ? 12 : 13, fontWeight: FontWeight.w600, color: fg)),
+              ),
             ],
           ),
         ),

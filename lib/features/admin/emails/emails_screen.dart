@@ -37,7 +37,8 @@ class _EmailsScreenState extends State<EmailsScreen> {
   String _quietTo = '7:00 am';
   String _digest = 'daily';
 
-  MsgTemplate get _t => _tps.firstWhere((t) => t.id == _tid, orElse: () => _tps.firstWhere((t) => t.id == 'checkin-reminder', orElse: () => _tps.first));
+  MsgTemplate get _t =>
+      _tps.firstWhere((t) => t.id == _tid, orElse: () => _tps.firstWhere((t) => t.id == 'checkin-reminder', orElse: () => _tps.first));
 
   Channel get _channel {
     final t = _t;
@@ -50,7 +51,9 @@ class _EmailsScreenState extends State<EmailsScreen> {
   void _setText(Channel c, MsgText v, {bool external = false}) {
     final t = _t;
     setState(() {
-      _tps = [for (final x in _tps) x.id == t.id ? x.copyWith(texts: {...x.texts, c: v}) : x];
+      _tps = [
+        for (final x in _tps) x.id == t.id ? x.copyWith(texts: {...x.texts, c: v}) : x,
+      ];
       _dirty = true;
       if (external) _rev++;
     });
@@ -85,10 +88,16 @@ class _EmailsScreenState extends State<EmailsScreen> {
       _ch = null;
       _detail = false;
     });
-    showToast(context, 'Template deleted', subtitle: t.name, kind: ToastKind.del, onUndo: () => setState(() {
-      _tps = prev;
-      _tid = prevId;
-    }));
+    showToast(
+      context,
+      'Template deleted',
+      subtitle: t.name,
+      kind: ToastKind.del,
+      onUndo: () => setState(() {
+        _tps = prev;
+        _tid = prevId;
+      }),
+    );
   }
 
   void _openNew() {
@@ -96,37 +105,47 @@ class _EmailsScreenState extends State<EmailsScreen> {
       context,
       title: 'New message template',
       subtitle: 'Write it once, then use it in any automation',
-      builder: (ctx) => _NewTemplateSheet(onCreate: (name, group, chs) {
-        Navigator.of(ctx).pop();
-        final prev = _tps, prevId = _tid;
-        final id = 'custom-${_tps.length}';
-        setState(() {
-          _tps = [
-            ..._tps,
-            MsgTemplate(
-              id: id,
-              name: name,
-              group: group,
-              when: 'By an automation you pick',
-              custom: true,
-              texts: {
-                for (final c in chs)
-                  c: MsgText(c == Channel.whatsapp ? '' : 'You are on a roll, {{first_name}}',
-                      'Hi {{first_name}}, 7 workouts in a row. Keep it going! {{coach_name}}'),
-              },
-            ),
-          ];
-          _tid = id;
-          _ch = chs.first;
-          _detail = true;
-          _rev++;
-        });
-        showToast(context, 'Template created', subtitle: 'Edit the text, then add it to an automation', kind: ToastKind.ok, onUndo: () => setState(() {
-          _tps = prev;
-          _tid = prevId;
-          _detail = false;
-        }));
-      }),
+      builder: (ctx) => _NewTemplateSheet(
+        onCreate: (name, group, chs) {
+          Navigator.of(ctx).pop();
+          final prev = _tps, prevId = _tid;
+          final id = 'custom-${_tps.length}';
+          setState(() {
+            _tps = [
+              ..._tps,
+              MsgTemplate(
+                id: id,
+                name: name,
+                group: group,
+                when: 'By an automation you pick',
+                custom: true,
+                texts: {
+                  for (final c in chs)
+                    c: MsgText(
+                      c == Channel.whatsapp ? '' : 'You are on a roll, {{first_name}}',
+                      'Hi {{first_name}}, 7 workouts in a row. Keep it going! {{coach_name}}',
+                    ),
+                },
+              ),
+            ];
+            _tid = id;
+            _ch = chs.first;
+            _detail = true;
+            _rev++;
+          });
+          showToast(
+            context,
+            'Template created',
+            subtitle: 'Edit the text, then add it to an automation',
+            kind: ToastKind.ok,
+            onUndo: () => setState(() {
+              _tps = prev;
+              _tid = prevId;
+              _detail = false;
+            }),
+          );
+        },
+      ),
     );
   }
 
@@ -141,17 +160,24 @@ class _EmailsScreenState extends State<EmailsScreen> {
       children: [
         SubPageHeader(
           title: 'Emails & alerts',
-          actions: [
-            if (_tab == _Tab.templates) AppButton('New template', icon: Icons.add_rounded, small: true, onPressed: _openNew),
-          ],
+          actions: [if (_tab == _Tab.templates) AppButton('New template', icon: Icons.add_rounded, small: true, onPressed: _openNew)],
         ),
         Text(sub, style: AppText.secondary),
         Align(
           alignment: Alignment.centerLeft,
-          child: AppButton.outline('Automations', small: true, icon: Icons.bolt_rounded, onPressed: () => context.push(Routes.aAutomations)),
+          child: AppButton.outline(
+            'Automations',
+            small: true,
+            icon: Icons.bolt_rounded,
+            onPressed: () => context.push(Routes.aAutomations),
+          ),
         ),
         CountTabs<_Tab>(
-          items: [(_Tab.templates, 'Client messages', _tps.length), (_Tab.alerts, 'Team alerts', _alerts.length), (_Tab.sender, 'Sender', null)],
+          items: [
+            (_Tab.templates, 'Client messages', _tps.length),
+            (_Tab.alerts, 'Team alerts', _alerts.length),
+            (_Tab.sender, 'Sender', null),
+          ],
           value: _tab,
           onChanged: (v) => setState(() {
             _tab = v;
@@ -213,7 +239,10 @@ class _EmailsScreenState extends State<EmailsScreen> {
                               width: 7,
                               height: 7,
                               margin: const EdgeInsets.only(left: 4),
-                              decoration: BoxDecoration(color: _isOn(t, c) ? const Color(0xFF10B981) : const Color(0xFFDADAD5), shape: BoxShape.circle),
+                              decoration: BoxDecoration(
+                                color: _isOn(t, c) ? const Color(0xFF10B981) : const Color(0xFFDADAD5),
+                                shape: BoxShape.circle,
+                              ),
                             ),
                           ),
                         const SizedBox(width: 6),
@@ -231,13 +260,19 @@ class _EmailsScreenState extends State<EmailsScreen> {
   List<Widget> _templateDetail() {
     final t = _t, c = _channel, on = _isOn(t, c), cur = t.texts[c];
     final uses = EngageMock.templateUses[t.id] ?? const [];
-    final max = switch (c) { Channel.push => 120, Channel.whatsapp => 1000, _ => 2000 };
+    final max = switch (c) {
+      Channel.push => 120,
+      Channel.whatsapp => 1000,
+      _ => 2000,
+    };
     return [
       Row(
         children: [
           TextLink('Messages', icon: Icons.arrow_back_rounded, onTap: () => setState(() => _detail = false)),
           const SizedBox(width: 8),
-          Expanded(child: Text(t.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.bodyBold)),
+          Expanded(
+            child: Text(t.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.bodyBold),
+          ),
         ],
       ),
       AppCard(
@@ -247,10 +282,14 @@ class _EmailsScreenState extends State<EmailsScreen> {
           children: [
             EditorHead(icon: Icons.mail_rounded, tint: Tint.blue, title: t.name, subtitle: 'Sent: ${t.when}'),
             const SizedBox(height: 10),
-            _ChannelTabs(value: c, isOn: (x) => _isOn(t, x), onChanged: (x) => setState(() {
-              _ch = x;
-              _rev++;
-            })),
+            _ChannelTabs(
+              value: c,
+              isOn: (x) => _isOn(t, x),
+              onChanged: (x) => setState(() {
+                _ch = x;
+                _rev++;
+              }),
+            ),
             const SizedBox(height: 12),
             SwitchRow(
               title: 'Send by ${c.label}',
@@ -294,7 +333,10 @@ class _EmailsScreenState extends State<EmailsScreen> {
                 children: [
                   for (final v in EngageMock.sampleVars.keys)
                     ActionChip(
-                      label: Text('{{$v}}', style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: AppColors.accentText)),
+                      label: Text(
+                        '{{$v}}',
+                        style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: AppColors.accentText),
+                      ),
                       backgroundColor: AppColors.accentSoft,
                       side: BorderSide.none,
                       visualDensity: VisualDensity.compact,
@@ -309,8 +351,11 @@ class _EmailsScreenState extends State<EmailsScreen> {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(color: AppColors.sub, borderRadius: BorderRadius.circular(10)),
-                child: Text('There is no ${c.label} text for this message yet. Turn it on to write one.',
-                    textAlign: TextAlign.center, style: AppText.secondary),
+                child: Text(
+                  'There is no ${c.label} text for this message yet. Turn it on to write one.',
+                  textAlign: TextAlign.center,
+                  style: AppText.secondary,
+                ),
               ),
             const Divider(height: 24),
             Row(
@@ -318,21 +363,30 @@ class _EmailsScreenState extends State<EmailsScreen> {
                 if (t.custom)
                   TextLink('Delete template', icon: Icons.delete_rounded, danger: true, onTap: _delete)
                 else
-                  TextLink('Reset to default', icon: Icons.restart_alt_rounded, onTap: () {
-                    setState(() {
-                      _tps = EngageMock.templates;
-                      _dirty = false;
-                      _rev++;
-                    });
-                    showToast(context, 'Default text restored', subtitle: t.name, kind: ToastKind.ok);
-                  }),
+                  TextLink(
+                    'Reset to default',
+                    icon: Icons.restart_alt_rounded,
+                    onTap: () {
+                      setState(() {
+                        _tps = EngageMock.templates;
+                        _dirty = false;
+                        _rev++;
+                      });
+                      showToast(context, 'Default text restored', subtitle: t.name, kind: ToastKind.ok);
+                    },
+                  ),
                 const Spacer(),
                 Text(_dirty ? 'Not saved yet' : 'Saved', style: AppText.caption),
                 const SizedBox(width: 8),
-                AppButton('Save', small: true, icon: Icons.check_rounded, onPressed: () {
-                  setState(() => _dirty = false);
-                  showToast(context, 'Template saved', subtitle: '${t.name} · ${c.label}', kind: ToastKind.ok);
-                }),
+                AppButton(
+                  'Save',
+                  small: true,
+                  icon: Icons.check_rounded,
+                  onPressed: () {
+                    setState(() => _dirty = false);
+                    showToast(context, 'Template saved', subtitle: '${t.name} · ${c.label}', kind: ToastKind.ok);
+                  },
+                ),
               ],
             ),
           ],
@@ -360,19 +414,18 @@ class _EmailsScreenState extends State<EmailsScreen> {
         children: [
           if (uses.isNotEmpty)
             for (final u in uses)
-              LinkRow(
-                icon: Icons.bolt_rounded,
-                title: u.automation,
-                subtitle: u.where,
-                onTap: () => context.push(Routes.aAutomations),
-              )
+              LinkRow(icon: Icons.bolt_rounded, title: u.automation, subtitle: u.where, onTap: () => context.push(Routes.aAutomations))
           else if (t.custom) ...[
             const NoteBox('Not used yet. Add it to a Send message step in an automation.', icon: Icons.bolt_rounded),
             const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,
-              child: AppButton.outline('Open automation builder',
-                  small: true, icon: Icons.bolt_rounded, onPressed: () => context.push(Routes.aAutomationBuilder)),
+              child: AppButton.outline(
+                'Open automation builder',
+                small: true,
+                icon: Icons.bolt_rounded,
+                onPressed: () => context.push(Routes.aAutomationBuilder),
+              ),
             ),
           ] else
             NoteBox(EngageMock.systemSends[t.id] ?? 'Sent by the app.', icon: Icons.phone_iphone_rounded),
@@ -401,15 +454,22 @@ class _EmailsScreenState extends State<EmailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Who gets notified, where', style: AppText.cardTitle),
-                        Text('Goes to you and the assigned trainer. Client messages are in the first tab.', style: AppText.caption.copyWith(height: 1.4)),
+                        Text(
+                          'Goes to you and the assigned trainer. Client messages are in the first tab.',
+                          style: AppText.caption.copyWith(height: 1.4),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 8),
-                  AppButton.outline(allOn ? 'All channels on' : 'Enable all', small: true, onPressed: () {
-                    setState(() => _alerts = [for (final e in _alerts) e.copyWith(channels: Channel.values.toSet())]);
-                    showToast(context, 'All channels on', kind: ToastKind.ok);
-                  }),
+                  AppButton.outline(
+                    allOn ? 'All channels on' : 'Enable all',
+                    small: true,
+                    onPressed: () {
+                      setState(() => _alerts = [for (final e in _alerts) e.copyWith(channels: Channel.values.toSet())]);
+                      showToast(context, 'All channels on', kind: ToastKind.ok);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -420,7 +480,10 @@ class _EmailsScreenState extends State<EmailsScreen> {
                 children: [
                   Expanded(child: Text('EVENT', style: AppText.overline.copyWith(fontSize: 10.5))),
                   for (final c in Channel.values)
-                    SizedBox(width: 40, child: Text(c.label, textAlign: TextAlign.center, style: AppText.overline.copyWith(fontSize: 9.5, letterSpacing: 0))),
+                    SizedBox(
+                      width: 40,
+                      child: Text(c.label, textAlign: TextAlign.center, style: AppText.overline.copyWith(fontSize: 9.5, letterSpacing: 0)),
+                    ),
                 ],
               ),
             ),
@@ -469,9 +532,19 @@ class _EmailsScreenState extends State<EmailsScreen> {
             const SizedBox(height: 10),
             Row(
               children: [
-                Expanded(child: FieldBlock(label: 'From', child: SelectBox(value: _quietFrom, onTap: () => _pickTime(true)))),
+                Expanded(
+                  child: FieldBlock(
+                    label: 'From',
+                    child: SelectBox(value: _quietFrom, onTap: () => _pickTime(true)),
+                  ),
+                ),
                 const SizedBox(width: 10),
-                Expanded(child: FieldBlock(label: 'To', child: SelectBox(value: _quietTo, onTap: () => _pickTime(false)))),
+                Expanded(
+                  child: FieldBlock(
+                    label: 'To',
+                    child: SelectBox(value: _quietTo, onTap: () => _pickTime(false)),
+                  ),
+                ),
               ],
             ),
           ],
@@ -485,9 +558,11 @@ class _EmailsScreenState extends State<EmailsScreen> {
             value: _digest,
             onChanged: (v) => setState(() => _digest = v),
           ),
-          FieldHint(_digest == 'off'
-              ? 'No digest email.'
-              : 'One email at 8:00 am with check-ins to review, at-risk clients and plans ending${_digest == 'weekly' ? ', every Monday.' : '.'}'),
+          FieldHint(
+            _digest == 'off'
+                ? 'No digest email.'
+                : 'One email at 8:00 am with check-ins to review, at-risk clients and plans ending${_digest == 'weekly' ? ', every Monday.' : '.'}',
+          ),
         ],
       ),
     ];
@@ -495,7 +570,12 @@ class _EmailsScreenState extends State<EmailsScreen> {
 
   Future<void> _pickTime(bool from) async {
     const opts = ['8:00 pm', '9:00 pm', '10:00 pm', '11:00 pm', '5:00 am', '6:00 am', '7:00 am', '8:00 am'];
-    final v = await pickFromSheet<String>(context, title: from ? 'Quiet from' : 'Quiet until', items: [for (final o in opts) (o, o)], selected: from ? _quietFrom : _quietTo);
+    final v = await pickFromSheet<String>(
+      context,
+      title: from ? 'Quiet from' : 'Quiet until',
+      items: [for (final o in opts) (o, o)],
+      selected: from ? _quietFrom : _quietTo,
+    );
     if (v != null) setState(() => from ? _quietFrom = v : _quietTo = v);
   }
 
@@ -536,9 +616,14 @@ class _EmailsScreenState extends State<EmailsScreen> {
             const SizedBox(height: 14),
             Align(
               alignment: Alignment.centerRight,
-              child: AppButton('Save', small: true, icon: Icons.check_rounded, onPressed: () {
-                showToast(context, 'Sender settings saved', subtitle: 'Used on every email and WhatsApp message', kind: ToastKind.ok);
-              }),
+              child: AppButton(
+                'Save',
+                small: true,
+                icon: Icons.check_rounded,
+                onPressed: () {
+                  showToast(context, 'Sender settings saved', subtitle: 'Used on every email and WhatsApp message', kind: ToastKind.ok);
+                },
+              ),
             ),
           ],
         ),
@@ -568,7 +653,9 @@ class _ChannelTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.line))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: AppColors.line)),
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -579,17 +666,27 @@ class _ChannelTabs extends StatelessWidget {
                 child: Container(
                   height: 36,
                   padding: const EdgeInsets.symmetric(horizontal: 11),
-                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: c == value ? AppColors.accent : Colors.transparent, width: 2))),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: c == value ? AppColors.accent : Colors.transparent, width: 2)),
+                  ),
                   child: Row(
                     children: [
                       Container(
                         width: 7,
                         height: 7,
-                        decoration: BoxDecoration(color: isOn(c) ? const Color(0xFF10B981) : const Color(0xFFDADAD5), shape: BoxShape.circle),
+                        decoration: BoxDecoration(
+                          color: isOn(c) ? const Color(0xFF10B981) : const Color(0xFFDADAD5),
+                          shape: BoxShape.circle,
+                        ),
                       ),
                       const SizedBox(width: 6),
-                      Text(c.label,
-                          style: AppText.secondary.copyWith(fontWeight: FontWeight.w600, color: c == value ? AppColors.accentText : AppColors.text2)),
+                      Text(
+                        c.label,
+                        style: AppText.secondary.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: c == value ? AppColors.accentText : AppColors.text2,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -625,7 +722,11 @@ class _NewTemplateSheetState extends State<_NewTemplateSheet> {
     return Spaced(
       gap: 14,
       children: [
-        FieldBlock(label: 'Template name', required: true, child: TextField(controller: _name, style: AppText.body)),
+        FieldBlock(
+          label: 'Template name',
+          required: true,
+          child: TextField(controller: _name, style: AppText.body),
+        ),
         FieldBlock(
           label: 'Group',
           child: SegmentedTabs<String>(
@@ -658,14 +759,18 @@ class _NewTemplateSheetState extends State<_NewTemplateSheet> {
             Expanded(
               child: Opacity(
                 opacity: _chs.isEmpty ? .5 : 1,
-                child: AppButton('Create template', icon: Icons.add_rounded, onPressed: () {
-                  if (_chs.isEmpty) {
-                    showToast(context, 'Pick a channel', subtitle: 'A template needs at least one', kind: ToastKind.warn);
-                    return;
-                  }
-                  final ordered = Channel.values.where(_chs.contains).toList();
-                  widget.onCreate(_name.text.trim().isEmpty ? 'Workout streak' : _name.text.trim(), _group, ordered);
-                }),
+                child: AppButton(
+                  'Create template',
+                  icon: Icons.add_rounded,
+                  onPressed: () {
+                    if (_chs.isEmpty) {
+                      showToast(context, 'Pick a channel', subtitle: 'A template needs at least one', kind: ToastKind.warn);
+                      return;
+                    }
+                    final ordered = Channel.values.where(_chs.contains).toList();
+                    widget.onCreate(_name.text.trim().isEmpty ? 'Workout streak' : _name.text.trim(), _group, ordered);
+                  },
+                ),
               ),
             ),
           ],

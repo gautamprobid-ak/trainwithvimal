@@ -77,13 +77,19 @@ class _FormPreviewState extends State<FormPreview> {
               height: 22,
               alignment: Alignment.center,
               decoration: BoxDecoration(color: AppColors.sub, borderRadius: BorderRadius.circular(6)),
-              child: Text('${i + 1}', style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.text2)),
+              child: Text(
+                '${i + 1}',
+                style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.text2),
+              ),
             ),
             const SizedBox(width: 8),
             Expanded(child: Text(q.text, style: AppText.bodyBold.copyWith(height: 1.35))),
             if (q.required) ...[
               const SizedBox(width: 6),
-              Text('Required', style: AppText.caption.copyWith(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.badText)),
+              Text(
+                'Required',
+                style: AppText.caption.copyWith(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.badText),
+              ),
             ],
           ],
         ),
@@ -94,10 +100,7 @@ class _FormPreviewState extends State<FormPreview> {
             children: [
               if (q.help.isNotEmpty) ...[Text(q.help, style: AppText.caption), const SizedBox(height: 8)],
               _answer(i, q, got),
-              if (got.contains('Other')) ...[
-                const SizedBox(height: 8),
-                const _FakeInput('Type your answer'),
-              ],
+              if (got.contains('Other')) ...[const SizedBox(height: 8), const _FakeInput('Type your answer')],
             ],
           ),
         ),
@@ -196,9 +199,13 @@ class _Boxes extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: selected.contains(labels[i]) ? AppColors.accent : AppColors.line2),
                 ),
-                child: Text(labels[i],
-                    style: AppText.bodyBold.copyWith(
-                        fontSize: 13, color: selected.contains(labels[i]) ? AppColors.accentText : AppColors.text2)),
+                child: Text(
+                  labels[i],
+                  style: AppText.bodyBold.copyWith(
+                    fontSize: 13,
+                    color: selected.contains(labels[i]) ? AppColors.accentText : AppColors.text2,
+                  ),
+                ),
               ),
             ),
           ),
@@ -232,7 +239,9 @@ class _ChoiceRow extends StatelessWidget {
             children: [
               PickCheck(on: on, square: square),
               const SizedBox(width: 10),
-              Expanded(child: Text(label, style: AppText.body.copyWith(fontSize: 13.5, fontWeight: FontWeight.w600))),
+              Expanded(
+                child: Text(label, style: AppText.body.copyWith(fontSize: 13.5, fontWeight: FontWeight.w600)),
+              ),
             ],
           ),
         ),

@@ -380,10 +380,10 @@ class _ClientHabitsScreenState extends ConsumerState<ClientHabitsScreen> {
     final nMet = _hb.where((h) => _met(h, _sd)).length;
     return [
       WeekStrip(
-        selected: _sd - 2,
-        onPick: (i) => setState(() => _sd = i + 2),
+        selected: _sd,
+        onPick: (i) => setState(() => _sd = i),
         days: [
-          for (var i = 2; i <= 8; i++)
+          for (var i = 0; i <= 8; i++)
             WeekDay(_dn[i][0], _dd[i], today: i == _today, done: i <= _today && _allMet(i), partial: i < _today && !_allMet(i)),
         ],
       ),

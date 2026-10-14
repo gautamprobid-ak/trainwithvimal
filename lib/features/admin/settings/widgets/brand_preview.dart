@@ -16,7 +16,11 @@ class BrandPreview extends StatelessWidget {
     final muted = dark ? const Color(0xFFA1A1AA) : AppColors.muted;
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: AppColors.sub, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.line)),
+      decoration: BoxDecoration(
+        color: AppColors.sub,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.line),
+      ),
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14)),
@@ -30,7 +34,10 @@ class BrandPreview extends StatelessWidget {
                   height: 24,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(7)),
-                  child: Text('TV', style: AppText.caption.copyWith(fontSize: 9.5, fontWeight: FontWeight.w800, color: Colors.white)),
+                  child: Text(
+                    'TV',
+                    style: AppText.caption.copyWith(fontSize: 9.5, fontWeight: FontWeight.w800, color: Colors.white),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Text('Train With Vimal', style: AppText.bodyBold.copyWith(fontSize: 13, color: fg)),
@@ -76,6 +83,12 @@ class BrandPreview extends StatelessWidget {
   }
 
   Widget _tab(IconData i, String t, Color c) => Column(
-        children: [Icon(i, size: 18, color: c), Text(t, style: AppText.caption.copyWith(fontSize: 10.5, fontWeight: FontWeight.w700, color: c))],
-      );
+    children: [
+      Icon(i, size: 18, color: c),
+      Text(
+        t,
+        style: AppText.caption.copyWith(fontSize: 10.5, fontWeight: FontWeight.w700, color: c),
+      ),
+    ],
+  );
 }

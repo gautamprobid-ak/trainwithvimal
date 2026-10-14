@@ -160,8 +160,9 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
               onPressed: _resend,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               AuthLink('Change email', onTap: _changeEmail),
               const SizedBox(width: 22),

@@ -199,8 +199,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       case _Stage.forgot:
         return [
           AppButton('Send reset link', expand: true, onPressed: _send),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text('Remembered it?', style: AppText.secondary),
               const SizedBox(width: 5),
@@ -219,8 +220,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               onPressed: _resend,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               AuthLink('Use a different email', onTap: _toForgot),
               const SizedBox(width: 22),

@@ -128,11 +128,7 @@ class _ExerciseAddScreenState extends ConsumerState<ExerciseAddScreen> {
       also: also,
     ));
     showToast(context, 'Exercise saved', subtitle: '$name is in the library', kind: ToastKind.ok);
-    if (context.canPop()) {
-      context.pop();
-    } else {
-      context.go(context.rolePath(Routes.exercises));
-    }
+    context.pushReplacement(context.rolePath(Routes.exercise(id)));
   }
 
   void _pickVideo() {
@@ -378,7 +374,7 @@ class _ExerciseAddScreenState extends ConsumerState<ExerciseAddScreen> {
             )
           else
             InkWell(
-              onTap: () => showToast(context, 'Choose an image', subtitle: 'JPG or PNG, up to 5 MB', kind: ToastKind.info),
+              onTap: () => showToast(context, 'Image picker opened', subtitle: 'JPG or PNG, up to 5 MB', kind: ToastKind.info),
               borderRadius: BorderRadius.circular(12),
               child: Container(
                 padding: const EdgeInsets.all(14),

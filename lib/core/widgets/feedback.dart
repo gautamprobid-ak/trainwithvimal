@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:go_router/go_router.dart';
+
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'app_button.dart';
@@ -14,7 +16,10 @@ enum ToastKind {
   water(Color(0xFF7CC4FF), Color(0xFF0E0F0C), Icons.water_drop_rounded),
   warn(Color(0xFFFFD166), Color(0xFF0E0F0C), Icons.warning_rounded),
   err(Color(0xFFFF7A45), Color(0xFF0E0F0C), Icons.error_rounded),
-  del(Color(0xFF2A2C25), Color(0xFFF2F3EC), Icons.delete_rounded);
+  del(Color(0xFF2A2C25), Color(0xFFF2F3EC), Icons.delete_rounded),
+
+  /// Admin / trainer toast (.pg-toast): dark card, light-blue Undo.
+  dark(Color(0xFF1F1F1F), Colors.white, Icons.check_rounded);
 
   const ToastKind(this.bg, this.fg, this.icon);
   final Color bg;
@@ -26,7 +31,8 @@ OverlayEntry? _currentToast;
 Timer? _toastTimer;
 
 /// Shows the design's toast above the bottom nav. [onUndo] adds an "Undo" action
-/// and keeps the toast up for 7 s instead of 5 s.
+/// and keeps the toast up longer. In the admin and trainer apps every toast
+/// uses the dark .pg-toast style; the client app uses the coloured kinds.
 void showToast(
   BuildContext context,
   String title, {
@@ -39,6 +45,7 @@ void showToast(
   _currentToast?.remove();
   _currentToast = null;
 
+  if (_isStaffApp(context)) kind = ToastKind.dark;
   final overlay = Overlay.of(context, rootOverlay: true);
   late OverlayEntry entry;
   void close() {
@@ -50,7 +57,8 @@ void showToast(
 
   entry = OverlayEntry(
     builder: (ctx) {
-      final bottom = MediaQuery.of(ctx).padding.bottom + 82;
+      // 12 above the 60px tab bar (design: 12 above the bar).
+      final bottom = MediaQuery.of(ctx).padding.bottom + 72;
       return Positioned(
         left: 12,
         right: 12,
@@ -73,7 +81,16 @@ void showToast(
   );
   _currentToast = entry;
   overlay.insert(entry);
-  _toastTimer = Timer(Duration(seconds: onUndo != null ? 7 : 5), close);
+  _toastTimer = Timer(Duration(seconds: onUndo != null ? 6 : 4), close);
+}
+
+bool _isStaffApp(BuildContext context) {
+  try {
+    final p = GoRouterState.of(context).uri.path;
+    return p.startsWith('/a/') || p.startsWith('/t/');
+  } catch (_) {
+    return false;
+  }
 }
 
 class _ToastCard extends StatefulWidget {
@@ -105,41 +122,76 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
       position: Tween(begin: const Offset(0, .4), end: Offset.zero).animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic)),
       child: FadeTransition(
         opacity: _c,
-        child: Material(
-          color: k.bg,
-          borderRadius: BorderRadius.circular(8),
-          elevation: 10,
-          shadowColor: Colors.black54,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 6, 12),
-            child: Row(
-              children: [
-                Icon(k.icon, color: k.fg, size: 22),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(widget.title, style: AppText.bodyBold.copyWith(fontWeight: FontWeight.w800, color: k.fg, height: 1.3)),
-                      if (widget.subtitle != null && widget.subtitle!.isNotEmpty)
-                        Text(widget.subtitle!,
-                            style: AppText.caption.copyWith(fontWeight: FontWeight.w600, color: k.fg.withValues(alpha: .78))),
-                    ],
-                  ),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 360),
+            child: Material(
+              color: k.bg,
+              borderRadius: BorderRadius.circular(14),
+              elevation: 10,
+              shadowColor: Colors.black54,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 8, 6, 8),
+                child: Row(
+                  children: [
+                    if (k != ToastKind.dark) ...[
+                      Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(color: k.fg.withValues(alpha: .16), shape: BoxShape.circle),
+                        child: Icon(k.icon, color: k.fg, size: 18),
+                      ),
+                      const SizedBox(width: 12),
+                    ] else
+                      const SizedBox(width: 4),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.title,
+                            style: AppText.bodyBold.copyWith(
+                              fontSize: k == ToastKind.dark ? 13.5 : 14,
+                              fontWeight: k == ToastKind.dark ? FontWeight.w700 : FontWeight.w800,
+                              color: k.fg,
+                              height: 1.3,
+                            ),
+                          ),
+                          if (widget.subtitle != null && widget.subtitle!.isNotEmpty)
+                            Text(
+                              widget.subtitle!,
+                              style: AppText.caption.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: k == ToastKind.dark ? const Color(0xFFA3A3A3) : k.fg.withValues(alpha: .78),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    if (widget.onUndo != null)
+                      TextButton(
+                        onPressed: widget.onUndo,
+                        style: TextButton.styleFrom(foregroundColor: k.fg),
+                        child: Text(
+                          widget.undoLabel,
+                          style: AppText.bodyBold.copyWith(
+                            fontSize: 13.5,
+                            color: k == ToastKind.dark ? const Color(0xFF93C5FD) : k.fg,
+                            decoration: k == ToastKind.dark ? null : TextDecoration.underline,
+                            decorationColor: k.fg,
+                          ),
+                        ),
+                      ),
+                    IconButton(
+                      onPressed: widget.onClose,
+                      icon: Icon(Icons.close_rounded, size: 18, color: k.fg.withValues(alpha: .8)),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ],
                 ),
-                if (widget.onUndo != null)
-                  TextButton(
-                    onPressed: widget.onUndo,
-                    style: TextButton.styleFrom(foregroundColor: k.fg),
-                    child: Text(widget.undoLabel, style: AppText.bodyBold.copyWith(color: k.fg, decoration: TextDecoration.underline, decorationColor: k.fg)),
-                  ),
-                IconButton(
-                  onPressed: widget.onClose,
-                  icon: Icon(Icons.close_rounded, size: 18, color: k.fg.withValues(alpha: .8)),
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
+              ),
             ),
           ),
         ),

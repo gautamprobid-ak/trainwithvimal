@@ -39,6 +39,9 @@ class _ImportFlowState extends ConsumerState<_ImportFlow> {
   _Dup _dup = _Dup.skip;
   _Filter _filter = _Filter.all;
   int _page = 0;
+  bool _egg = true;
+  final _gmap = <String, String>{...LibraryMock.importGroups};
+  final _dmap = <String, Diet>{...LibraryMock.importDiets};
 
   String _status(ImportRow r) => !r.isDuplicate
       ? 'New'
@@ -48,8 +51,8 @@ class _ImportFlowState extends ConsumerState<_ImportFlow> {
           _Dup.add => 'New',
         };
 
-  Diet _dietOf(ImportRow r) => r.category == 'Egg' ? Diet.egg : (LibraryMock.importDiets[r.mainCategory] ?? Diet.veg);
-  String _groupOf(ImportRow r) => LibraryMock.importGroups[r.category] ?? 'Indian dishes';
+  Diet _dietOf(ImportRow r) => _egg && r.category == 'Egg' ? Diet.egg : (_dmap[r.mainCategory] ?? Diet.veg);
+  String _groupOf(ImportRow r) => _gmap[r.category] ?? 'Indian dishes';
 
   List<ImportRow> get _ready => _rows.where((r) => _status(r) != 'Skip').toList();
   int get _dupN => _rows.where((r) => r.isDuplicate).length;
@@ -279,6 +282,7 @@ class _ImportFlowState extends ConsumerState<_ImportFlow> {
               ]),
           ]),
         ),
+        _mappings(),
         if (bad.isNotEmpty)
           InfoBanner(
             icon: Icons.warning_amber_rounded,
@@ -304,6 +308,78 @@ class _ImportFlowState extends ConsumerState<_ImportFlow> {
         _preview(),
       ],
     );
+  }
+
+  Widget _mapRow(String name, String example, String value, List<String> opts, ValueChanged<String> onPick) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(children: [
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(name, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.bodyBold.copyWith(fontSize: 13)),
+            Text(example, style: AppText.caption),
+          ]),
+        ),
+        PopupMenuButton<String>(
+          tooltip: name,
+          onSelected: onPick,
+          itemBuilder: (_) => [
+            for (final o in opts)
+              PopupMenuItem(
+                value: o,
+                child: Row(children: [
+                  Expanded(child: Text(o == 'Beverages' ? 'Beverages (new group)' : o)),
+                  if (o == value) const Icon(Icons.check_rounded, size: 18, color: AppColors.accent),
+                ]),
+              ),
+          ],
+          child: Container(
+            width: 150,
+            height: 36,
+            padding: const EdgeInsets.only(left: 10, right: 6),
+            decoration: BoxDecoration(border: Border.all(color: AppColors.line2), borderRadius: BorderRadius.circular(8)),
+            child: Row(children: [
+              Expanded(child: Text(value, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.secondary.copyWith(fontWeight: FontWeight.w600, color: AppColors.text))),
+              const Icon(Icons.expand_more_rounded, size: 18, color: AppColors.muted),
+            ]),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget _mappings() {
+    String count(int n) => plural(n, 'food');
+    final cats = {for (final r in _rows) r.category}.toList();
+    const groups = ['Protein', 'Carbs', 'Fats', 'Veg', 'Fruits', 'Dairy', 'Indian dishes', 'Beverages'];
+    final dietByLabel = {for (final d in Diet.values) d.label: d};
+    return Spaced(gap: 16, children: [
+      FieldBlock(
+        label: 'Category → food library group',
+        hint: 'Egg and egg are treated as one. A group that does not exist yet is created.',
+        child: JoinedList(children: [
+          for (final c in cats)
+            _mapRow(c, count(_rows.where((r) => r.category == c).length), _gmap[c] ?? 'Indian dishes', groups, (v) => setState(() => _gmap[c] = v)),
+        ]),
+      ),
+      FieldBlock(
+        label: 'Main_Category → diet',
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          JoinedList(children: [
+            for (final c in const ['Vegetarian', 'Non-Vegetarian', 'Dairy'])
+              _mapRow(c, count(_rows.where((r) => r.mainCategory == c).length), (_dmap[c] ?? Diet.veg).label, [for (final d in Diet.values) d.label],
+                  (v) => setState(() => _dmap[c] = dietByLabel[v]!)),
+          ]),
+          const SizedBox(height: 8),
+          ToggleRow(
+            on: _egg,
+            title: 'Egg rows are Eggetarian',
+            subtitle: 'Your sheet marks eggs as Non-Vegetarian. ${_rows.where((r) => r.category == 'Egg').length} rows.',
+            onTap: () => setState(() => _egg = !_egg),
+          ),
+        ]),
+      ),
+    ]);
   }
 
   Widget _preview() {

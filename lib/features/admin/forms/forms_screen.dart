@@ -34,7 +34,14 @@ class _FormsScreenState extends ConsumerState<FormsScreen> {
       title: 'Form type',
       builder: (ctx) => Column(
         children: [
-          _KindRow(icon: Icons.apps_rounded, tint: Tint.green, label: 'All forms', count: live.length, on: _kind == null, onTap: () => Navigator.of(ctx).pop(const (null,))),
+          _KindRow(
+            icon: Icons.apps_rounded,
+            tint: Tint.green,
+            label: 'All forms',
+            count: live.length,
+            on: _kind == null,
+            onTap: () => Navigator.of(ctx).pop(const (null,)),
+          ),
           for (final k in FormKind.values)
             _KindRow(
               icon: k.icon,
@@ -53,14 +60,18 @@ class _FormsScreenState extends ConsumerState<FormsScreen> {
   }
 
   void _openMenu(FormDef f) {
-    showActionSheet(context, title: f.name, actions: [
-      SheetAction('Edit questions', Icons.edit_rounded, () => _openBuilder(f.id)),
-      SheetAction('Preview', Icons.visibility_rounded, () => showFormPreview(context, name: f.name, questions: f.questions)),
-      SheetAction('Duplicate', Icons.content_copy_rounded, () => _duplicate(f)),
-      if (!f.archived) SheetAction('Archive', Icons.archive_rounded, () => _archive(f)),
-      if (f.archived) SheetAction('Restore', Icons.unarchive_rounded, () => _archive(f)),
-      SheetAction('Delete form', Icons.delete_rounded, () => _delete(f), destructive: true),
-    ]);
+    showActionSheet(
+      context,
+      title: f.name,
+      actions: [
+        SheetAction('Edit questions', Icons.edit_rounded, () => _openBuilder(f.id)),
+        SheetAction('Preview', Icons.visibility_rounded, () => showFormPreview(context, name: f.name, questions: f.questions)),
+        SheetAction('Duplicate', Icons.content_copy_rounded, () => _duplicate(f)),
+        if (!f.archived) SheetAction('Archive', Icons.archive_rounded, () => _archive(f)),
+        if (f.archived) SheetAction('Restore', Icons.unarchive_rounded, () => _archive(f)),
+        SheetAction('Delete form', Icons.delete_rounded, () => _delete(f), destructive: true),
+      ],
+    );
   }
 
   void _duplicate(FormDef f) {
@@ -198,7 +209,10 @@ class _Tools extends StatelessWidget {
               Flexible(
                 child: Material(
                   color: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10), side: const BorderSide(color: AppColors.line)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: const BorderSide(color: AppColors.line),
+                  ),
                   child: InkWell(
                     onTap: onKind,
                     customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -211,8 +225,12 @@ class _Tools extends StatelessWidget {
                           Icon(kind?.icon ?? Icons.apps_rounded, size: 16, color: (kind?.tint ?? Tint.green).fg),
                           const SizedBox(width: 6),
                           Flexible(
-                            child: Text(kind?.filterLabel ?? 'All forms',
-                                maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.bodyBold.copyWith(fontSize: 13)),
+                            child: Text(
+                              kind?.filterLabel ?? 'All forms',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppText.bodyBold.copyWith(fontSize: 13),
+                            ),
                           ),
                           const SizedBox(width: 6),
                           Text('$liveCount', style: AppText.caption.copyWith(fontWeight: FontWeight.w700)),
@@ -306,7 +324,10 @@ class _SendLine extends StatelessWidget {
           Text('Sent by hand', style: AppText.caption),
           GestureDetector(
             onTap: onAutomation,
-            child: Text('Set up automation', style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: AppColors.accentText)),
+            child: Text(
+              'Set up automation',
+              style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: AppColors.accentText),
+            ),
           ),
         ],
       );
@@ -316,7 +337,12 @@ class _SendLine extends StatelessWidget {
         const Icon(Icons.bolt_rounded, size: 15, color: AppColors.accent),
         const SizedBox(width: 4),
         Flexible(
-          child: Text(au.first, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(color: AppColors.text2, fontWeight: FontWeight.w600)),
+          child: Text(
+            au.first,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppText.caption.copyWith(color: AppColors.text2, fontWeight: FontWeight.w600),
+          ),
         ),
         if (au.length > 1) ...[
           const SizedBox(width: 6),
@@ -399,10 +425,15 @@ class _NewFormSheetState extends State<_NewFormSheet> {
             ],
           ),
         ),
-        FieldBlock(label: 'Name', child: TextField(controller: _name, style: AppText.body)),
+        FieldBlock(
+          label: 'Name',
+          child: TextField(controller: _name, style: AppText.body),
+        ),
         FieldBlock(
           label: 'Start from',
-          hint: _tpl ? 'Starts with our standard questions. You can change every one of them.' : 'Starts empty. You add every question yourself.',
+          hint: _tpl
+              ? 'Starts with our standard questions. You can change every one of them.'
+              : 'Starts empty. You add every question yourself.',
           child: SegmentedTabs<bool>(
             items: const [(true, 'Template'), (false, 'Blank form')],
             value: _tpl,
@@ -415,7 +446,11 @@ class _NewFormSheetState extends State<_NewFormSheet> {
             const SizedBox(width: 10),
             Expanded(
               flex: 2,
-              child: AppButton('Continue to builder', icon: Icons.arrow_forward_rounded, onPressed: () => widget.onContinue(_kind, _name.text, _tpl)),
+              child: AppButton(
+                'Continue to builder',
+                icon: Icons.arrow_forward_rounded,
+                onPressed: () => widget.onContinue(_kind, _name.text, _tpl),
+              ),
             ),
           ],
         ),

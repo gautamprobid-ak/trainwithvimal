@@ -20,8 +20,8 @@ abstract final class ClientProfileMock {
   static const stats = <(String, String, String, bool?)>[
     ('Adherence', '86%', '+4% vs last month', true),
     ('Weight', '71.2 kg', '−3.6 kg since start', true),
-    ('Workouts', '14/16', 'Done in last 30 days', null),
-    ('Check-ins', '6/7', 'Week 6 waiting for review', null),
+    ('Workouts', '14 of 16', 'Done in last 30 days', null),
+    ('Check-ins', '6 of 7', 'Week 6 waiting for review', null),
   ];
 
   // ───────────── Overview ─────────────

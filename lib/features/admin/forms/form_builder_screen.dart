@@ -47,7 +47,11 @@ class _FormBuilderScreenState extends ConsumerState<FormBuilderScreen> {
   }
 
   Future<void> _add(QuestionType type) async {
-    final q = await showQuestionEditor(context, initial: FormQuestion(text: '', type: type, required: true), isNew: true);
+    final q = await showQuestionEditor(
+      context,
+      initial: FormQuestion(text: '', type: type, required: true),
+      isNew: true,
+    );
     if (q == null || !mounted) return;
     _setQs([..._qs, q], toDraft: true);
     showToast(context, 'Question added', subtitle: 'Placed at the end of the form', kind: ToastKind.ok);
@@ -80,40 +84,54 @@ class _FormBuilderScreenState extends ConsumerState<FormBuilderScreen> {
 
   void _questionMenu(int i) {
     final n = _qs.length;
-    showActionSheet(context, title: 'Question ${i + 1}', actions: [
-      SheetAction('Edit question', Icons.edit_rounded, () => _edit(i)),
-      SheetAction('Duplicate', Icons.content_copy_rounded, () => _duplicateQ(i)),
-      if (i > 0) SheetAction('Move up', Icons.arrow_upward_rounded, () => _move(i, i - 1)),
-      if (i < n - 1) SheetAction('Move down', Icons.arrow_downward_rounded, () => _move(i, i + 1)),
-      SheetAction('Delete question', Icons.delete_rounded, () => _deleteQ(i), destructive: true),
-    ]);
+    showActionSheet(
+      context,
+      title: 'Question ${i + 1}',
+      actions: [
+        SheetAction('Edit question', Icons.edit_rounded, () => _edit(i)),
+        SheetAction('Duplicate', Icons.content_copy_rounded, () => _duplicateQ(i)),
+        if (i > 0) SheetAction('Move up', Icons.arrow_upward_rounded, () => _move(i, i - 1)),
+        if (i < n - 1) SheetAction('Move down', Icons.arrow_downward_rounded, () => _move(i, i + 1)),
+        SheetAction('Delete question', Icons.delete_rounded, () => _deleteQ(i), destructive: true),
+      ],
+    );
   }
 
   // --- form actions --------------------------------------------------------
 
   void _formMenu(FormDef f) {
-    showActionSheet(context, title: f.name, actions: [
-      SheetAction('Duplicate form', Icons.content_copy_rounded, () {
-        final id = _forms.duplicate(f.id);
-        setState(() => _id = id);
-        showToast(context, 'Form duplicated', subtitle: 'You are editing the copy now', kind: ToastKind.ok);
-      }),
-      if (f.published && !f.archived)
-        SheetAction('Move back to draft', Icons.edit_note_rounded, () {
-          _forms.setPublished(f.id, false);
-          showToast(context, 'Moved back to draft', subtitle: 'Clients get the old version until you publish', kind: ToastKind.info);
+    showActionSheet(
+      context,
+      title: f.name,
+      actions: [
+        SheetAction('Duplicate form', Icons.content_copy_rounded, () {
+          final id = _forms.duplicate(f.id);
+          setState(() => _id = id);
+          showToast(context, 'Form duplicated', subtitle: 'You are editing the copy now', kind: ToastKind.ok);
         }),
-      if (!f.archived)
-        SheetAction('Archive form', Icons.archive_rounded, () {
-          _forms.setArchived(f.id, true);
-          showToast(context, 'Form archived', subtitle: 'It is no longer sent to clients', kind: ToastKind.ok, onUndo: () => _forms.setArchived(f.id, false));
-        }),
-      if (f.archived)
-        SheetAction('Restore form', Icons.unarchive_rounded, () {
-          _forms.setArchived(f.id, false);
-          showToast(context, 'Form restored', subtitle: f.name, kind: ToastKind.ok);
-        }),
-    ]);
+        if (f.published && !f.archived)
+          SheetAction('Move back to draft', Icons.edit_note_rounded, () {
+            _forms.setPublished(f.id, false);
+            showToast(context, 'Moved back to draft', subtitle: 'Clients get the old version until you publish', kind: ToastKind.info);
+          }),
+        if (!f.archived)
+          SheetAction('Archive form', Icons.archive_rounded, () {
+            _forms.setArchived(f.id, true);
+            showToast(
+              context,
+              'Form archived',
+              subtitle: 'It is no longer sent to clients',
+              kind: ToastKind.ok,
+              onUndo: () => _forms.setArchived(f.id, false),
+            );
+          }),
+        if (f.archived)
+          SheetAction('Restore form', Icons.unarchive_rounded, () {
+            _forms.setArchived(f.id, false);
+            showToast(context, 'Form restored', subtitle: f.name, kind: ToastKind.ok);
+          }),
+      ],
+    );
   }
 
   Future<void> _publish(FormDef f) async {
@@ -138,14 +156,16 @@ class _FormBuilderScreenState extends ConsumerState<FormBuilderScreen> {
     final forms = ref.watch(formsProvider);
     final f = forms.where((x) => x.id == _id).firstOrNull;
     if (f == null) {
-      return PageScroll(children: [
-        const SubPageHeader(title: 'Form builder'),
-        EmptyState(
-          icon: Icons.assignment_rounded,
-          title: 'This form was deleted',
-          action: AppButton.outline('Back to forms', onPressed: () => context.pop()),
-        ),
-      ]);
+      return PageScroll(
+        children: [
+          const SubPageHeader(title: 'Form builder'),
+          EmptyState(
+            icon: Icons.assignment_rounded,
+            title: 'This form was deleted',
+            action: AppButton.outline('Back to forms', onPressed: () => context.pop()),
+          ),
+        ],
+      );
     }
     final draft = !f.published;
     return PageScroll(
@@ -158,29 +178,34 @@ class _FormBuilderScreenState extends ConsumerState<FormBuilderScreen> {
         Row(
           children: [
             Expanded(
-              child: AppButton.outline('Preview',
-                  icon: Icons.visibility_rounded, onPressed: () => showFormPreview(context, name: f.name, questions: f.questions)),
+              child: AppButton.outline(
+                'Preview',
+                icon: Icons.visibility_rounded,
+                onPressed: () => showFormPreview(context, name: f.name, questions: f.questions),
+              ),
             ),
             if (draft) ...[
               const SizedBox(width: 10),
-              Expanded(child: AppButton('Publish', icon: Icons.publish_rounded, onPressed: () => _publish(f))),
+              Expanded(
+                child: AppButton('Publish', icon: Icons.publish_rounded, onPressed: () => _publish(f)),
+              ),
             ],
           ],
         ),
-        _QuestionList(
-          questions: f.questions,
-          onEdit: _edit,
-          onMenu: _questionMenu,
-          onReorder: _move,
-        ),
+        _QuestionList(questions: f.questions, onEdit: _edit, onMenu: _questionMenu, onReorder: _move),
         _AddQuestionButton(onTap: _openPalette),
         _DetailsCard(
           key: ValueKey(f.id),
           form: f,
           onRename: (v) => _forms.rename(f.id, v),
           onKind: () async {
-            final k = await pickFromSheet<FormKind>(context,
-                title: 'Type', items: [for (final k in FormKind.values) (k, k.label)], selected: f.kind, iconOf: (k) => k.icon);
+            final k = await pickFromSheet<FormKind>(
+              context,
+              title: 'Type',
+              items: [for (final k in FormKind.values) (k, k.label)],
+              selected: f.kind,
+              iconOf: (k) => k.icon,
+            );
             if (k != null) _forms.setKind(f.id, k);
           },
           onAutomations: () => context.push(Routes.aAutomations),
@@ -236,11 +261,7 @@ class _QuestionList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (questions.isEmpty) {
       return const AppCard(
-        child: EmptyState(
-          icon: Icons.quiz_rounded,
-          title: 'No questions yet',
-          message: 'Pick an answer type to write the first question.',
-        ),
+        child: EmptyState(icon: Icons.quiz_rounded, title: 'No questions yet', message: 'Pick an answer type to write the first question.'),
       );
     }
     return ReorderableListView.builder(
@@ -249,7 +270,8 @@ class _QuestionList extends StatelessWidget {
       buildDefaultDragHandles: false,
       itemCount: questions.length,
       onReorderItem: onReorder,
-      proxyDecorator: (child, _, _) => Material(color: Colors.transparent, elevation: 6, borderRadius: BorderRadius.circular(14), child: child),
+      proxyDecorator: (child, _, _) =>
+          Material(color: Colors.transparent, elevation: 6, borderRadius: BorderRadius.circular(14), child: child),
       itemBuilder: (_, i) => Padding(
         key: ValueKey('q$i-${questions[i].text}'),
         padding: EdgeInsets.only(bottom: i == questions.length - 1 ? 0 : 8),
@@ -268,11 +290,7 @@ class _QuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final meta = [
-      q.type.label,
-      if (q.type.hasOptions) q.optionsSummary,
-      if (q.help.isNotEmpty) q.help,
-    ].join(' · ');
+    final meta = [q.type.label, if (q.type.hasOptions) q.optionsSummary, if (q.help.isNotEmpty) q.help].join(' · ');
     return AppCard(
       onTap: onTap,
       padding: const EdgeInsets.fromLTRB(4, 10, 2, 10),
@@ -283,7 +301,10 @@ class _QuestionCard extends StatelessWidget {
             index: index,
             child: const Tooltip(
               message: 'Drag to reorder',
-              child: Padding(padding: EdgeInsets.fromLTRB(4, 2, 2, 2), child: Icon(Icons.drag_indicator_rounded, size: 18, color: AppColors.line2)),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(4, 2, 2, 2),
+                child: Icon(Icons.drag_indicator_rounded, size: 18, color: AppColors.line2),
+              ),
             ),
           ),
           Container(
@@ -292,7 +313,10 @@ class _QuestionCard extends StatelessWidget {
             margin: const EdgeInsets.only(right: 9, top: 1),
             alignment: Alignment.center,
             decoration: BoxDecoration(color: AppColors.sub, borderRadius: BorderRadius.circular(6)),
-            child: Text('${index + 1}', style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.text2)),
+            child: Text(
+              '${index + 1}',
+              style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.text2),
+            ),
           ),
           Expanded(
             child: Column(
@@ -313,8 +337,14 @@ class _QuestionCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 2, left: 6),
-            child: Text(q.required ? 'Required' : 'Optional',
-                style: AppText.caption.copyWith(fontSize: 11.5, fontWeight: FontWeight.w700, color: q.required ? AppColors.badText : AppColors.muted)),
+            child: Text(
+              q.required ? 'Required' : 'Optional',
+              style: AppText.caption.copyWith(
+                fontSize: 11.5,
+                fontWeight: FontWeight.w700,
+                color: q.required ? AppColors.badText : AppColors.muted,
+              ),
+            ),
           ),
           SizedBox(
             width: 36,
@@ -433,7 +463,10 @@ class _DetailsCardState extends State<_DetailsCard> {
           ),
         ),
         const SizedBox(height: 12),
-        FieldBlock(label: 'Type', child: SelectBox(value: f.kind.label, onTap: widget.onKind)),
+        FieldBlock(
+          label: 'Type',
+          child: SelectBox(value: f.kind.label, onTap: widget.onKind),
+        ),
         const SizedBox(height: 12),
         FieldBlock(
           label: 'How it is sent',

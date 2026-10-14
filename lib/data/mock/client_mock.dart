@@ -268,6 +268,152 @@ abstract final class ClientMock {
         answers: ['6.5 h', 'Okay', 'Okay', 'Normal', 'Sore', '7,100', '2.8 L', '72.0 kg', 'Right knee sore']),
   ];
 
+  // ================================================================ library
+
+  static const library = [
+    LibraryItem(
+      id: 'box',
+      title: 'Box squat: how to',
+      kind: LibraryKind.video,
+      length: '3:05',
+      duration: 185,
+      source: 'Assigned by Aman · 28 Sep',
+      tone: 3,
+      by: 'Aman Verma',
+      note: 'Use box squats on Saturday until the knee feels fine. Sit back to the box, pause for a second, then drive up.',
+      description: 'How to set the box height, sit back with control and stand up without bouncing. Good for squatting with a sore knee.',
+      chapters: [(0, 'Setting the box height'), (48, 'Sitting back'), (115, 'Driving up'), (150, 'Common mistakes')],
+    ),
+    LibraryItem(
+      id: 'eat',
+      title: 'Eating out on a fat loss plan',
+      kind: LibraryKind.pdf,
+      length: '6 pages',
+      source: 'Assigned by Aman · 1 Oct',
+      tone: 1,
+      by: 'Vimal',
+      file: 'eating-out-on-a-fat-loss-plan.pdf',
+      note: 'Read this before Saturday’s family dinner. Page 4 has orders that fit your plan.',
+      description: 'Pick grilled over fried, ask for dressing on the side, and start with a protein. Here are 12 orders that fit your plan.',
+      pages: [
+        ('Eating out is fine', 'One meal out does not undo a week. Plan it, enjoy it, log it.'),
+        ('Rules of thumb', 'Protein first, grilled over fried, sauces on the side.'),
+        ('Reading an Indian menu', 'Tandoori, tikka and dal are safe picks. Watch for makhani and malai.'),
+        ('12 orders that fit your plan', 'Paneer tikka, dal tadka with 1 roti, grilled fish with salad and more.'),
+        ('Drinks and desserts', 'Chaas or fresh lime soda without sugar. Share one dessert.'),
+        ('Back to plan', 'Log it honestly and go back to your plan at the next meal.'),
+      ],
+    ),
+    LibraryItem(
+      id: 'upa',
+      title: 'Upper A walkthrough',
+      kind: LibraryKind.video,
+      length: '6:20',
+      duration: 380,
+      source: 'From Fat Loss Phase 1',
+      tone: 4,
+      by: 'Vimal',
+      note: '',
+      description: 'Every exercise of Upper A, with the setup and the one cue that matters most for each.',
+      chapters: [(0, 'Warm-up sets'), (100, 'Bench press'), (210, 'Rows and pulldowns'), (310, 'Arms finisher')],
+    ),
+    LibraryItem(
+      id: 'leg',
+      title: 'How to warm up for leg day',
+      kind: LibraryKind.article,
+      length: '4 min read',
+      source: 'From Fat Loss Phase 1',
+      tone: 2,
+      by: 'Vimal',
+      note: '',
+      description: 'Ten minutes that make your squats feel better and keep the knees happy.',
+      body: [
+        'Start with 5 minutes of easy cardio: bike, incline walk or skipping. You want to be warm, not tired.',
+        'Open the hips: 10 leg swings each way, 8 hip circles and 30 seconds in a deep squat hold.',
+        'Wake up the glutes with 2 sets of 15 glute bridges and 10 banded side steps each way.',
+        'Finish with 2 light sets of your first exercise before the working weight.',
+      ],
+    ),
+    LibraryItem(
+      id: 'macro',
+      title: 'Macro cheat sheet',
+      kind: LibraryKind.pdf,
+      length: '2 pages',
+      source: 'Assigned by Aman · 10 Aug',
+      tone: 3,
+      by: 'Aman Verma',
+      file: 'macro-cheat-sheet.pdf',
+      note: 'Keep this handy for grocery runs. Your targets: 120 g protein, 170 g carbs, 52 g fat.',
+      description: 'Protein: 1.6 to 2 g per kg of body weight. One palm of paneer, chicken, fish or tofu is about 25 g.',
+      pages: [
+        ('Your daily targets', '1,650 kcal · 120 g protein · 170 g carbs · 52 g fat.'),
+        ('Protein in common foods', 'Paneer 100 g: 18 g · Tofu 100 g: 15 g · Greek yogurt 150 g: 15 g.'),
+      ],
+    ),
+    LibraryItem(
+      id: 'snacks',
+      title: '10 veg snacks under 200 kcal',
+      kind: LibraryKind.image,
+      length: 'PNG',
+      source: 'From your meal plan',
+      tone: 2,
+      by: 'Sahil Kapoor',
+      note: 'Pick from this list for your 5 pm snack when you are bored of sprouts.',
+      description: 'Quick vegetarian snacks with their calories. All of them fit your evening snack.',
+    ),
+    LibraryItem(
+      id: 'welcome',
+      title: 'Welcome to Train With Vimal',
+      kind: LibraryKind.article,
+      length: '2 min read',
+      source: 'For all clients · 12 Jan',
+      tone: 1,
+      by: 'Vimal',
+      note: '',
+      description: 'How the app works, how to log, and how to reach your coach.',
+      body: [
+        'Your coach builds your training and meal plan. You will find both in the app every day.',
+        'Log your workouts and food as you go. It takes a few seconds and helps your coach adjust your plan.',
+        'Every Sunday you send a weekly check-in with photos. Your coach replies within a day.',
+      ],
+    ),
+    LibraryItem(
+      id: 'checkins',
+      title: 'How check-ins work',
+      kind: LibraryKind.pdf,
+      length: '3 pages',
+      source: 'For all clients · 12 Jan',
+      tone: 4,
+      by: 'Vimal',
+      file: 'how-check-ins-work.pdf',
+      note: '',
+      description: 'Daily check-ins take 30 seconds. Weekly check-ins go to your coach every Sunday.',
+      pages: [
+        ('Daily check-in', 'Sleep, energy, hunger and steps. 30 seconds a day.'),
+        ('Weekly check-in', 'Weight, waist, how the week went. Sent every Sunday.'),
+        ('Progress photos', 'Front, side and back, same light and same time of day.'),
+      ],
+    ),
+  ];
+
+  static const libraryRead0 = ['box', 'upa', 'leg', 'macro', 'welcome', 'checkins'];
+  static const libraryDone0 = ['leg', 'welcome', 'checkins'];
+  static const librarySaved0 = ['macro'];
+  static const libraryTries = ['squat', 'eating out', 'protein', 'check-in'];
+
+  static const vegSnacks = [
+    ('Roasted chana · 45 g', '165 kcal'),
+    ('Sprouts chaat · 1 plate', '180 kcal'),
+    ('Makhana · 30 g', '105 kcal'),
+    ('Greek yogurt · 150 g', '110 kcal'),
+    ('Apple + 10 almonds', '165 kcal'),
+    ('Moong chilla · 1', '150 kcal'),
+    ('Paneer tikka · 60 g', '170 kcal'),
+    ('Chaas + chana · 20 g', '140 kcal'),
+    ('Fruit chaat · 1 bowl', '120 kcal'),
+    ('Corn chaat · 1 bowl', '150 kcal'),
+  ];
+
   // ================================================================ water
 
   static const waterGoalMl = 3000;

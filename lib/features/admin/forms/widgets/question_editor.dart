@@ -40,7 +40,9 @@ Future<QuestionType?> showQuestionPalette(BuildContext context) {
                   children: [
                     TypeIcon(QuestionType.values[i]),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(QuestionType.values[i].label, style: AppText.bodyBold.copyWith(fontWeight: FontWeight.w600))),
+                    Expanded(
+                      child: Text(QuestionType.values[i].label, style: AppText.bodyBold.copyWith(fontWeight: FontWeight.w600)),
+                    ),
                     const Icon(Icons.add_rounded, size: 18, color: AppColors.muted),
                   ],
                 ),
@@ -85,7 +87,9 @@ class _QuestionEditorState extends State<_QuestionEditor> {
   late FormQuestion _q = widget.initial;
   late final _text = TextEditingController(text: widget.initial.text);
   late final _help = TextEditingController(text: widget.initial.help);
-  late final _opts = TextEditingController(text: (widget.initial.options.isEmpty ? const ['Gym', 'Home'] : widget.initial.options).join('\n'));
+  late final _opts = TextEditingController(
+    text: (widget.initial.options.isEmpty ? const ['Gym', 'Home'] : widget.initial.options).join('\n'),
+  );
 
   @override
   void dispose() {
@@ -152,8 +156,10 @@ class _QuestionEditorState extends State<_QuestionEditor> {
           ),
         ],
         if (_q.type == QuestionType.photo)
-          const NoteBox('The client takes up to 3 photos or picks them from the gallery. They show in the client profile under Progress.',
-              icon: Icons.photo_camera_rounded),
+          const NoteBox(
+            'The client takes up to 3 photos or picks them from the gallery. They show in the client profile under Progress.',
+            icon: Icons.photo_camera_rounded,
+          ),
         if (_q.type == QuestionType.scale)
           const NoteBox('Clients rate from 1 to 5. Use the help text to say what 1 and 5 mean.', icon: Icons.linear_scale_rounded),
         FieldBlock(
@@ -209,8 +215,14 @@ class _TypeChip extends StatelessWidget {
             children: [
               TypeIcon(type, small: true, on: on),
               const SizedBox(width: 4),
-              Text(type.label,
-                  style: AppText.secondary.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600, color: on ? AppColors.accentText : AppColors.text2)),
+              Text(
+                type.label,
+                style: AppText.secondary.copyWith(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
+                  color: on ? AppColors.accentText : AppColors.text2,
+                ),
+              ),
             ],
           ),
         ),

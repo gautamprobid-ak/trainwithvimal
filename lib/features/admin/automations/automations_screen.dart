@@ -28,8 +28,13 @@ class AutomationsScreen extends ConsumerWidget {
       final prev = ref.read(automationsProvider);
       final on = a.status == AutoStatus.on;
       n.setStatus(a.id, on ? AutoStatus.off : AutoStatus.on);
-      showToast(context, '${a.name}${on ? ' is off' : ' is on'}',
-          subtitle: on ? 'No new runs will start' : 'It starts with the next trigger', kind: ToastKind.ok, onUndo: () => n.restore(prev));
+      showToast(
+        context,
+        '${a.name}${on ? ' is off' : ' is on'}',
+        subtitle: on ? 'No new runs will start' : 'It starts with the next trigger',
+        kind: ToastKind.ok,
+        onUndo: () => n.restore(prev),
+      );
     }
 
     Future<void> delete(Automation a) async {
@@ -50,15 +55,19 @@ class AutomationsScreen extends ConsumerWidget {
     void open(Automation a) => context.push('${Routes.aAutomationBuilder}?id=${a.id}');
 
     void menu(Automation a) {
-      showActionSheet(context, title: a.name, actions: [
-        SheetAction('Edit', Icons.edit_rounded, () => open(a)),
-        SheetAction('Duplicate', Icons.content_copy_rounded, () {
-          final prev = ref.read(automationsProvider);
-          n.duplicate(a.id);
-          showToast(context, 'Automation duplicated', subtitle: 'Saved as a draft', kind: ToastKind.ok, onUndo: () => n.restore(prev));
-        }),
-        SheetAction('Delete', Icons.delete_rounded, () => delete(a), destructive: true),
-      ]);
+      showActionSheet(
+        context,
+        title: a.name,
+        actions: [
+          SheetAction('Edit', Icons.edit_rounded, () => open(a)),
+          SheetAction('Duplicate', Icons.content_copy_rounded, () {
+            final prev = ref.read(automationsProvider);
+            n.duplicate(a.id);
+            showToast(context, 'Automation duplicated', subtitle: 'Saved as a draft', kind: ToastKind.ok, onUndo: () => n.restore(prev));
+          }),
+          SheetAction('Delete', Icons.delete_rounded, () => delete(a), destructive: true),
+        ],
+      );
     }
 
     final onCount = list.where((a) => a.status == AutoStatus.on).length;
@@ -72,12 +81,26 @@ class AutomationsScreen extends ConsumerWidget {
         ),
         Text('Forms, messages and tasks that go out by themselves when something happens.', style: AppText.secondary),
         AppButton.outline('Message templates', icon: Icons.mail_rounded, expand: true, onPressed: () => context.push(Routes.aEmails)),
-        _Stats(items: [
-          (Icons.bolt_rounded, Tint.green, 'Automations on', '$onCount of ${list.length}', offCount > 0 ? '$offCount off or draft' : 'All of them are on'),
-          (Icons.group_rounded, Tint.blue, 'Clients in a flow', '${list.fold<int>(0, (s, a) => s + a.running)}', 'Waiting for their next step'),
-          (Icons.send_rounded, Tint.amber, 'Messages this month', EngageMock.messagesThisMonth.$1, EngageMock.messagesThisMonth.$2),
-          (Icons.task_alt_rounded, Tint.purple, 'Tasks for trainers', EngageMock.trainerTasks.$1, EngageMock.trainerTasks.$2),
-        ]),
+        _Stats(
+          items: [
+            (
+              Icons.bolt_rounded,
+              Tint.green,
+              'Automations on',
+              '$onCount of ${list.length}',
+              offCount > 0 ? '$offCount off or draft' : 'All of them are on',
+            ),
+            (
+              Icons.group_rounded,
+              Tint.blue,
+              'Clients in a flow',
+              '${list.fold<int>(0, (s, a) => s + a.running)}',
+              'Waiting for their next step',
+            ),
+            (Icons.send_rounded, Tint.amber, 'Messages this month', EngageMock.messagesThisMonth.$1, EngageMock.messagesThisMonth.$2),
+            (Icons.task_alt_rounded, Tint.purple, 'Tasks for trainers', EngageMock.trainerTasks.$1, EngageMock.trainerTasks.$2),
+          ],
+        ),
         AppCard(
           padding: EdgeInsets.zero,
           child: Column(
@@ -87,7 +110,11 @@ class AutomationsScreen extends ConsumerWidget {
                 _AutomationRow(a: list[i], onOpen: () => open(list[i]), onToggle: () => toggle(list[i]), onMenu: () => menu(list[i])),
               ],
               if (list.isEmpty)
-                const EmptyState(icon: Icons.bolt_rounded, title: 'No automations yet', message: 'Start from a ready-made one or from scratch.'),
+                const EmptyState(
+                  icon: Icons.bolt_rounded,
+                  title: 'No automations yet',
+                  message: 'Start from a ready-made one or from scratch.',
+                ),
             ],
           ),
         ),
@@ -122,29 +149,42 @@ class _Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget card((IconData, Tint, String, String, String) s) => AppCard(
-          padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Icon(s.$1, size: 15, color: s.$2.fg),
-                  const SizedBox(width: 6),
-                  Expanded(child: Text(s.$3, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontWeight: FontWeight.w600))),
-                ],
+              Icon(s.$1, size: 15, color: s.$2.fg),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  s.$3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppText.caption.copyWith(fontWeight: FontWeight.w600),
+                ),
               ),
-              const SizedBox(height: 6),
-              Text(s.$4, style: AppText.bigNumber.copyWith(fontSize: 22)),
-              const SizedBox(height: 3),
-              Text(s.$5, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 11.5)),
             ],
           ),
-        );
+          const SizedBox(height: 6),
+          Text(s.$4, style: AppText.bigNumber.copyWith(fontSize: 22)),
+          const SizedBox(height: 3),
+          Text(s.$5, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 11.5)),
+        ],
+      ),
+    );
     return Column(
       children: [
         for (var r = 0; r < items.length; r += 2) ...[
           if (r > 0) const SizedBox(height: 10),
-          Row(children: [Expanded(child: card(items[r])), const SizedBox(width: 10), Expanded(child: card(items[r + 1]))]),
+          Row(
+            children: [
+              Expanded(child: card(items[r])),
+              const SizedBox(width: 10),
+              Expanded(child: card(items[r + 1])),
+            ],
+          ),
         ],
       ],
     );
@@ -189,7 +229,10 @@ class _AutomationRow extends StatelessWidget {
                       spacing: 8,
                       runSpacing: 3,
                       crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [Text(a.name, style: AppText.bodyBold.copyWith(height: 1.3)), AppBadge(label, tone: tone)],
+                      children: [
+                        Text(a.name, style: AppText.bodyBold.copyWith(height: 1.3)),
+                        AppBadge(label, tone: tone),
+                      ],
                     ),
                     const SizedBox(height: 2),
                     Text('${EngageMock.triggerLine(trig, a.value)} · $applies', style: AppText.caption.copyWith(height: 1.4)),
@@ -237,9 +280,9 @@ class StepFlow extends StatelessWidget {
     }
     final more = steps.length - fit;
     Widget arrow() => const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 3),
-          child: Icon(Icons.arrow_forward_rounded, size: 12, color: AppColors.muted),
-        );
+      padding: EdgeInsets.symmetric(horizontal: 3),
+      child: Icon(Icons.arrow_forward_rounded, size: 12, color: AppColors.muted),
+    );
     return Wrap(
       runSpacing: 5,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -247,7 +290,10 @@ class StepFlow extends StatelessWidget {
         for (var i = 0; i < fit; i++)
           Row(
             mainAxisSize: MainAxisSize.min,
-            children: [if (i > 0) arrow(), _Chip(step: steps[i])],
+            children: [
+              if (i > 0) arrow(),
+              _Chip(step: steps[i]),
+            ],
           ),
         if (more > 0)
           Row(
@@ -266,7 +312,10 @@ class StepFlow extends StatelessWidget {
                     borderRadius: BorderRadius.circular(7),
                     border: Border.all(color: AppColors.line2),
                   ),
-                  child: Text('+$more more', style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: AppColors.text2)),
+                  child: Text(
+                    '+$more more',
+                    style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: AppColors.text2),
+                  ),
                 ),
               ),
             ],
@@ -292,7 +341,10 @@ class _Chip extends StatelessWidget {
         children: [
           Icon(step.kind.icon, size: 12, color: t.fg),
           const SizedBox(width: 4),
-          Text(EngageMock.stepChip(step), style: AppText.caption.copyWith(fontSize: 11.5, fontWeight: FontWeight.w700, color: t.fg)),
+          Text(
+            EngageMock.stepChip(step),
+            style: AppText.caption.copyWith(fontSize: 11.5, fontWeight: FontWeight.w700, color: t.fg),
+          ),
         ],
       ),
     );
@@ -341,7 +393,9 @@ class _StarterPickerState extends State<_StarterPicker> {
           children: [
             Expanded(child: AppButton.outline('Cancel', onPressed: () => Navigator.of(context).pop())),
             const SizedBox(width: 10),
-            Expanded(child: AppButton('Use this', icon: Icons.arrow_forward_rounded, onPressed: () => widget.onUse(_sel))),
+            Expanded(
+              child: AppButton('Use this', icon: Icons.arrow_forward_rounded, onPressed: () => widget.onUse(_sel)),
+            ),
           ],
         ),
       ],

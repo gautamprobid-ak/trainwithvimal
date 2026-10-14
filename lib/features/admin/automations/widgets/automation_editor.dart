@@ -66,23 +66,23 @@ String _fmtT(int h) {
 }
 
 String _trigSummary(TriggerKind? t, _Cfg c) => switch (t) {
-      null => 'Pick what starts it',
-      TriggerKind.clientApproved => 'Right after a client is approved',
-      TriggerKind.planStarts => 'When a client’s ${_plans[c.p]} starts',
-      TriggerKind.planEnds => '${c.n > 0 ? '${c.n} ${c.n == 1 ? 'day' : 'days'} before' : 'On the day'} a client’s plan ends, at ${_fmtT(c.t)}',
-      TriggerKind.renewalDue => '${c.n} days before a package ends, at ${_fmtT(c.t)}',
-      TriggerKind.birthday => 'On the client’s birthday at ${_fmtT(c.t)}',
-      TriggerKind.weeklyCheckInDay => 'Every ${EngageMock.days[c.d]} at ${_fmtT(c.t)}',
-      TriggerKind.daily => 'Every day at ${_fmtT(c.t)}',
-      TriggerKind.onDate => 'Once, on ${c.dt} Oct 2026 at ${_fmtT(c.t)}',
-      TriggerKind.checkInMissed => 'When a check-in is not sent within ${c.n} hours',
-      TriggerKind.workoutsMissed => 'When ${c.n} workouts in a row are missed',
-      TriggerKind.inactive => 'When a client has not opened the app for ${c.n} days',
-      TriggerKind.formSubmitted => 'When a client sends “${EngageMock.formNames[c.f]}”',
-      TriggerKind.streak => 'When a client finishes workouts ${c.n} days in a row',
-      TriggerKind.goalReached => 'When a client’s weight reaches their goal',
-      TriggerKind.weightStuck => 'When weight stays within 0.5 kg for ${c.n} ${c.n == 1 ? 'week' : 'weeks'}',
-    };
+  null => 'Pick what starts it',
+  TriggerKind.clientApproved => 'Right after a client is approved',
+  TriggerKind.planStarts => 'When a client’s ${_plans[c.p]} starts',
+  TriggerKind.planEnds => '${c.n > 0 ? '${c.n} ${c.n == 1 ? 'day' : 'days'} before' : 'On the day'} a client’s plan ends, at ${_fmtT(c.t)}',
+  TriggerKind.renewalDue => '${c.n} days before a package ends, at ${_fmtT(c.t)}',
+  TriggerKind.birthday => 'On the client’s birthday at ${_fmtT(c.t)}',
+  TriggerKind.weeklyCheckInDay => 'Every ${EngageMock.days[c.d]} at ${_fmtT(c.t)}',
+  TriggerKind.daily => 'Every day at ${_fmtT(c.t)}',
+  TriggerKind.onDate => 'Once, on ${c.dt} Oct 2026 at ${_fmtT(c.t)}',
+  TriggerKind.checkInMissed => 'When a check-in is not sent within ${c.n} hours',
+  TriggerKind.workoutsMissed => 'When ${c.n} workouts in a row are missed',
+  TriggerKind.inactive => 'When a client has not opened the app for ${c.n} days',
+  TriggerKind.formSubmitted => 'When a client sends “${EngageMock.formNames[c.f]}”',
+  TriggerKind.streak => 'When a client finishes workouts ${c.n} days in a row',
+  TriggerKind.goalReached => 'When a client’s weight reaches their goal',
+  TriggerKind.weightStuck => 'When weight stays within 0.5 kg for ${c.n} ${c.n == 1 ? 'week' : 'weeks'}',
+};
 
 /// Steps that can be added (kind, label, help, default step).
 const _addable = <(StepKind, String, AutoStep)>[
@@ -123,7 +123,8 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
     final existing = widget.id == null ? null : n.byId(widget.id!);
     final starter = EngageMock.starters.where((s) => s.id == widget.starterId).firstOrNull;
     _blank = existing == null;
-    _base = existing ??
+    _base =
+        existing ??
         (starter != null
             ? Automation(id: n.newId(), name: starter.name, trigger: starter.trigger, value: starter.value, steps: starter.steps)
             : Automation(id: n.newId(), name: '', trigger: null));
@@ -135,8 +136,8 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
       _cfg[t] = t == TriggerKind.weeklyCheckInDay
           ? def.copyWith(d: _base.value == 0 ? 7 : _base.value)
           : _num.containsKey(t)
-              ? def.copyWith(n: _base.value)
-              : def;
+          ? def.copyWith(n: _base.value)
+          : def;
     }
     _steps = [..._base.steps];
     _stop = _base.stopOnReply;
@@ -158,13 +159,13 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
   void _setStep(int i, AutoStep s) => setState(() => _steps[i] = s);
 
   List<String> get _problems => [
-        if (_trig == null) 'Pick what starts it',
-        if (_steps.isEmpty) 'Add at least one step',
-        if (_steps.isNotEmpty && _steps.last.kind == StepKind.wait) 'Add a step that does something after the wait',
-        for (var i = 0; i < _steps.length; i++)
-          if ((_steps[i].kind == StepKind.message || _steps[i].kind == StepKind.form) && _steps[i].channels.isEmpty)
-            'Step ${i + 1}: pick at least one channel',
-      ];
+    if (_trig == null) 'Pick what starts it',
+    if (_steps.isEmpty) 'Add at least one step',
+    if (_steps.isNotEmpty && _steps.last.kind == StepKind.wait) 'Add a step that does something after the wait',
+    for (var i = 0; i < _steps.length; i++)
+      if ((_steps[i].kind == StepKind.message || _steps[i].kind == StepKind.form) && _steps[i].channels.isEmpty)
+        'Step ${i + 1}: pick at least one channel',
+  ];
 
   String get _displayName => _name.text.trim().isEmpty ? 'New automation' : _name.text.trim();
 
@@ -229,18 +230,27 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
   }
 
   void _stepMenu(int i) {
-    showActionSheet(context, title: 'Step ${i + 1}', actions: [
-      if (i > 0)
-        SheetAction('Move up', Icons.arrow_upward_rounded, () => setState(() => _steps.insert(i - 1, _steps.removeAt(i)))),
-      if (i < _steps.length - 1)
-        SheetAction('Move down', Icons.arrow_downward_rounded, () => setState(() => _steps.insert(i + 1, _steps.removeAt(i)))),
-      SheetAction('Remove', Icons.delete_rounded, () {
-        final prev = [..._steps];
-        final s = _steps[i];
-        setState(() => _steps.removeAt(i));
-        showToast(context, 'Step removed', subtitle: EngageMock.stepLine(s), kind: ToastKind.del, onUndo: () => setState(() => _steps = prev));
-      }, destructive: true),
-    ]);
+    showActionSheet(
+      context,
+      title: 'Step ${i + 1}',
+      actions: [
+        if (i > 0) SheetAction('Move up', Icons.arrow_upward_rounded, () => setState(() => _steps.insert(i - 1, _steps.removeAt(i)))),
+        if (i < _steps.length - 1)
+          SheetAction('Move down', Icons.arrow_downward_rounded, () => setState(() => _steps.insert(i + 1, _steps.removeAt(i)))),
+        SheetAction('Remove', Icons.delete_rounded, () {
+          final prev = [..._steps];
+          final s = _steps[i];
+          setState(() => _steps.removeAt(i));
+          showToast(
+            context,
+            'Step removed',
+            subtitle: EngageMock.stepLine(s),
+            kind: ToastKind.del,
+            onUndo: () => setState(() => _steps = prev),
+          );
+        }, destructive: true),
+      ],
+    );
   }
 
   @override
@@ -253,13 +263,18 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
     final probs = _problems;
     return PageScroll(
       children: [
-        SubPageHeader(title: _blank ? 'New automation' : _base.name, subtitle: _blank ? 'Automations · New automation' : 'Automations · Edit automation'),
+        SubPageHeader(
+          title: _blank ? 'New automation' : _base.name,
+          subtitle: _blank ? 'Automations · New automation' : 'Automations · Edit automation',
+        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBadge(stL, tone: stTone),
             const SizedBox(width: 8),
-            Expanded(child: Text('Trigger, conditions and steps. Nothing is saved until you turn it on or save it.', style: AppText.secondary)),
+            Expanded(
+              child: Text('Trigger, conditions and steps. Nothing is saved until you turn it on or save it.', style: AppText.secondary),
+            ),
           ],
         ),
         _Actions(
@@ -271,7 +286,13 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
         _section(1, 'When does it start?', _triggerSection()),
         _section(2, 'Who is it for?', _whoSection()),
         _section(3, 'What happens next?', _stepsSection()),
-        _PlainWords(trigger: _trigSummary(_trig, _c), applies: _package.isNotEmpty ? 'Clients on $_package' : 'All clients', steps: _steps, stop: _stop, problems: probs),
+        _PlainWords(
+          trigger: _trigSummary(_trig, _c),
+          applies: _package.isNotEmpty ? 'Clients on $_package' : 'All clients',
+          steps: _steps,
+          stop: _stop,
+          problems: probs,
+        ),
         SideCard(
           title: 'Last 30 days',
           children: _blank
@@ -294,7 +315,10 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [Text(r.name, style: AppText.bodyBold.copyWith(fontSize: 13)), Text(r.status, style: AppText.caption)],
+                                children: [
+                                  Text(r.name, style: AppText.bodyBold.copyWith(fontSize: 13)),
+                                  Text(r.status, style: AppText.caption),
+                                ],
                               ),
                             ),
                             Text(r.when, style: AppText.caption.copyWith(fontStyle: FontStyle.italic)),
@@ -321,7 +345,10 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
                 height: 24,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(color: AppColors.text, shape: BoxShape.circle),
-                child: Text('$n', style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: Colors.white)),
+                child: Text(
+                  '$n',
+                  style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: Colors.white),
+                ),
               ),
               const SizedBox(width: 10),
               Text(title, style: AppText.cardTitle),
@@ -388,7 +415,11 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
     final note = EngageMock.triggerNotes[t];
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: AppColors.bg, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.line)),
+      decoration: BoxDecoration(
+        color: AppColors.bg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.line),
+      ),
       child: Spaced(
         gap: 12,
         children: [
@@ -399,13 +430,19 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(t.label, style: AppText.bodyBold), Text('${t.group.label} trigger', style: AppText.caption)],
+                  children: [
+                    Text(t.label, style: AppText.bodyBold),
+                    Text('${t.group.label} trigger', style: AppText.caption),
+                  ],
                 ),
               ),
-              TextLink('Change', onTap: () => setState(() {
-                _trig = null;
-                _group = null;
-              })),
+              TextLink(
+                'Change',
+                onTap: () => setState(() {
+                  _trig = null;
+                  _group = null;
+                }),
+              ),
             ],
           ),
           if (f.contains('p'))
@@ -466,8 +503,13 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
               child: SelectBox(
                 value: EngageMock.formNames[c.f] ?? 'Choose a form',
                 onTap: () async {
-                  final v = await pickFromSheet<String>(context,
-                      title: 'Form', items: [for (final e in EngageMock.formNames.entries) (e.key, e.value)], selected: c.f, iconOf: (_) => Icons.assignment_rounded);
+                  final v = await pickFromSheet<String>(
+                    context,
+                    title: 'Form',
+                    items: [for (final e in EngageMock.formNames.entries) (e.key, e.value)],
+                    selected: c.f,
+                    iconOf: (_) => Icons.assignment_rounded,
+                  );
                   if (v != null) _setC((c) => c.copyWith(f: v));
                 },
               ),
@@ -495,10 +537,15 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text.rich(
-                    TextSpan(children: [
-                      const TextSpan(text: 'Starts: ', style: TextStyle(fontWeight: FontWeight.w800)),
-                      TextSpan(text: _trigSummary(t, c)),
-                    ]),
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Starts: ',
+                          style: TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        TextSpan(text: _trigSummary(t, c)),
+                      ],
+                    ),
                     style: AppText.caption.copyWith(color: AppColors.accentText, fontWeight: FontWeight.w600, height: 1.4),
                   ),
                 ),
@@ -521,10 +568,17 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
           child: SelectBox(
             value: _package.isEmpty ? 'Any package' : _package,
             onTap: () async {
-              final v = await pickFromSheet<String>(context,
-                  title: 'Package',
-                  items: const [('', 'Any package'), ('Quarterly Transformation', 'Quarterly Transformation'), ('Monthly plan', 'Monthly plan'), ('Quarterly plan', 'Quarterly plan')],
-                  selected: _package);
+              final v = await pickFromSheet<String>(
+                context,
+                title: 'Package',
+                items: const [
+                  ('', 'Any package'),
+                  ('Quarterly Transformation', 'Quarterly Transformation'),
+                  ('Monthly plan', 'Monthly plan'),
+                  ('Quarterly plan', 'Quarterly plan'),
+                ],
+                selected: _package,
+              );
               if (v != null) setState(() => _package = v);
             },
           ),
@@ -534,10 +588,12 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
           child: SelectBox(
             value: _trainer.isEmpty ? 'Any trainer' : _trainer,
             onTap: () async {
-              final v = await pickFromSheet<String>(context,
-                  title: 'Trainer',
-                  items: [('', 'Any trainer'), for (final t in PeopleMock.trainers.where((t) => t.active)) (t.name, t.name)],
-                  selected: _trainer);
+              final v = await pickFromSheet<String>(
+                context,
+                title: 'Trainer',
+                items: [('', 'Any trainer'), for (final t in PeopleMock.trainers.where((t) => t.active)) (t.name, t.name)],
+                selected: _trainer,
+              );
               if (v != null) setState(() => _trainer = v);
             },
           ),
@@ -566,13 +622,21 @@ class _AutomationEditorState extends ConsumerState<AutomationEditor> {
             onChanged: (s) => _setStep(i, s),
             onMenu: () => _stepMenu(i),
             onPickForm: () async {
-              final v = await pickFromSheet<String>(context,
-                  title: 'Form', items: [for (final e in EngageMock.formNames.entries) (e.key, e.value)], selected: _steps[i].ref);
+              final v = await pickFromSheet<String>(
+                context,
+                title: 'Form',
+                items: [for (final e in EngageMock.formNames.entries) (e.key, e.value)],
+                selected: _steps[i].ref,
+              );
               if (v != null) _setStep(i, _steps[i].copyWith(ref: v));
             },
             onPickTemplate: () async {
-              final v = await pickFromSheet<String>(context,
-                  title: 'Message template', items: [for (final e in EngageMock.templateNames.entries) (e.key, e.value)], selected: _steps[i].ref);
+              final v = await pickFromSheet<String>(
+                context,
+                title: 'Message template',
+                items: [for (final e in EngageMock.templateNames.entries) (e.key, e.value)],
+                selected: _steps[i].ref,
+              );
               if (v != null) _setStep(i, _steps[i].copyWith(ref: v));
             },
             onLink: (r) => context.push(r),
@@ -632,7 +696,10 @@ class _DayPill extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: on ? AppColors.accent : AppColors.line2),
         ),
-        child: Text(label, style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: on ? Colors.white : AppColors.text2)),
+        child: Text(
+          label,
+          style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: on ? Colors.white : AppColors.text2),
+        ),
       ),
     );
   }
@@ -726,8 +793,9 @@ class _StepCard extends StatelessWidget {
           _ChannelChip(
             channel: c,
             on: step.channels.contains(c),
-            onTap: () => onChanged(step.copyWith(
-                channels: step.channels.contains(c) ? step.channels.where((x) => x != c).toList() : [...step.channels, c])),
+            onTap: () => onChanged(
+              step.copyWith(channels: step.channels.contains(c) ? step.channels.where((x) => x != c).toList() : [...step.channels, c]),
+            ),
           ),
       ],
     );
@@ -760,8 +828,14 @@ class _StepCard extends StatelessWidget {
         return Spaced(
           gap: 10,
           children: [
-            FieldBlock(label: 'Form', child: SelectBox(value: EngageMock.formNames[s.ref] ?? 'Choose a form', onTap: onPickForm)),
-            Align(alignment: Alignment.centerLeft, child: TextLink('Open forms & check-ins', onTap: () => onLink(Routes.aForms))),
+            FieldBlock(
+              label: 'Form',
+              child: SelectBox(value: EngageMock.formNames[s.ref] ?? 'Choose a form', onTap: onPickForm),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextLink('Open forms & check-ins', onTap: () => onLink(Routes.aForms)),
+            ),
             FieldBlock(label: 'Send by', child: _channels()),
           ],
         );
@@ -770,8 +844,14 @@ class _StepCard extends StatelessWidget {
         return Spaced(
           gap: 10,
           children: [
-            FieldBlock(label: 'Message template', child: SelectBox(value: EngageMock.templateNames[s.ref] ?? 'Choose a template', onTap: onPickTemplate)),
-            Align(alignment: Alignment.centerLeft, child: TextLink('Edit message templates', onTap: () => onLink(Routes.aEmails))),
+            FieldBlock(
+              label: 'Message template',
+              child: SelectBox(value: EngageMock.templateNames[s.ref] ?? 'Choose a template', onTap: onPickTemplate),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextLink('Edit message templates', onTap: () => onLink(Routes.aEmails)),
+            ),
             FieldBlock(label: 'Send by', child: _channels()),
             if (prev.isNotEmpty)
               Container(
@@ -824,7 +904,10 @@ class _ChannelChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: on ? AppColors.accentSoft : Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: on ? AppColors.accent : AppColors.line2)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: on ? AppColors.accent : AppColors.line2),
+      ),
       child: InkWell(
         onTap: onTap,
         customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -835,8 +918,14 @@ class _ChannelChip extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (on) ...[const Icon(Icons.check_rounded, size: 13, color: AppColors.accentText), const SizedBox(width: 5)],
-              Text(channel.label,
-                  style: AppText.secondary.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600, color: on ? AppColors.accentText : AppColors.text2)),
+              Text(
+                channel.label,
+                style: AppText.secondary.copyWith(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
+                  color: on ? AppColors.accentText : AppColors.text2,
+                ),
+              ),
             ],
           ),
         ),
@@ -857,15 +946,18 @@ class _PlainWords extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget item(int n, Widget child) => Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(width: 22, child: Text('$n.', style: AppText.bodyBold.copyWith(fontSize: 13, color: AppColors.muted))),
-              Expanded(child: child),
-            ],
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 22,
+            child: Text('$n.', style: AppText.bodyBold.copyWith(fontSize: 13, color: AppColors.muted)),
           ),
-        );
+          Expanded(child: child),
+        ],
+      ),
+    );
     return SideCard(
       title: 'In plain words',
       children: [
@@ -875,7 +967,10 @@ class _PlainWords extends StatelessWidget {
           1,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(trigger, style: AppText.bodyBold.copyWith(fontSize: 13)), Text(applies, style: AppText.caption)],
+            children: [
+              Text(trigger, style: AppText.bodyBold.copyWith(fontSize: 13)),
+              Text(applies, style: AppText.caption),
+            ],
           ),
         ),
         for (var i = 0; i < steps.length; i++) item(i + 2, Text(EngageMock.stepLine(steps[i]), style: AppText.body.copyWith(fontSize: 13))),

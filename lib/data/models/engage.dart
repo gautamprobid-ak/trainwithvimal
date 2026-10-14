@@ -8,10 +8,20 @@ import '../../core/theme/app_colors.dart';
 
 /// What a form is for (KINDS in the design).
 enum FormKind {
-  onboarding('Onboarding questionnaire', 'Onboarding', 'Goal, history, diet and schedule. Filled in once after registration.',
-      Icons.assignment_ind_rounded, Tint.blue),
-  weekly('Weekly check-in', 'Weekly check-ins', 'Weight, measurements and how the week went. Sent on a schedule.',
-      Icons.event_repeat_rounded, Tint.green),
+  onboarding(
+    'Onboarding questionnaire',
+    'Onboarding',
+    'Goal, history, diet and schedule. Filled in once after registration.',
+    Icons.assignment_ind_rounded,
+    Tint.blue,
+  ),
+  weekly(
+    'Weekly check-in',
+    'Weekly check-ins',
+    'Weight, measurements and how the week went. Sent on a schedule.',
+    Icons.event_repeat_rounded,
+    Tint.green,
+  ),
   daily('Daily check-in', 'Daily check-ins', 'A 30-second morning pulse: weight, sleep and energy.', Icons.wb_sunny_rounded, Tint.amber),
   survey('Survey / feedback', 'Surveys', 'Program feedback, ratings and quick polls.', Icons.poll_rounded, Tint.purple),
   waiver('Waiver / consent', 'Waivers', 'Statements the client agrees to before starting.', Icons.verified_user_rounded, Tint.blue);
@@ -114,17 +124,16 @@ class FormDef {
     String? updated,
     List<FormQuestion>? questions,
     bool? archived,
-  }) =>
-      FormDef(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        kind: kind ?? this.kind,
-        automations: automations ?? this.automations,
-        published: published ?? this.published,
-        updated: updated ?? this.updated,
-        questions: questions ?? this.questions,
-        archived: archived ?? this.archived,
-      );
+  }) => FormDef(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    kind: kind ?? this.kind,
+    automations: automations ?? this.automations,
+    published: published ?? this.published,
+    updated: updated ?? this.updated,
+    questions: questions ?? this.questions,
+    archived: archived ?? this.archived,
+  );
 }
 
 /// "1 question" / "5 questions".
@@ -199,32 +208,14 @@ enum AutoStatus { on, off, draft }
 /// One step of an automation.
 @immutable
 class AutoStep {
-  const AutoStep({
-    required this.kind,
-    this.amount = 0,
-    this.unit = '',
-    this.ref = '',
-    this.channels = const [],
-  });
+  const AutoStep({required this.kind, this.amount = 0, this.unit = '', this.ref = '', this.channels = const []});
 
-  const AutoStep.wait(this.amount, this.unit)
-      : kind = StepKind.wait,
-        ref = '',
-        channels = const [];
-  const AutoStep.message(this.ref, this.channels)
-      : kind = StepKind.message,
-        amount = 0,
-        unit = '';
-  const AutoStep.form(this.ref, this.channels)
-      : kind = StepKind.form,
-        amount = 0,
-        unit = '';
+  const AutoStep.wait(this.amount, this.unit) : kind = StepKind.wait, ref = '', channels = const [];
+  const AutoStep.message(this.ref, this.channels) : kind = StepKind.message, amount = 0, unit = '';
+  const AutoStep.form(this.ref, this.channels) : kind = StepKind.form, amount = 0, unit = '';
 
   /// [unit] holds who the task is for: `trainer` or `owner`.
-  const AutoStep.task(this.ref, {this.unit = 'trainer'})
-      : kind = StepKind.assign,
-        amount = 0,
-        channels = const [];
+  const AutoStep.task(this.ref, {this.unit = 'trainer'}) : kind = StepKind.assign, amount = 0, channels = const [];
 
   final StepKind kind;
 
@@ -239,12 +230,12 @@ class AutoStep {
   final List<Channel> channels;
 
   AutoStep copyWith({int? amount, String? unit, String? ref, List<Channel>? channels}) => AutoStep(
-        kind: kind,
-        amount: amount ?? this.amount,
-        unit: unit ?? this.unit,
-        ref: ref ?? this.ref,
-        channels: channels ?? this.channels,
-      );
+    kind: kind,
+    amount: amount ?? this.amount,
+    unit: unit ?? this.unit,
+    ref: ref ?? this.ref,
+    channels: channels ?? this.channels,
+  );
 }
 
 @immutable
@@ -295,27 +286,33 @@ class Automation {
     String? changed,
     int? running,
     int? finished,
-  }) =>
-      Automation(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        trigger: clearTrigger ? null : (trigger ?? this.trigger),
-        value: value ?? this.value,
-        steps: steps ?? this.steps,
-        status: status ?? this.status,
-        package: package ?? this.package,
-        trainer: trainer ?? this.trainer,
-        stopOnReply: stopOnReply ?? this.stopOnReply,
-        changed: changed ?? this.changed,
-        running: running ?? this.running,
-        finished: finished ?? this.finished,
-      );
+  }) => Automation(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    trigger: clearTrigger ? null : (trigger ?? this.trigger),
+    value: value ?? this.value,
+    steps: steps ?? this.steps,
+    status: status ?? this.status,
+    package: package ?? this.package,
+    trainer: trainer ?? this.trainer,
+    stopOnReply: stopOnReply ?? this.stopOnReply,
+    changed: changed ?? this.changed,
+    running: running ?? this.running,
+    finished: finished ?? this.finished,
+  );
 }
 
 /// Ready-made automation offered in "New automation".
 @immutable
 class AutomationStarter {
-  const AutomationStarter({required this.id, required this.name, required this.trigger, required this.value, required this.steps, required this.note});
+  const AutomationStarter({
+    required this.id,
+    required this.name,
+    required this.trigger,
+    required this.value,
+    required this.steps,
+    required this.note,
+  });
   final String id;
   final String name;
   final TriggerKind trigger;
@@ -388,7 +385,8 @@ class TeamAlert {
   final String description;
   final Set<Channel> channels;
 
-  TeamAlert copyWith({Set<Channel>? channels}) => TeamAlert(id: id, name: name, description: description, channels: channels ?? this.channels);
+  TeamAlert copyWith({Set<Channel>? channels}) =>
+      TeamAlert(id: id, name: name, description: description, channels: channels ?? this.channels);
 }
 
 // ---------------------------------------------------------------------------
@@ -408,7 +406,16 @@ class RolePermission {
 
 @immutable
 class RoleInfo {
-  const RoleInfo({required this.name, required this.count, required this.scope, required this.note, required this.tint, required this.icon, this.link, this.linkLabel});
+  const RoleInfo({
+    required this.name,
+    required this.count,
+    required this.scope,
+    required this.note,
+    required this.tint,
+    required this.icon,
+    this.link,
+    this.linkLabel,
+  });
   final String name;
   final String count;
   final String scope;

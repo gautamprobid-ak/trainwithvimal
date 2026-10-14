@@ -48,7 +48,14 @@ class _BodyState extends State<_Body> {
       'email' => 'Emails go back to the platform address.',
       _ => 'Client health data stops syncing. Past data stays.',
     };
-    final ok = await showConfirmDialog(context, title: 'Disconnect ${x.name}?', message: msg, confirmLabel: 'Disconnect', destructive: true, icon: Icons.link_off_rounded);
+    final ok = await showConfirmDialog(
+      context,
+      title: 'Disconnect ${x.name}?',
+      message: msg,
+      confirmLabel: 'Disconnect',
+      destructive: true,
+      icon: Icons.link_off_rounded,
+    );
     if (ok && mounted) Navigator.of(context).pop(IntegrationAction.disconnect);
   }
 
@@ -121,7 +128,12 @@ class _BodyState extends State<_Body> {
             const Spacer(),
             AppButton.outline('Cancel', small: true, onPressed: () => Navigator.of(context).pop()),
             const SizedBox(width: 8),
-            AppButton(widget.goLabel, small: true, icon: Icons.check_rounded, onPressed: () => Navigator.of(context).pop(IntegrationAction.confirm)),
+            AppButton(
+              widget.goLabel,
+              small: true,
+              icon: Icons.check_rounded,
+              onPressed: () => Navigator.of(context).pop(IntegrationAction.confirm),
+            ),
           ],
         ),
       ],
@@ -150,13 +162,19 @@ class _StepRow extends StatelessWidget {
             decoration: BoxDecoration(color: done ? AppColors.okBg : AppColors.sub, shape: BoxShape.circle),
             child: done
                 ? const Icon(Icons.check_rounded, size: 14, color: AppColors.okText)
-                : Text('$n', style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.text2)),
+                : Text(
+                    '$n',
+                    style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.text2),
+                  ),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(title, style: AppText.bodyBold.copyWith(fontSize: 13.5)), Text(help, style: AppText.caption.copyWith(height: 1.4))],
+              children: [
+                Text(title, style: AppText.bodyBold.copyWith(fontSize: 13.5)),
+                Text(help, style: AppText.caption.copyWith(height: 1.4)),
+              ],
             ),
           ),
         ],

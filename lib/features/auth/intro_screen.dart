@@ -100,7 +100,7 @@ class _Top extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(18, 6, 14, 0),
         child: Row(
           children: [
-            const BrandRow(size: 30, fontSize: 15),
+            const Flexible(child: BrandRow(size: 30, fontSize: 15)),
             const Spacer(),
             if (showSkip)
               TextButton(
