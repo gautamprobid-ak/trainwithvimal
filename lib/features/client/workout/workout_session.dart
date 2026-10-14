@@ -245,6 +245,24 @@ class WorkoutSessionController extends Notifier<WorkoutSession> {
         hold: () => null,
       );
 
+  /// Home "tick": logs every set of exercise [i] at once. Returns the toast.
+  (String, String, bool) logExercise(int i) {
+    var st = state;
+    if (st.isNotStarted) st = WorkoutSession.initial().copyWith(status: WorkoutStatus.live);
+    final n = [for (final xs in st.sets) List.of(xs)];
+    final on = !st.exerciseDone(i);
+    n[i] = [for (final x in n[i]) x.copyWith(done: on, at: () => on ? (x.at ?? st.elapsed) : null)];
+    st = st.copyWith(sets: n, lastActivity: st.elapsed);
+    final total = _ex.length;
+    final done = st.exercisesDone;
+    if (on && done == total) {
+      state = st.copyWith(status: WorkoutStatus.finished, restLeft: 0, restOpen: false, hold: () => null);
+      return ('Workout done!', 'Aman can see it now', true);
+    }
+    state = st;
+    return (on ? '${_ex[i].name} logged' : '${_ex[i].name} not done', '$done of $total exercises done', false);
+  }
+
   // ---------------------------------------------------------------- navigation
 
   void goTo(int i) => state = state.copyWith(cur: i.clamp(0, _ex.length - 1), restLeft: 0, hold: () => null);

@@ -55,7 +55,14 @@ class HomeWorkoutCard extends ConsumerWidget {
               children: [
                 if (day >= ClientTrainingMock.todayIndex) ...[
                   for (var i = 0; i < n && i < 4; i++)
-                    _ExLine(i: i, e: p.exercises[i], on: today && s.exerciseDone(i), next: today && started && i == firstOpen, last: i == 3 || i == n - 1),
+                    _ExLine(
+                      i: i,
+                      e: p.exercises[i],
+                      on: today && s.exerciseDone(i),
+                      next: today && started && i == firstOpen,
+                      last: i == 3 || i == n - 1,
+                      onTick: today ? () => _tick(context, ref, i) : null,
+                    ),
                   if (n > 4)
                     Align(
                       alignment: Alignment.centerLeft,
@@ -90,8 +97,16 @@ class HomeWorkoutCard extends ConsumerWidget {
   }
 }
 
+void _tick(BuildContext context, WidgetRef ref, int i) {
+  final c = ref.read(workoutSessionProvider.notifier);
+  final prev = ref.read(workoutSessionProvider);
+  final (t, sub, star) = c.logExercise(i);
+  showToast(context, t, subtitle: sub, kind: star ? ToastKind.ok : ToastKind.info, onUndo: () => c.restore(prev));
+}
+
 class _ExLine extends StatelessWidget {
-  const _ExLine({required this.i, required this.e, required this.on, required this.next, required this.last});
+  const _ExLine({required this.i, required this.e, required this.on, required this.next, required this.last, this.onTick});
+  final VoidCallback? onTick;
   final int i;
   final PlanExercise e;
   final bool on;
@@ -119,7 +134,15 @@ class _ExLine extends StatelessWidget {
             Text(e.detail, style: AppText.caption),
           ]),
         ),
-        if (on) const Icon(Icons.check_circle_rounded, size: 18, color: Color(0xFF22C55E)),
+        if (onTick != null)
+          IconButton(
+            tooltip: on ? 'Mark as not done' : 'Log ${e.name}',
+            visualDensity: VisualDensity.compact,
+            onPressed: onTick,
+            icon: Icon(on ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded, size: 22, color: on ? const Color(0xFF22C55E) : const Color(0xFFCFCFC9)),
+          )
+        else if (on)
+          const Icon(Icons.check_circle_rounded, size: 18, color: Color(0xFF22C55E)),
       ]),
     );
   }
