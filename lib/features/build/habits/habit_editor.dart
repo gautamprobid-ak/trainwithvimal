@@ -107,7 +107,7 @@ class _HabitEditorState extends ConsumerState<_HabitEditor> {
           destructive: true,
           icon: Icons.delete_outline_rounded,
         );
-        if (!ok || !mounted) return;
+        if (!ok || !mounted || !widget.hostContext.mounted) return;
         final List<Habit> before = _snap ?? ref.read(habitsProvider);
         final ctl = _ctl;
         final host = widget.hostContext;

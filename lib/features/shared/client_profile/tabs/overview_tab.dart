@@ -9,6 +9,7 @@ import '../client_profile_controller.dart';
 import '../cp_widgets.dart';
 import '../sheets/detail_sheets.dart';
 import '../sheets/profile_sheets.dart';
+import 'logs_tab.dart';
 
 typedef _M = ClientProfileMock;
 
@@ -156,7 +157,13 @@ class _WeightCard extends StatelessWidget {
       cap: '−3.6 kg in 30 days · 3.2 kg to goal',
       action: 'Open progress',
       onAction: () => c.goTab('progress'),
-      child: const WeightChart(),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(padding: EdgeInsets.fromLTRB(16, 0, 16, 4), child: RangeButton()),
+          WeightChart(),
+        ],
+      ),
     );
   }
 }

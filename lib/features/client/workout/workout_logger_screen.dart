@@ -97,6 +97,10 @@ class _LoggerTop extends ConsumerWidget {
               Row(
                 children: [
                   _TimerChip(paused: s.paused, time: fmtWorkoutTime(s.elapsed), onTap: () => WorkoutSheets.timer(context, ref)),
+                  if (s.restLeft > 0) ...[
+                    const SizedBox(width: 5),
+                    _RestChip(left: s.restLeft, onTap: () => ref.read(workoutSessionProvider.notifier).openRest(true)),
+                  ],
                   const SizedBox(width: 5),
                   Flexible(
                     child: Text('· ${s.setsDone} of ${s.setsTotal} sets',
@@ -167,6 +171,34 @@ class _TimerChip extends StatelessWidget {
             Icon(paused ? Icons.pause_rounded : Icons.timer_outlined, size: 13, color: fg),
             const SizedBox(width: 4),
             Text(time, style: AppText.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w700, color: fg, fontFeatures: const [FontFeature.tabularFigures()])),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class _RestChip extends StatelessWidget {
+  const _RestChip({required this.left, required this.onTap});
+  final int left;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.accentSoft,
+      borderRadius: BorderRadius.circular(6),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(6),
+        child: Container(
+          height: 22,
+          padding: const EdgeInsets.symmetric(horizontal: 7),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.hourglass_bottom_rounded, size: 12, color: AppColors.accent),
+            const SizedBox(width: 3),
+            Text('Rest ${left ~/ 60}:${(left % 60).toString().padLeft(2, '0')}',
+                style: AppText.caption.copyWith(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.accentText, fontFeatures: const [FontFeature.tabularFigures()])),
           ]),
         ),
       ),

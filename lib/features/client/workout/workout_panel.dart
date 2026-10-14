@@ -61,6 +61,7 @@ class _WorkoutPanelState extends ConsumerState<WorkoutPanel> {
         e: e,
         x: x,
         label: x.warmup ? 'W' : '$wn',
+        prev: x.warmup ? 'Warm-up' : (wn - 1 < e.prev.length ? e.prev[wn - 1] : '—'),
         activeCol: act?.$2,
         hold: s.hold != null && s.hold!.$1 == cur && s.hold!.$2 == k ? s.hold!.$3 : null,
         onMenu: (v) => _setMenu(v, k, x, e),
@@ -95,7 +96,7 @@ class _WorkoutPanelState extends ConsumerState<WorkoutPanel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _PanelHead(e: e, pos: '${cur + 1} of ${WorkoutSession.exercises.length}'),
+          _PanelHead(e: e, pos: '${cur + 1} of ${WorkoutSession.exercises.length}', newBest: _newBest(s, e)),
           const SizedBox(height: 6),
           Text('Target ${e.target}', style: AppText.secondary.copyWith(color: AppColors.text2, fontWeight: FontWeight.w600)),
           const SizedBox(height: 10),
@@ -167,6 +168,13 @@ class _WorkoutPanelState extends ConsumerState<WorkoutPanel> {
     );
   }
 
+  /// A ticked working set beats the PR (kg for weights, seconds for holds).
+  bool _newBest(WorkoutSession s, LogExercise e) {
+    final pr = double.tryParse(e.pr.split(' ').first);
+    if (pr == null) return false;
+    return s.sets[s.cur].any((x) => x.done && !x.warmup && (e.isWeight ? s.kgOf(x) : x.values[0]) > pr);
+  }
+
   void _setMenu(int v, int k, LoggedSet x, LogExercise e) {
     setState(() => _act = null);
     if (v == 0) {
@@ -181,8 +189,9 @@ class _WorkoutPanelState extends ConsumerState<WorkoutPanel> {
 }
 
 class _PanelHead extends StatelessWidget {
-  const _PanelHead({required this.e, required this.pos});
+  const _PanelHead({required this.e, required this.pos, this.newBest = false});
   final LogExercise e;
+  final bool newBest;
   final String pos;
 
   @override
@@ -200,7 +209,18 @@ class _PanelHead extends StatelessWidget {
             ],
           ),
         ),
-        if (e.pr.isNotEmpty)
+        if (newBest)
+          Container(
+            height: 24,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(color: AppColors.warnBg, borderRadius: BorderRadius.circular(7)),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              const Icon(Icons.emoji_events_rounded, size: 12, color: AppColors.warnText),
+              const SizedBox(width: 4),
+              Text('New best', style: AppText.caption.copyWith(fontWeight: FontWeight.w800, color: AppColors.warnText)),
+            ]),
+          )
+        else if (e.pr.isNotEmpty)
           Container(
             height: 24,
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -248,11 +268,11 @@ class _LoadSeg extends StatelessWidget {
 }
 
 /// Column layout shared by the header and set rows.
-List<Widget> _cells(LogExercise e, List<Widget> values, {Widget? lead, Widget? go, Widget? tick}) {
-  final out = <Widget>[SizedBox(width: 34, child: lead)];
+List<Widget> _cells(LogExercise e, List<Widget> values, {Widget? lead, Widget? prev, Widget? go, Widget? tick}) {
+  final out = <Widget>[SizedBox(width: 34, child: lead), const SizedBox(width: 6), SizedBox(width: 48, child: prev)];
   for (var j = 0; j < values.length; j++) {
     out.add(const SizedBox(width: 6));
-    out.add(e.isWeight && j == 1 ? SizedBox(width: 92, child: values[j]) : Expanded(child: values[j]));
+    out.add(e.isWeight && j == 1 ? SizedBox(width: 72, child: values[j]) : Expanded(child: values[j]));
   }
   if (e.isTime) out.addAll([const SizedBox(width: 6), SizedBox(width: 40, child: go)]);
   out.addAll([const SizedBox(width: 6), SizedBox(width: 40, child: tick)]);
@@ -268,7 +288,8 @@ class _HeadRow extends StatelessWidget {
     final st = AppText.caption.copyWith(fontSize: 11, fontWeight: FontWeight.w700);
     return Row(
       children: _cells(e, [for (final c in e.cols) Text(c, textAlign: TextAlign.center, style: st)],
-          lead: Padding(padding: const EdgeInsets.only(left: 4), child: Text('Set', style: st))),
+          lead: Padding(padding: const EdgeInsets.only(left: 4), child: Text('Set', style: st)),
+          prev: Text('Prev', style: st)),
     );
   }
 }
@@ -278,6 +299,7 @@ class _SetRow extends StatelessWidget {
     required this.e,
     required this.x,
     required this.label,
+    required this.prev,
     required this.activeCol,
     required this.hold,
     required this.onMenu,
@@ -290,6 +312,7 @@ class _SetRow extends StatelessWidget {
   final LogExercise e;
   final LoggedSet x;
   final String label;
+  final String prev;
   final int? activeCol;
   final int? hold;
   final ValueChanged<int> onMenu;
@@ -382,7 +405,11 @@ class _SetRow extends StatelessWidget {
       ),
     );
 
-    return Row(children: _cells(e, values, lead: Align(alignment: Alignment.centerLeft, child: lead), go: go, tick: tick));
+    final prevText = Text(prev,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: AppText.caption.copyWith(fontSize: 11.5, color: x.warmup ? const Color(0xFFA15C00) : AppColors.muted));
+    return Row(children: _cells(e, values, lead: Align(alignment: Alignment.centerLeft, child: lead), prev: prevText, go: go, tick: tick));
   }
 }
 

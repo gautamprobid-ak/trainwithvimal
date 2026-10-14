@@ -76,7 +76,7 @@ class _SupplementEditorState extends ConsumerState<_SupplementEditor> {
           destructive: true,
           icon: Icons.delete_outline_rounded,
         );
-        if (!ok || !mounted) return;
+        if (!ok || !mounted || !widget.hostContext.mounted) return;
         final List<SupplementPlan> before = _snap ?? ref.read(supplementsProvider);
         final ctl = _ctl;
         final host = widget.hostContext;

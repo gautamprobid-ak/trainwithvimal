@@ -7,6 +7,7 @@ import 'package:train_with_vimal/data/mock/trainer_mock.dart';
 import 'package:train_with_vimal/data/models/people.dart';
 
 import '../dashboard/trainer_widgets.dart';
+import 'client_drawers.dart';
 
 /// Design: TrainerClientsMobile.dc.html — the clients given to Aman.
 class TrainerClientsScreen extends StatefulWidget {
@@ -100,10 +101,14 @@ class _TrainerClientsScreenState extends State<TrainerClientsScreen> {
     final f = _activeFilters;
     return PageScroll(
       children: [
-        const PageHeader(
+        PageHeader(
           title: 'My clients',
           subtitle: '24 clients given to you · 21 active · 2 at risk',
-          actions: [TrainerProfileButton()],
+          actions: [
+            AppIconButton(Icons.link_rounded, tooltip: 'Invite link', onPressed: () => showInviteLinks(context)),
+            AppIconButton(Icons.person_add_alt_rounded, tooltip: 'Add client', filled: true, onPressed: () => showAddClientDrawer(context)),
+            const TrainerProfileButton(),
+          ],
         ),
         _StatusTabs(value: _status, onChanged: (s) => setState(() => _status = s)),
         AppCard(
