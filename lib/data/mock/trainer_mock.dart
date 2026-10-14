@@ -117,6 +117,18 @@ abstract final class TrainerMock {
     ('Joined', ['Any time', 'Last 30 days', 'This year']),
   ];
 
+  static const inviteLinks = <InviteLink>[
+    InviteLink(code: 'AMAN-4821', name: '', trainer: me, made: 'Made 9 Oct', worksFor: '30 days · till 8 Nov', till: 'till 8 Nov', maxPeople: 'No limit', joined: 6, waiting: 1),
+    InviteLink(code: 'VIMAL-0007', name: 'Website', trainer: 'Vimal', made: 'Made 1 Jan', worksFor: 'No end date', till: 'no end date', maxPeople: 'No limit', joined: 41, waiting: 1),
+    InviteLink(code: 'NEHA-3307', name: 'Instagram · Sept', trainer: 'Neha Joshi', made: 'Made 20 Sep', worksFor: '30 days · till 20 Oct', till: 'till 20 Oct', maxPeople: '20 people · 3 used', joined: 3, waiting: 1),
+    InviteLink(code: 'SAHIL-1190', name: '', trainer: 'Sahil Kapoor', made: 'Made 15 Sep', worksFor: '30 days · till 15 Oct', till: 'till 15 Oct', maxPeople: 'No limit', joined: 9, waiting: 1),
+    InviteLink(code: 'MEERA-2210', name: 'Yoga batch', trainer: 'Meera Shah', made: 'Made 1 Oct', worksFor: '7 days · till 8 Oct', till: 'ended 8 Oct', maxPeople: '10 people · 4 used', joined: 4, waiting: 1, status: LinkStatus.ended),
+  ];
+
+  /// The link made from "New link".
+  static const newInviteLink = InviteLink(
+      code: 'AMAN-5530', name: 'Instagram · October', trainer: me, made: 'Made today', worksFor: '30 days · till 8 Nov', till: 'till 8 Nov', maxPeople: 'No limit', joined: 0, waiting: 0);
+
   // -------------------------------------------------------------- dashboard
 
   static const dashboardDate = 'Thu, 8 Oct · Trainer workspace';

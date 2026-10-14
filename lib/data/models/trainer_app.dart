@@ -401,3 +401,39 @@ class TrainerTask {
   final bool dueToday;
   final bool late;
 }
+
+enum LinkStatus { on, off, ended }
+
+/// An invite link people use to sign up.
+class InviteLink {
+  const InviteLink({
+    required this.code,
+    required this.name,
+    required this.trainer,
+    required this.made,
+    required this.worksFor,
+    required this.till,
+    required this.maxPeople,
+    required this.joined,
+    required this.waiting,
+    this.status = LinkStatus.on,
+  });
+
+  final String code;
+  final String name;
+  final String trainer;
+  final String made;
+
+  /// "30 days · till 8 Nov".
+  final String worksFor;
+
+  /// "till 8 Nov" / "ended 8 Oct".
+  final String till;
+  final String maxPeople;
+  final int joined;
+  final int waiting;
+  final LinkStatus status;
+
+  InviteLink withStatus(LinkStatus s) => InviteLink(
+      code: code, name: name, trainer: trainer, made: made, worksFor: worksFor, till: till, maxPeople: maxPeople, joined: joined, waiting: waiting, status: s);
+}

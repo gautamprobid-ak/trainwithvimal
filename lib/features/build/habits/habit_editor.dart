@@ -32,11 +32,12 @@ class _HabitEditorState extends ConsumerState<_HabitEditor> {
   late final _unit = TextEditingController();
   late final _why = TextEditingController();
 
-  HabitsController get _ctl => ref.read(habitsProvider.notifier);
+  late final HabitsController _ctl = ref.read(habitsProvider.notifier);
 
   @override
   void initState() {
     super.initState();
+    _ctl;
     _syncText();
   }
 

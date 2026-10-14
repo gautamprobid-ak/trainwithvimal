@@ -28,11 +28,12 @@ class _SupplementEditorState extends ConsumerState<_SupplementEditor> {
   List<SupplementPlan>? _snap;
   final _note = TextEditingController();
 
-  SupplementsController get _ctl => ref.read(supplementsProvider.notifier);
+  late final SupplementsController _ctl = ref.read(supplementsProvider.notifier);
 
   @override
   void initState() {
     super.initState();
+    _ctl;
     _note.text = _find(ref.read(supplementsProvider))?.note ?? '';
   }
 

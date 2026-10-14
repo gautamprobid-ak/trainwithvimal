@@ -30,7 +30,8 @@ class BuilderActions {
   /// Snapshot for Undo.
   VoidCallback _undo() {
     final before = ref.read(mealPlansProvider);
-    return () => _ctl.restore(before);
+    final ctl = _ctl;
+    return () => ctl.restore(before);
   }
 
   void _toast(String t, [String? s, VoidCallback? undo]) => showToast(context, t, subtitle: s, kind: ToastKind.ok, onUndo: undo);
