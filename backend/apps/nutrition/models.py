@@ -438,7 +438,8 @@ class MealLog(TimeStampedModel):
 
     client = models.ForeignKey("people.ClientProfile", on_delete=models.CASCADE, related_name="meal_logs")
     date = models.DateField(db_index=True)
-    meal = models.ForeignKey(PlanMeal, on_delete=models.CASCADE, related_name="logs")
+    meal = models.ForeignKey(PlanMeal, on_delete=models.SET_NULL, null=True, blank=True, related_name="logs")
+    meal_name = models.CharField(max_length=60, blank=True, help_text="Snapshot, kept if the plan meal is removed")
     option = models.ForeignKey(MealOption, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     status = models.CharField(max_length=8, choices=Status.choices, default=Status.EATEN)
     eaten_at = models.DateTimeField(null=True, blank=True)
@@ -454,7 +455,7 @@ class MealLog(TimeStampedModel):
         indexes = [models.Index(fields=["client", "date"])]
 
     def __str__(self):
-        return f"{self.client} · {self.date} · {self.meal.name} · {self.status}"
+        return f"{self.client} · {self.date} · {self.meal_name} · {self.status}"
 
 
 class MealDayChange(TimeStampedModel):
