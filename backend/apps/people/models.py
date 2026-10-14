@@ -5,13 +5,11 @@ history), Admin · Approvals, Trainer · My clients / Client profile / My profil
 (onboarding answers), Health & injuries, More (profile, reminders, units, privacy).
 Other apps hang client data off ClientProfile (FK `client`).
 """
-from datetime import date
-
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from apps.core.models import OrderedModel, TimeStampedModel
+from apps.core.models import TimeStampedModel
 
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
@@ -547,6 +545,3 @@ class DashboardDismissal(TimeStampedModel):
     class Meta:
         constraints = [models.UniqueConstraint(fields=("user", "key"), name="uniq_dismissal")]
 
-
-def today():
-    return timezone.localdate() if settings.USE_TZ else date.today()

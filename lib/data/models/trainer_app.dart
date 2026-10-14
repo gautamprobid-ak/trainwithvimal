@@ -389,3 +389,15 @@ class TrainerStat {
   /// true = green, false = red, null = muted.
   final bool? good;
 }
+
+/// A to-do on the trainer dashboard (some come from automations).
+class TrainerTask {
+  const TrainerTask(this.id, this.text, this.from, {required this.due, this.fromAutomation = false, this.dueToday = false, this.late = false});
+  final String id;
+  final String text;
+  final String from;
+  final String due;
+  final bool fromAutomation;
+  final bool dueToday;
+  final bool late;
+}

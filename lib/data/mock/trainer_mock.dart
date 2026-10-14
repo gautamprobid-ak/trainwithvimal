@@ -158,6 +158,18 @@ abstract final class TrainerMock {
     ('New clients', '2 · Priya, Aditya'),
   ];
 
+  static const tasks = <TrainerTask>[
+    TrainerTask('t1', 'Call Ananya Iyer', 'From automation · Inactive for 7 days', due: 'Today', fromAutomation: true, dueToday: true),
+    TrainerTask('t2', 'Wish Sana Khan a happy birthday', 'From automation · Birthday', due: 'Today', fromAutomation: true, dueToday: true),
+    TrainerTask('t3', 'Send Riya her next plan', 'From automation · Plan ends', due: 'Sun', fromAutomation: true),
+    TrainerTask('t4', 'Check Rohan’s deadlift video', 'Added by you', due: 'Tomorrow'),
+    TrainerTask('t5', 'Ask Priya about her knee before leg day', 'Added by you', due: 'Fri'),
+    TrainerTask('t6', 'Weigh-in reminder for Vikram', 'Added by you', due: 'Yesterday', late: true),
+  ];
+
+  /// Tasks already ticked when the dashboard opens.
+  static const tasksDone = {'t6'};
+
   static const newSessionLengths = [30, 45, 60, 90];
   static const newSessionPlaces = ['Gym floor', 'Video call'];
 
