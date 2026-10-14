@@ -98,7 +98,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AuthLayout(children: _body(), footer: _footer());
+    return AuthLayout(footer: _footer(), children: _body());
   }
 
   Widget _helpLink() => AuthLink('Help', onTap: () => showHelpSheet(context, AuthMock.accountHelp));

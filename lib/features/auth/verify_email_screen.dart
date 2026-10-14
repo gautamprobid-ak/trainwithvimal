@@ -99,7 +99,7 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AuthLayout(children: _body(), footer: _footer());
+    return AuthLayout(footer: _footer(), children: _body());
   }
 
   List<Widget> _body() {

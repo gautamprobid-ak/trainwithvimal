@@ -136,8 +136,5 @@ void showCustomFoodSheet(BuildContext context, WidgetRef ref, {required ValueCha
         ],
       ),
     ),
-  ).whenComplete(() {
-    name.dispose();
-    serving.dispose();
-  });
+  );
 }

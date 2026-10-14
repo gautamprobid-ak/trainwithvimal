@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:train_with_vimal/core/widgets/widgets.dart';
+import 'widgets/automation_editor.dart';
 
-/// Design: AutomationNewMobile.dc.html — TODO: build.
+/// Design: AutomationNewMobile.dc.html — a blank automation: pick the
+/// trigger, who it is for and the steps.
 class AutomationNewScreen extends StatelessWidget {
   const AutomationNewScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return PageScroll(children: [PageHeader(title: 'AutomationNewScreen')]);
-  }
+  Widget build(BuildContext context) => const AutomationEditor();
 }

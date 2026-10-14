@@ -158,7 +158,7 @@ class _JoinLinkScreenState extends ConsumerState<JoinLinkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AuthLayout(children: _body(), footer: _footer());
+    return AuthLayout(footer: _footer(), children: _body());
   }
 
   Widget _urlTop() => AuthTop(

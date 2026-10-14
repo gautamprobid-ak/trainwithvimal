@@ -486,7 +486,7 @@ class _CustomizeFormState extends State<CustomizeForm> {
           const HintText('Plays inside the app.'),
         ],
         const SizedBox(height: 14),
-        _EditableList(
+        EditableList(
           label: 'How to',
           placeholder: 'Write the step',
           addLabel: 'Add step',
@@ -494,7 +494,7 @@ class _CustomizeFormState extends State<CustomizeForm> {
           onChanged: (l) => setState(() => _d = _d.copyWith(steps: l)),
         ),
         const SizedBox(height: 14),
-        _EditableList(
+        EditableList(
           label: 'Form cues',
           placeholder: 'Write the cue',
           addLabel: 'Add cue',
@@ -544,9 +544,10 @@ class _CustomizeFormState extends State<CustomizeForm> {
 }
 
 /// Numbered list of text rows with remove buttons and an "Add" text button.
-class _EditableList extends StatelessWidget {
-  const _EditableList({required this.label, required this.placeholder, required this.addLabel, required this.items, required this.onChanged});
+class EditableList extends StatelessWidget {
+  const EditableList({super.key, this.label = '', required this.placeholder, required this.addLabel, required this.items, required this.onChanged, this.numbered = true});
   final String label;
+  final bool numbered;
   final String placeholder;
   final String addLabel;
   final List<String> items;
@@ -557,13 +558,13 @@ class _EditableList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        FieldLabel(label),
+        if (label.isNotEmpty) FieldLabel(label),
         for (var i = 0; i < items.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Row(
               children: [
-                CountBubble(i + 1),
+                numbered ? CountBubble(i + 1) : const Icon(Icons.check_circle_outline_rounded, size: 20, color: AppColors.accent),
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextFormField(

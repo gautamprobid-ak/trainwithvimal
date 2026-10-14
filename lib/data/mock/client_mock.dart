@@ -154,6 +154,120 @@ abstract final class ClientMock {
     Food(name: 'Cucumber salad', unit: '1 bowl', qty: 1.0, per: Macros(30.0, 1.0, 6.0, 0.0), units: [ServingUnit('g', 1.0), ServingUnit('1 bowl', 100.0)], group: 'Veg', serving: '1 bowl · 100 g'),
   ];
 
+  // ================================================================ habits
+
+  /// Days 0 = Sat 3 Oct … 6 = Fri 9 Oct (today) … 8 = Sun 11 Oct.
+  static const habitDayNames = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  static const habitDates = [3, 4, 5, 6, 7, 8, 9, 10, 11];
+  static const habitToday = 6;
+
+  static const steps0 = <int?>[8400, 11300, 8020, 8600, 5110, 9240, 6240, null, null];
+  static const water0 = <int?>[3000, 3000, 3200, 3000, 3000, 3200, 1500, null, null];
+  static const sleep0 = <int?>[390, 480, 420, 390, 360, 450, 440, null, null];
+
+  static const habits = [
+    HabitDef(id: 'steps', short: 'Steps', name: 'Walk 8,000 steps', goal: 8000, target: '8,000 steps a day', how: 'Every day', baseStreak: 0, best: 19, week: '8,000 a day'),
+    HabitDef(id: 'water', short: 'Water', name: 'Drink 3 L water', goal: 3000, target: '3 L a day (12 glasses)', how: 'Every day', baseStreak: 3, best: 24, week: '3 L a day'),
+    HabitDef(id: 'sleep', short: 'Sleep', name: 'Sleep 7 hours', goal: 420, target: '7 hours a night', how: 'Every night', baseStreak: 0, best: 9, week: '7 h a night'),
+  ];
+
+  static const supplements = [
+    Supplement(name: 'Whey protein', dose: '1 scoop (30 g) in water', night: false, how: 'In water, with breakfast', stock: 12, unit: 'scoops'),
+    Supplement(name: 'Vitamin D3', dose: '1 tablet with breakfast', night: false, how: 'With breakfast', stock: 20, unit: 'tablets'),
+    Supplement(name: 'Magnesium', dose: '1 tablet, 30 min before bed', night: true, how: '30 min before bed', stock: 30, unit: 'tablets', note: 'Added by Aman for sleep'),
+  ];
+
+  /// Supplements taken per day (rows = days 0…8, columns = supplements).
+  static const taken0 = [
+    [true, true, true], [true, true, true], [true, true, true], [true, false, false], [true, true, false],
+    [true, true, true], [true, true, false], [false, false, false], [false, false, false],
+  ];
+  static const supplementTimes = ['8:10 am', '10:40 pm'];
+
+  // ================================================================ check-ins
+
+  static const faces = ['Very low', 'Low', 'Okay', 'Good', 'Great'];
+  static const hunger = ['Very low', 'Low', 'Normal', 'High', 'Very high'];
+  static const soreness = ['Very sore', 'Sore', 'Some', 'Light', 'None'];
+  static const sleepOptions = ['5 h', '6 h', '6.5 h', '7 h', '7.5 h', '8 h', '9 h'];
+  static const dailyNoteChips = ['Felt strong today', 'Knee a bit sore', 'Slept late', 'Busy day at work'];
+  static const weeklyNoteChips = ['Office travel next week, Tue to Thu', 'Knee felt better on box squats', 'Can I get more dinner ideas?', 'Nothing this week'];
+  static const weekScale = ['Very hard', 'Hard', 'Okay', 'Good', 'Great'];
+  static const kneeScale = ['Very sore', 'Sore', 'Some pain', 'Mild', 'No pain'];
+  static const mealPlanOptions = ['Yes, all week', 'Mostly, ate out once or twice', 'No, it was a hard week'];
+  static const weeklyQuestionChips = ['Weight', 'Your week', 'Meal plan', 'Knee', '3 photos', 'Notes'];
+
+  static const weeklyCheckins = [
+    WeeklyCheckin(
+      title: 'Week 6',
+      date: 'Sun, 4 Oct, 6:15 pm',
+      summary: 'Sun, 4 Oct · 71.6 kg · 3 photos',
+      pill: 'Sent',
+      waiting: true,
+      kpis: [('71.6 kg', 'Weight'), ('−0.7 kg', 'Change'), ('4 / 4', 'Workouts'), ('86%', 'Meals on plan')],
+      answers: [
+        ('Body weight', '71.6 kg'),
+        ('How was your week?', '4 / 5 · Good'),
+        ('Did you follow the meal plan?', 'Mostly, ate out once'),
+        ('How does your right knee feel?', '3 / 5, better on box squats'),
+        ('Progress photos', '3 photos'),
+        ('Anything your coach should know?', 'Office travel next week, Tue to Thu'),
+      ],
+      photoDate: '4 Oct',
+    ),
+    WeeklyCheckin(
+      title: 'Week 5',
+      date: 'Sun, 27 Sep, 7:40 pm',
+      summary: 'Sun, 27 Sep · 72.3 kg · 3 photos',
+      pill: 'Replied',
+      reply: 'Great progress on the waist. Keep the steps up.',
+      replyWhen: 'Fri, 9 Oct',
+      kpis: [('72.3 kg', 'Weight'), ('−1.1 kg', 'In 2 weeks'), ('4 / 4', 'Workouts'), ('80%', 'Meals on plan')],
+      answers: [
+        ('Body weight', '72.3 kg'),
+        ('How was your week?', '4 / 5 · Good'),
+        ('Did you follow the meal plan?', 'Yes, all week'),
+        ('How does your right knee feel?', '2 / 5, sore after lunges'),
+        ('Progress photos', '3 photos'),
+        ('Anything your coach should know?', 'Can I swap lunges for something easier on the knee?'),
+      ],
+      photoDate: '27 Sep',
+    ),
+    WeeklyCheckin(title: 'Week 4', date: 'Sun, 20 Sep', summary: 'Sun, 20 Sep · not sent', pill: 'Missed', missed: true),
+    WeeklyCheckin(
+      title: 'Week 3',
+      date: 'Sun, 13 Sep, 7:05 pm',
+      summary: 'Sun, 13 Sep · 73.4 kg · 3 photos',
+      pill: 'Reviewed',
+      reviewed: true,
+      kpis: [('73.4 kg', 'Weight'), ('−0.7 kg', 'Change'), ('3 / 4', 'Workouts'), ('78%', 'Meals on plan')],
+      answers: [
+        ('Body weight', '73.4 kg'),
+        ('How was your week?', '3 / 5 · Okay'),
+        ('Did you follow the meal plan?', 'Mostly, ate out once or twice'),
+        ('How does your right knee feel?', '3 / 5, some pain'),
+        ('Progress photos', '3 photos'),
+        ('Anything your coach should know?', '—'),
+      ],
+      photoDate: '13 Sep',
+    ),
+  ];
+
+  static const dailyCheckins = [
+    DailyCheckin(title: 'Thu, 8 Oct', summary: '7.5 h sleep · energy Good · “Felt strong today”', at: '8:05 am',
+        answers: ['7.5 h', 'Good', 'Good', 'Normal', 'Light', '9,240', '3.2 L', '71.5 kg', 'Felt strong today']),
+    DailyCheckin(title: 'Wed, 7 Oct', summary: '6 h sleep · energy Low · “Late office, ate out”', at: '8:20 am',
+        answers: ['6 h', 'Low', 'Okay', 'High', 'Some', '5,110', '3 L', '71.7 kg', 'Late office, ate out']),
+    DailyCheckin(title: 'Tue, 6 Oct', summary: 'Not sent · reminder went at 9:00 pm', missed: true),
+    DailyCheckin(title: 'Mon, 5 Oct', summary: '7 h sleep · energy Good', at: '7:55 am',
+        answers: ['7 h', 'Good', 'Good', 'Normal', 'Light', '8,020', '3.2 L', '71.8 kg', '—']),
+    DailyCheckin(title: 'Sun, 4 Oct', summary: '8 h sleep · energy Great', at: '8:30 am',
+        answers: ['8 h', 'Great', 'Great', 'Low', 'None', '11,300', '3 L', '71.6 kg', '—']),
+    DailyCheckin(title: 'Thu, 1 Oct', summary: '6.5 h sleep · energy Okay · “Right knee sore”', at: '7:50 am',
+        reply: 'Rest the knee today, walk 30 min.', replyWhen: 'Thu, 1 Oct, 10:15 am',
+        answers: ['6.5 h', 'Okay', 'Okay', 'Normal', 'Sore', '7,100', '2.8 L', '72.0 kg', 'Right knee sore']),
+  ];
+
   // ================================================================ water
 
   static const waterGoalMl = 3000;

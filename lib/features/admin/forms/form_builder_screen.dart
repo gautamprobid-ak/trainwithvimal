@@ -171,7 +171,7 @@ class _FormBuilderScreenState extends ConsumerState<FormBuilderScreen> {
           questions: f.questions,
           onEdit: _edit,
           onMenu: _questionMenu,
-          onReorder: (a, b) => _move(a, b > a ? b - 1 : b),
+          onReorder: _move,
         ),
         _AddQuestionButton(onTap: _openPalette),
         _DetailsCard(
@@ -248,7 +248,7 @@ class _QuestionList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       buildDefaultDragHandles: false,
       itemCount: questions.length,
-      onReorder: onReorder,
+      onReorderItem: onReorder,
       proxyDecorator: (child, _, _) => Material(color: Colors.transparent, elevation: 6, borderRadius: BorderRadius.circular(14), child: child),
       itemBuilder: (_, i) => Padding(
         key: ValueKey('q$i-${questions[i].text}'),

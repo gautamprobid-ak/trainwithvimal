@@ -75,18 +75,30 @@ class WorkoutExercise {
   String get shownName => programEdit?.name ?? name;
   bool get changed => was != null;
 
-  WorkoutExercise copyWith({String? name, String? was, int? rpe, String? tempo, String? superset, bool clearExtras = false}) =>
+  WorkoutExercise copyWith({
+    String? name,
+    String? sets,
+    String? reps,
+    String? rest,
+    String? load,
+    String? was,
+    int? rpe,
+    String? tempo,
+    String? superset,
+    String? note,
+    bool clearExtras = false,
+  }) =>
       WorkoutExercise(
         name ?? this.name,
-        sets,
-        reps,
-        rest,
-        load,
+        sets ?? this.sets,
+        reps ?? this.reps,
+        rest ?? this.rest,
+        load ?? this.load,
         was: was ?? this.was,
         rpe: clearExtras ? rpe : (rpe ?? this.rpe),
         tempo: clearExtras ? tempo : (tempo ?? this.tempo),
         superset: clearExtras ? superset : (superset ?? this.superset),
-        note: clearExtras ? null : note,
+        note: clearExtras ? note : (note ?? this.note),
         programEdit: clearExtras ? null : programEdit,
         youtube: clearExtras ? false : youtube,
       );

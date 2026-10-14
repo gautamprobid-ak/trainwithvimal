@@ -16,12 +16,6 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AuthLayout(
       footerBorder: false,
-      children: const [
-        BrandRow(),
-        Illustration(Icons.sports_gymnastics_rounded, side: [Icons.restaurant_rounded, Icons.trending_up_rounded]),
-        _WelcomeText(),
-        _Pills(),
-      ],
       footer: [
         AppButton('Log in', expand: true, onPressed: () => context.go(Routes.login)),
         const SizedBox(height: 2),
@@ -33,6 +27,12 @@ class WelcomeScreen extends StatelessWidget {
                 caption: 'Most login problems are a pending approval or a missing invite. The gym team can check both.',
               )),
         ),
+      ],
+      children: const [
+        BrandRow(),
+        Illustration(Icons.sports_gymnastics_rounded, side: [Icons.restaurant_rounded, Icons.trending_up_rounded]),
+        _WelcomeText(),
+        _Pills(),
       ],
     );
   }
