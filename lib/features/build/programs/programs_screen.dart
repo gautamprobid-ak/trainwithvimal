@@ -193,14 +193,21 @@ class _Foot extends StatelessWidget {
         if (cl.isNotEmpty) ...[
           AvatarStack(initials, max: 3),
           const SizedBox(width: 6),
-          Text(plural(cl.length, 'client'), style: AppText.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w700, color: AppColors.text2)),
+          Flexible(
+            child: Text(plural(cl.length, 'client'),
+                maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w700, color: AppColors.text2)),
+          ),
         ] else ...[
           const Icon(Icons.person_off_outlined, size: 15, color: AppColors.muted),
           const SizedBox(width: 6),
-          Text('Not assigned', style: AppText.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600)),
+          Flexible(child: Text('Not assigned', maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600))),
         ],
+        const SizedBox(width: 8),
         const Spacer(),
-        Text('Edited ${program.edited}', style: AppText.caption.copyWith(fontSize: 12.5)),
+        Flexible(
+          flex: 2,
+          child: Text('Edited ${program.edited}', maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.right, style: AppText.caption.copyWith(fontSize: 12.5)),
+        ),
       ],
     );
   }

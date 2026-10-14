@@ -121,12 +121,16 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
             fc > 0
                 ? AppButton.soft('Filter · $fc', icon: Icons.filter_list_rounded, small: true, onPressed: () => _openFilter(all))
                 : AppButton.outline('Filter', icon: Icons.filter_list_rounded, small: true, onPressed: () => _openFilter(all)),
+            const SizedBox(width: 8),
             const Spacer(),
-            AppButton.outline(
+            Flexible(
+              flex: 3,
+              child: AppButton.outline(
               'Sort  ${switch (_sort) { _Sort.az => 'Name A–Z', _Sort.za => 'Name Z–A', _Sort.level => 'Level' }}',
               icon: Icons.unfold_more_rounded,
               small: true,
               onPressed: _openSort,
+              ),
             ),
           ],
         ),
@@ -276,9 +280,12 @@ class _ExerciseCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      AppBadge(e.level, tone: e.level == 'Beginner' ? BadgeTone.ok : BadgeTone.warn),
+                      Flexible(
+                        flex: 3,
+                        child: FittedBox(fit: BoxFit.scaleDown, child: AppBadge(e.level, tone: e.level == 'Beginner' ? BadgeTone.ok : BadgeTone.warn)),
+                      ),
                       const SizedBox(width: 6),
-                      Expanded(child: Text(used, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 11.5))),
+                      Expanded(flex: 4, child: Text(used, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption.copyWith(fontSize: 11.5))),
                       SizedBox(
                         width: 28,
                         height: 28,

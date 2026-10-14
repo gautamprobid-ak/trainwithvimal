@@ -21,7 +21,7 @@ class _ClientLibraryScreenState extends State<ClientLibraryScreen> {
   static const _items = ClientMock.library;
   static const _filters = [('all', 'All'), ('video', 'Videos'), ('pdf', 'PDFs'), ('image', 'Images'), ('article', 'Articles'), ('saved', 'Saved')];
 
-  Set<String> _read = {...ClientMock.libraryRead0};
+  final Set<String> _read = {...ClientMock.libraryRead0};
   Set<String> _done = {...ClientMock.libraryDone0};
   Set<String> _saved = {...ClientMock.librarySaved0};
   String _filter = 'all';

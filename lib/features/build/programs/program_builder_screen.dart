@@ -865,7 +865,7 @@ class _ExerciseRow extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Text(e.shownName, style: AppText.bodyBold.copyWith(fontSize: 13.5)),
-                            if (cu != null) const AppBadge('Edited for this program', tone: BadgeTone.warn),
+                            if (cu != null) const FittedBox(fit: BoxFit.scaleDown, child: AppBadge('Edited for this program', tone: BadgeTone.warn)),
                           ],
                         ),
                         if (mus.isNotEmpty) Text(mus, style: AppText.caption),
