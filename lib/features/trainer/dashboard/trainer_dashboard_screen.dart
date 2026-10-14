@@ -33,6 +33,11 @@ class _TrainerDashboardScreenState extends ConsumerState<TrainerDashboardScreen>
   bool _attAll = false;
   final Set<String> _reminded = {};
 
+  // Tasks
+  final List<TrainerTask> _addedTasks = [];
+  final Set<String> _tasksDone = {...TrainerMock.tasksDone};
+  bool _tasksAll = false;
+
   List<TodaySession> get _sessions =>
       [...TrainerMock.todaySessions, ..._added].where((s) => !_cancelled.contains(s.id)).toList()..sort((a, b) => a.startMinute.compareTo(b.startMinute));
 
@@ -110,7 +115,9 @@ class _TrainerDashboardScreenState extends ConsumerState<TrainerDashboardScreen>
             _todayCard(sessions),
             _attentionCard(),
             _checkinsCard(toReview),
+            _tasksCard(),
             ThisWeekCard(onProfile: () => context.push(Routes.tMe)),
+            NoticesCard(unread: _unread, onReadAll: () => setState(() => _unread = false)),
           ]),
         ),
       ],
@@ -191,6 +198,57 @@ class _TrainerDashboardScreenState extends ConsumerState<TrainerDashboardScreen>
         ],
       ),
     );
+  }
+
+  Widget _tasksCard() {
+    final all = [..._addedTasks, ...TrainerMock.tasks];
+    final sorted = [...all.where((t) => !_tasksDone.contains(t.id)), ...all.where((t) => _tasksDone.contains(t.id))];
+    final open = all.length - all.where((t) => _tasksDone.contains(t.id)).length;
+    final shown = _tasksAll ? sorted : sorted.take(5).toList();
+    return TrainerSectionCard(
+      title: 'Tasks',
+      caption: open > 0 ? '$open open' : 'All done',
+      action: 'Add task',
+      onAction: _addTask,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final t in shown)
+            TaskRow(
+              t: t,
+              done: _tasksDone.contains(t.id),
+              onTick: () => setState(() => _tasksDone.contains(t.id) ? _tasksDone.remove(t.id) : _tasksDone.add(t.id)),
+            ),
+          if (sorted.length > 5)
+            TextButton(
+              onPressed: () => setState(() => _tasksAll = !_tasksAll),
+              child: Text(_tasksAll ? 'Show less' : 'Show ${sorted.length - 5} more',
+                  style: AppText.bodyBold.copyWith(fontSize: 13, color: AppColors.accentText)),
+            )
+          else
+            const SizedBox(height: 6),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _addTask() async {
+    final ctrl = TextEditingController(text: 'Check Neha’s squat video');
+    final text = await showAppSheet<String>(
+      context,
+      title: 'Add a task',
+      subtitle: 'Only you see it. Due tomorrow.',
+      builder: (_) => LabeledField(label: 'Task', controller: ctrl),
+      actions: (ctx) => [
+        AppButton.outline('Cancel', onPressed: () => Navigator.of(ctx).pop()),
+        AppButton('Add task', onPressed: () => Navigator.of(ctx).pop(ctrl.text.trim())),
+      ],
+    );
+    ctrl.dispose();
+    if (text == null || text.isEmpty || !mounted) return;
+    final t = TrainerTask('n${_addedTasks.length}', text, 'Added by you', due: 'Tomorrow');
+    setState(() => _addedTasks.insert(0, t));
+    showToast(context, 'Task added', subtitle: 'Due tomorrow', kind: ToastKind.ok, onUndo: () => setState(() => _addedTasks.remove(t)));
   }
 
   Widget _checkinsCard(List<TrainerCheckin> toReview) {

@@ -414,6 +414,86 @@ abstract final class ClientMock {
     ('Corn chaat · 1 bowl', '150 kcal'),
   ];
 
+  // ================================================================ more
+
+  static const coachRows = [
+    ('Next session', 'Today, 6:30 pm · Gym floor · 60 min'),
+    ('Training days', 'Mon, Tue, Thu, Fri, Sat'),
+    ('Weekly check-in', 'Every Sunday, 6:00 pm'),
+    ('Next check-in', 'Sun, 11 Oct · week 7'),
+    ('Check-in reply', 'Aman replies by Monday evening'),
+    ('Program', 'Fat Loss Phase 1 · week 6 of 12'),
+    ('Meal plan', '1,650 kcal · vegetarian'),
+    ('Plan ends', 'Mon, 23 Nov'),
+  ];
+
+  /// Profile fields with the quick suggestions of the Edit profile sheet.
+  static const profileFields = [
+    ('name', 'Full name', ['Riya Sharma', 'Riya S. Sharma']),
+    ('email', 'Email', ['riya.sharma@email.com', 'riya.s@gmail.com']),
+    ('phone', 'Mobile', ['98201 11234', '98190 55621']),
+    ('city', 'City', ['Mumbai', 'Thane', 'Navi Mumbai']),
+    ('dob', 'Date of birth', ['14 Mar 1997']),
+  ];
+  static const profile0 = {'name': 'Riya Sharma', 'email': 'riya.sharma@email.com', 'phone': '98201 11234', 'city': 'Mumbai', 'dob': '14 Mar 1997'};
+
+  static const notifications = [
+    ClientNotification('n1', 'form', 'amber', 'Aman replied to your check-in',
+        'Week 6: “Knee looks better. Keep box squats on Saturday and push steps to 9,000.”', '2 h ago', 'Open check-ins', '/c/more/checkins'),
+    ClientNotification('n2', 'cal', 'blue', 'Session today at 6:30 pm', 'With Aman on the gym floor · 60 min · Cardio and core', 'Today, 8:00 am', 'Open training', '/c/train'),
+    ClientNotification('n3', 'star', 'green', 'New personal best', 'Bench press 45 kg × 6 on Upper A', 'Mon, 5 Oct', 'See progress', '/c/progress'),
+    ClientNotification('n4', 'dumb', 'blue', 'Plan updated', 'Aman changed Lower B for your knee: box squats instead of deep squats.', 'Tue, 6 Oct', 'Open training', '/c/train'),
+    ClientNotification('n5', 'water', 'blue', 'Water reminder', 'You were 1.5 L behind for the day at 4:00 pm.', 'Wed, 7 Oct', 'Open habits', '/c/more/habits'),
+    ClientNotification('n6', 'form', 'amber', 'Check-in reminder', 'Your week 6 check-in is due today at 6:00 pm.', 'Sun, 4 Oct', 'Open check-ins', '/c/more/checkins'),
+    ClientNotification('n7', 'food', 'green', 'Meal plan updated', 'Tofu instead of paneer at dinner, so paneer is once a day.', 'Mon, 28 Sep', 'Open meal plan', '/c/food'),
+  ];
+  static const notificationsRead0 = ['n4', 'n5', 'n6', 'n7'];
+
+  static const reminderSettings = [
+    ReminderSetting('workout', 'dumb', 'blue', 'Workout reminders', '1 hour before your session or planned workout'),
+    ReminderSetting('meals', 'food', 'green', 'Meal reminders', 'At each meal time in your plan'),
+    ReminderSetting('water', 'water', 'blue', 'Water reminders', 'Every 2 hours when you are behind'),
+    ReminderSetting('supps', 'pill', 'purple', 'Supplement reminders', 'Whey and D3 in the morning, magnesium at night'),
+    ReminderSetting('habits', 'steps', 'green', 'Habit reminders', 'Steps and sleep nudges in the evening'),
+    ReminderSetting('checkin', 'form', 'amber', 'Check-in reminders', 'Sunday 6:00 pm, again on Monday if not sent'),
+    ReminderSetting('coach', 'user', 'gray', 'Coach updates', 'Aman replies or changes your plan'),
+    ReminderSetting('progress', 'star', 'amber', 'Progress and personal bests', 'New bests, streaks and milestones'),
+  ];
+  static const reminders0 = {'workout': true, 'meals': true, 'water': true, 'supps': true, 'habits': false, 'checkin': true, 'coach': true, 'progress': true};
+
+  static const faq = [
+    ('How do I change my workout or meal plan?', 'Your plan is set by Aman. Tell him what you want changed in your weekly check-in, or talk to him at your next session.'),
+    ('Why did I not get a reminder?', 'Check Notification settings and quiet hours. Notifications must also be allowed for the app in your phone settings.'),
+    ('How do I switch kg to lb?', 'Open Units & preferences on the More page. Aman still sees your numbers in the units he uses.'),
+    ('What happens when my program ends?', 'Fat Loss Phase 1 ends on Mon, 23 Nov. Aman sets your next plan before that and it shows up in Train.'),
+  ];
+  static const reportCategories = ['Something is broken', 'Wrong numbers', 'An idea'];
+
+  static const activityDays = ['Today · Fri, 9 Oct', 'Yesterday · Thu, 8 Oct', 'Wed, 7 Oct', 'Tue, 6 Oct', 'Mon, 5 Oct', 'Sun, 4 Oct'];
+  static const activityFilters = ['All', 'Training', 'Food', 'Check-ins', 'Habits', 'Account'];
+  static const activity = [
+    ActivityItem(day: 0, time: '1:40 pm', kind: 'Food', icon: 'food', tone: 'green', title: 'Logged lunch', subtitle: 'Paneer, brown rice, cucumber salad',
+        rows: [('Meals today', '3 of 5 logged'), ('Lunch', 'Paneer 100 g · brown rice 120 g · salad'), ('Calories so far', 'About 1,000 kcal')], actionLabel: 'Open meal plan', route: '/c/food'),
+    ActivityItem(day: 0, time: '9:05 am', kind: 'Habits', icon: 'pill', tone: 'purple', title: 'Took whey protein and vitamin D3', subtitle: '2 of 3 supplements today',
+        rows: [('Whey protein', '1 scoop · morning'), ('Vitamin D3', '1 tablet · morning'), ('Still to take', 'Magnesium at night')], actionLabel: 'Open habits', route: '/c/more/habits'),
+    ActivityItem(day: 0, time: '7:30 am', kind: 'Check-ins', icon: 'scale', tone: 'amber', title: 'Logged weight', subtitle: '71.2 kg · 0.4 kg down since Sunday',
+        rows: [('Weight', '71.2 kg'), ('Change', '0.4 kg down since Sun, 4 Oct'), ('Since start', '6.8 kg down')], actionLabel: 'See progress', route: '/c/progress'),
+    ActivityItem(day: 1, time: '9:30 pm', kind: 'Habits', icon: 'steps', tone: 'green', title: 'Walked 8,450 steps', subtitle: 'Step goal met',
+        rows: [('Steps', '8,450 of 8,000'), ('Streak', '4 days in a row')], actionLabel: 'Open habits', route: '/c/more/habits'),
+    ActivityItem(day: 1, time: '7:20 pm', kind: 'Training', icon: 'dumb', tone: 'blue', title: 'Completed Upper B', subtitle: '45 min · 5 of 5 exercises',
+        rows: [('Duration', '45 min'), ('Exercises', '5 of 5'), ('Top set', 'Overhead press 17.5 kg × 8')], actionLabel: 'Open training', route: '/c/train'),
+    ActivityItem(day: 2, time: '10:30 pm', kind: 'Habits', icon: 'moon', tone: 'purple', title: 'Logged sleep', subtitle: '7 h 20 min · goal met',
+        rows: [('Sleep', '7 h 20 min'), ('Goal', '7 hours')], actionLabel: 'Open habits', route: '/c/more/habits'),
+    ActivityItem(day: 2, time: '1:15 pm', kind: 'Food', icon: 'food', tone: 'green', title: 'Swapped brown rice for whole wheat roti', subtitle: 'Lunch · today only',
+        rows: [('From', 'Brown rice 120 g'), ('To', 'Whole wheat roti × 2'), ('Calories', 'About the same')], actionLabel: 'Open meal plan', route: '/c/food'),
+    ActivityItem(day: 3, time: '7:05 pm', kind: 'Training', icon: 'dumb', tone: 'blue', title: 'Completed Lower A', subtitle: '48 min · 5 of 5 exercises',
+        rows: [('Duration', '48 min'), ('Exercises', '5 of 5'), ('Top set', 'Box squat 30 kg × 8')], actionLabel: 'Open training', route: '/c/train'),
+    ActivityItem(day: 4, time: '7:15 pm', kind: 'Training', icon: 'star', tone: 'amber', title: 'Completed Upper A · 1 personal best', subtitle: '52 min · bench press 45 kg × 6',
+        rows: [('Duration', '52 min'), ('Exercises', '6 of 6'), ('Personal best', 'Bench press 45 kg × 6')], actionLabel: 'See progress', route: '/c/progress'),
+    ActivityItem(day: 5, time: '6:12 pm', kind: 'Check-ins', icon: 'form', tone: 'amber', title: 'Sent week 6 check-in', subtitle: '71.6 kg · 3 photos',
+        rows: [('Weight', '71.6 kg'), ('Your note', '“Knee better, energy good”'), ('Reply', 'Aman replied on Fri, 9 Oct')], actionLabel: 'Open check-ins', route: '/c/more/checkins'),
+  ];
+
   // ================================================================ water
 
   static const waterGoalMl = 3000;

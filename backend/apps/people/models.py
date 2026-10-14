@@ -312,6 +312,7 @@ class ClientProfile(TimeStampedModel):
 
     # Coaching state
     next_checkin_on = models.DateField(null=True, blank=True)
+    plans_start_on = models.DateField(null=True, blank=True, help_text="Her day 1 for workout and meal plans")
     approved_at = models.DateTimeField(null=True, blank=True)
     approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     paused_at = models.DateTimeField(null=True, blank=True)

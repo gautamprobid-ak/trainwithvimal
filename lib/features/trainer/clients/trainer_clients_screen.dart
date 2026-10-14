@@ -122,7 +122,7 @@ class _TrainerClientsScreenState extends State<TrainerClientsScreen> {
                       AppButton.outline(f > 0 ? '· $f' : '', icon: Icons.filter_list_rounded, small: true, onPressed: _openFilters),
                       const SizedBox(width: 6),
                       AppButton.outline('', icon: Icons.download_rounded, small: true, onPressed: () {
-                        showToast(context, 'Export ready', subtitle: 'CSV with ${rows.length} clients', kind: ToastKind.ok);
+                        showToast(context, 'Clients exported', subtitle: 'CSV with ${rows.length} clients', kind: ToastKind.ok);
                       }),
                     ],
                   ),

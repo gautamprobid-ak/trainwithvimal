@@ -497,3 +497,53 @@ class _HoursSheetState extends State<_HoursSheet> {
     );
   }
 }
+
+/// "Cancel this session?" confirm with the Tell the client toggle.
+Future<bool> confirmCancelSession(BuildContext context, CalSession s, int wo) async {
+  var tell = true;
+  final r = await showDialog<bool>(
+    context: context,
+    useRootNavigator: true,
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, set) => Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(color: AppColors.badBg, borderRadius: BorderRadius.circular(10)),
+                child: const Icon(Icons.event_busy_rounded, color: AppColors.badText, size: 21),
+              ),
+              const SizedBox(height: 14),
+              Text('Cancel this session?', style: AppText.cardTitle.copyWith(fontSize: 17, fontWeight: FontWeight.w800)),
+              const SizedBox(height: 6),
+              Text('${s.client}, ${dayLabel(wo, s.day)} · ${fmtRange(s.start, s.minutes)}. It is removed from the calendar.',
+                  style: AppText.secondary.copyWith(fontSize: 13.5, height: 1.45)),
+              const SizedBox(height: 10),
+              ToggleRow(
+                title: 'Tell the client',
+                subtitle: 'Push notice and WhatsApp with the time that was cancelled',
+                value: tell,
+                onChanged: (v) => set(() => tell = v),
+              ),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  Expanded(child: AppButton.outline('Keep it', onPressed: () => Navigator.of(ctx).pop(false))),
+                  const SizedBox(width: 10),
+                  Expanded(child: AppButton.danger('Cancel session', onPressed: () => Navigator.of(ctx).pop(true))),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+  return r ?? false;
+}

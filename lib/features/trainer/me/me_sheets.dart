@@ -64,7 +64,7 @@ Future<void> showUploadDocument(BuildContext context) {
     builder: (ctx) => StatefulBuilder(
       builder: (ctx, set) => Spaced(children: [
         InkWell(
-          onTap: () => showToast(context, 'Pick a file', subtitle: 'PDF, JPG or PNG'),
+          onTap: () => showToast(context, 'File added', subtitle: 'kettlebell-level-1.pdf'),
           borderRadius: BorderRadius.circular(12),
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 22),
@@ -159,7 +159,7 @@ class _DocViewerState extends State<_DocViewer> {
                     icon: const Icon(Icons.zoom_in_rounded, color: Colors.white)),
                 IconButton(
                     tooltip: 'Download',
-                    onPressed: () => showToast(context, 'Downloading', subtitle: d.file),
+                    onPressed: () => showToast(context, 'Downloaded', subtitle: d.file),
                     icon: const Icon(Icons.download_rounded, color: Colors.white)),
               ],
             ),

@@ -90,15 +90,7 @@ class _TrainerCalendarScreenState extends State<TrainerCalendarScreen> {
   }
 
   Future<void> _cancel(CalSession s) async {
-    final ok = await showConfirmDialog(
-      context,
-      title: 'Cancel this session?',
-      message: '${s.client}, ${dayLabel(_wo, s.day)} · ${fmtRange(s.start, s.minutes)}. It is removed from the calendar. '
-          'The client gets a push notice and WhatsApp with the time that was cancelled.',
-      confirmLabel: 'Cancel session',
-      destructive: true,
-      icon: Icons.event_busy_rounded,
-    );
+    final ok = await confirmCancelSession(context, s, _wo);
     if (!ok || !mounted) return;
     final before = _week;
     setState(() {

@@ -178,6 +178,7 @@ CELERY_TASK_ALWAYS_EAGER = env_bool("CELERY_TASK_ALWAYS_EAGER", False)
 CELERY_BEAT_SCHEDULE = {
     "run-automations-every-15-min": {"task": "apps.engage.tasks.run_due_automations", "schedule": 15 * 60},
     "checkin-reminders-hourly": {"task": "apps.checkins.tasks.send_checkin_reminders", "schedule": 60 * 60},
+    "session-reminders-every-15-min": {"task": "apps.scheduling.tasks.send_session_reminders", "schedule": 15 * 60},
     "flag-at-risk-clients-daily": {"task": "apps.people.tasks.flag_at_risk_clients", "schedule": 24 * 60 * 60},
 }
 

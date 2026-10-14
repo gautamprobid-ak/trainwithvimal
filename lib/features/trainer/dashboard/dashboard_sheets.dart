@@ -174,7 +174,7 @@ class _NewSessionSheetState extends State<_NewSessionSheet> {
       );
 
   void _fixed(BuildContext context, String what) =>
-      showToast(context, 'Quick add books today at 17:30', subtitle: 'For another ${what.toLowerCase()}, use Calendar › New session');
+      showToast(context, 'Kept today at 17:30', subtitle: 'For another ${what.toLowerCase()}, use Calendar › New session');
 }
 
 /// Review drawer for one check-in from the dashboard.

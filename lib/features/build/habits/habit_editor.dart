@@ -107,10 +107,12 @@ class _HabitEditorState extends ConsumerState<_HabitEditor> {
           icon: Icons.delete_outline_rounded,
         );
         if (!ok || !mounted) return;
-        final before = _snap ?? ref.read(habitsProvider);
+        final List<Habit> before = _snap ?? ref.read(habitsProvider);
+        final ctl = _ctl;
+        final host = widget.hostContext;
         Navigator.of(context).pop();
-        _ctl.remove(h.id);
-        showToast(widget.hostContext, 'Habit deleted', subtitle: h.name, kind: ToastKind.del, onUndo: () => _ctl.restore(before));
+        ctl.remove(h.id);
+        showToast(host, 'Habit deleted', subtitle: h.name, kind: ToastKind.del, onUndo: () => ctl.restore(before));
       }, destructive: true),
     ]);
   }

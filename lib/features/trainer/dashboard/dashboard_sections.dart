@@ -368,3 +368,101 @@ class ThisWeekCard extends StatelessWidget {
     );
   }
 }
+
+/// One to-do in the Tasks card.
+class TaskRow extends StatelessWidget {
+  const TaskRow({super.key, required this.t, required this.done, required this.onTick});
+  final TrainerTask t;
+  final bool done;
+  final VoidCallback onTick;
+
+  @override
+  Widget build(BuildContext context) {
+    final dueColor = done ? AppColors.muted : (t.late ? AppColors.badText : (t.dueToday ? AppColors.warnText : AppColors.muted));
+    return InkWell(
+      onTap: onTick,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 9, 16, 9),
+        child: Row(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                color: done ? AppColors.accent : Colors.white,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: done ? AppColors.accent : AppColors.line2, width: 1.5),
+              ),
+              child: done ? const Icon(Icons.check_rounded, size: 14, color: Colors.white) : null,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(t.text,
+                      style: AppText.bodyBold.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: done ? AppColors.muted : AppColors.text,
+                          decoration: done ? TextDecoration.lineThrough : null)),
+                  Row(
+                    children: [
+                      if (t.fromAutomation) ...[const Icon(Icons.bolt_rounded, size: 13, color: AppColors.muted), const SizedBox(width: 2)],
+                      Expanded(child: Text(t.from, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.caption)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(done ? 'Done' : t.due, style: AppText.caption.copyWith(fontWeight: FontWeight.w700, color: dueColor)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Notices card (same list as the bell).
+class NoticesCard extends StatelessWidget {
+  const NoticesCard({super.key, required this.unread, required this.onReadAll});
+  final bool unread;
+  final VoidCallback onReadAll;
+
+  @override
+  Widget build(BuildContext context) {
+    return TrainerSectionCard(
+      title: 'Notices',
+      count: unread ? TrainerMock.notices.length : null,
+      action: unread ? 'Mark all read' : null,
+      onAction: onReadAll,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Column(
+          children: [
+            for (final n in TrainerMock.notices)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 7, 16, 7),
+                child: Row(
+                  children: [
+                    Avatar(n.initials, size: 30, color: n.color),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(n.text, style: AppText.body.copyWith(fontSize: 13, fontWeight: unread ? FontWeight.w700 : FontWeight.w500)),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(n.when, style: AppText.caption),
+                    if (unread) ...[
+                      const SizedBox(width: 6),
+                      Container(width: 7, height: 7, decoration: const BoxDecoration(color: AppColors.accent, shape: BoxShape.circle)),
+                    ],
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
